@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Images\check.png" />
+    <None Remove="Images\clear-filter.png" />
+    <None Remove="Images\down-arrow.png" />
+    <None Remove="Images\error-icon.png" />
+    <None Remove="Images\mainIcon.ico" />
+    <None Remove="Images\Naturalnielogo.png" />
+    <None Remove="Images\right-arrow.png" />
+    <None Remove="Images\select.png" />
+    <None Remove="Images\settings_icon.png" />
+    <None Remove="Images\up-arrow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\check.png" />
+    <Resource Include="Images\clear-filter.png" />
+    <Resource Include="Images\down-arrow.png" />
+    <Resource Include="Images\error-icon.png" />
+    <Resource Include="Images\mainIcon.ico" />
+    <Resource Include="Images\Naturalnielogo.png" />
+    <Resource Include="Images\right-arrow.png" />
+    <Resource Include="Images\select.png" />
+    <Resource Include="Images\settings_icon.png" />
+    <Resource Include="Images\up-arrow.png" />
+  </ItemGroup>
+
+</Project>

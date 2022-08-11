@@ -1,0 +1,25 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+
+    <Color x:Key="NaturalnieGreenDark">
+        #FF2D9877
+    </Color>
+    <Color x:Key="NaturalnieGreenBright">
+        #FF5FA992
+    </Color>
+    <Color x:Key="GeneralBackgorundColor">
+        #FFEADFCB
+    </Color>
+    <Color x:Key="DarkBackgorundColor">
+        #FFC9B99E
+    </Color>
+    <Color x:Key="NaturalnieHoneyColor">
+        #FFE6D2AE
+    </Color>
+    <Color x:Key="NaturalnieSandColor">
+        #FFfede84
+    </Color>
+
+</ResourceDictionary>

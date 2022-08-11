@@ -1,0 +1,27 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    >
+
+    <!--Filter/sorting images-->
+    <Image x:Key="ClearFilterImage" Source="/Images/clear-filter.png"/>
+    <Image x:Key="SelectImage" Source="/Images/select.png"/>
+    
+    <!--Idnicator images-->
+    <Image x:Key="ErrorIconImage" Source="/Images/error-icon.png"/>
+    <Image x:Key="CheckImage" Source="/Images/check.png"/>
+
+    <!--Generic images-->
+    <Image x:Key="SettingsImage" Source="/Images/settings_icon.png"/>
+    
+    <!--Logo images-->
+    <Image x:Key="NaturalnieLogoImage" Source="/Images/Naturalnielogo.png"/>
+
+    <!--Icons-->
+    <Image x:Key="MainIconImage" Source="/Images/mainIcon.ico"/>
+
+    <!--Arrow images-->
+    <Image x:Key="DownArrowImage" Source="/Images/down-arrow.png"/>
+    <Image x:Key="RightArrowImage" Source="/Images/right-arrow.png"/>
+    <Image x:Key="UpArrowImage" Source="/Images/up-arrow.png"/>
+
+</ResourceDictionary>
