@@ -5,9 +5,9 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Main", "NaturalnieApp2.Main\NaturalnieApp2.Main.csproj", "{C507CB6F-B71A-4CF5-9B1C-14A103C5B2FB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.SharedControls", "NaturalnieApp2.Controls\NaturalnieApp2.SharedControls.csproj", "{146E6B69-1EF1-486C-AA9B-95CEB5D4794F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.SharedControls", "NaturalnieApp2.SharedControls\NaturalnieApp2.SharedControls.csproj", "{146E6B69-1EF1-486C-AA9B-95CEB5D4794F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalnieApp2.SharedResources", "NaturalnieApp2.SharedResources\NaturalnieApp2.SharedResources.csproj", "{30E7BCC2-AD5A-4EB0-B7DF-E6B79A84BAE9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.SharedResources", "NaturalnieApp2.SharedResources\NaturalnieApp2.SharedResources.csproj", "{30E7BCC2-AD5A-4EB0-B7DF-E6B79A84BAE9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
