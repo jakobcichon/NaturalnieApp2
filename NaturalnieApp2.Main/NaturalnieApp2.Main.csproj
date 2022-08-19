@@ -12,12 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NaturalnieApp2.Controls\NaturalnieApp2.SharedControls.csproj" />
+    <Folder Include="MVVM\Models\" />
+    <Folder Include="MVVM\Views\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MVVM\Models\" />
-    <Folder Include="MVVM\Views\" />
+    <ProjectReference Include="..\NaturalnieApp2.SharedControls\NaturalnieApp2.SharedControls.csproj" />
   </ItemGroup>
 
 </Project>

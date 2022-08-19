@@ -1,0 +1,11 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/ButtonsResources.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/ColorResources.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/ImageResources.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/StyleResources.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+</ResourceDictionary> 

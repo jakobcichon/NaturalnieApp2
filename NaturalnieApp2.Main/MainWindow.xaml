@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NaturalnieApp2.Main" 
-        xmlns:menubuttons="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.MenuButtons;assembly=NaturalnieApp2.SharedControls"
-        xmlns:menubuttonsviewmodels="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.MenuButtons;assembly=NaturalnieApp2.SharedControls"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <!--xmlns:menubuttons="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.MenuButtons;assembly=NaturalnieApp2.SharedControls"
+        xmlns:menubuttonsviewmodels="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.MenuButtons;assembly=NaturalnieApp2.SharedControls"-->
+
     <Window.Resources>
         <Style x:Key="ListViewStyle" TargetType="ListView">
             
@@ -24,13 +25,18 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Buttons}" Style="{StaticResource ListViewStyle}">
+        <ListView Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Buttons}" 
+                  Style="{StaticResource ListViewStyle}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <menubuttons:MenuButtonView DataContext="{Binding}"/>
                 </DataTemplate>
-
             </ListView.ItemTemplate>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Focusable" Value="false"/>
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </Window>

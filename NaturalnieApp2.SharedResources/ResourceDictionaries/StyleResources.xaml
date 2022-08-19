@@ -3,11 +3,11 @@
                     >
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/Views/Resources/ColorResources.xaml"/>
+        <ResourceDictionary Source="ColorResources.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-
-    <Style x:Key="GeneralBackgroundColor" TargetType="UserControl">
+    <!--#region UserControl styles -->
+    <Style x:Key="GeneralBackgroundStyle" TargetType="UserControl">
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="{StaticResource GeneralBackgorundColor}"/>
@@ -15,7 +15,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="DarkBackgroundColor" TargetType="UserControl">
+    <Style x:Key="DarkBackgroundStyle" TargetType="UserControl">
         <Setter Property="Background">
             <Setter.Value>
                 <SolidColorBrush Color="{StaticResource DarkBackgorundColor}"/>
@@ -30,7 +30,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 
+
+    <!--#region Border styles -->
     <Style x:Key="HeaderStyle" TargetType="Border">
         <Setter Property="Background">
             <Setter.Value>
@@ -38,4 +41,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 </ResourceDictionary>

@@ -10,4 +10,8 @@
     <Folder Include="MVVM\Models\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NaturalnieApp2.SharedResources\NaturalnieApp2.SharedResources.csproj" />
+  </ItemGroup>
+
 </Project>

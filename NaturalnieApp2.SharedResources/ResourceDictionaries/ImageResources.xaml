@@ -14,7 +14,7 @@
     <Image x:Key="SettingsImage" Source="/Images/settings_icon.png"/>
     
     <!--Logo images-->
-    <Image x:Key="NaturalnieLogoImage" Source="/Images/Naturalnielogo.png"/>
+    <BitmapImage x:Key="NaturalnieLogoImage" UriSource="/Images/Naturalnielogo.png"/>
 
     <!--Icons-->
     <Image x:Key="MainIconImage" Source="/Images/mainIcon.ico"/>
