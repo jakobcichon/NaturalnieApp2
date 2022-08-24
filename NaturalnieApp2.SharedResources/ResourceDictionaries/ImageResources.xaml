@@ -3,25 +3,25 @@
                     >
 
     <!--Filter/sorting images-->
-    <Image x:Key="ClearFilterImage" Source="/Images/clear-filter.png"/>
-    <Image x:Key="SelectImage" Source="/Images/select.png"/>
+    <Image x:Key="ClearFilterImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/clear-filter.png"/>
+    <Image x:Key="SelectImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/select.png"/>
     
     <!--Idnicator images-->
-    <Image x:Key="ErrorIconImage" Source="/Images/error-icon.png"/>
-    <Image x:Key="CheckImage" Source="/Images/check.png"/>
+    <Image x:Key="ErrorIconImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/error-icon.png"/>
+    <Image x:Key="CheckImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/check.png"/>
 
     <!--Generic images-->
-    <Image x:Key="SettingsImage" Source="/Images/settings_icon.png"/>
+    <Image x:Key="SettingsImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/settings_icon.png"/>
     
     <!--Logo images-->
-    <BitmapImage x:Key="NaturalnieLogoImage" UriSource="/Images/Naturalnielogo.png"/>
+    <BitmapImage x:Key="NaturalnieLogoImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/Naturalnielogo.png"/>
 
     <!--Icons-->
-    <Image x:Key="MainIconImage" Source="/Images/mainIcon.ico"/>
+    <Image x:Key="MainIconImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/mainIcon.ico"/>
 
     <!--Arrow images-->
-    <Image x:Key="DownArrowImage" Source="/Images/down-arrow.png"/>
-    <Image x:Key="RightArrowImage" Source="/Images/right-arrow.png"/>
-    <Image x:Key="UpArrowImage" Source="/Images/up-arrow.png"/>
+    <Image x:Key="DownArrowImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/down-arrow.png"/>
+    <Image x:Key="RightArrowImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/right-arrow.png"/>
+    <Image x:Key="UpArrowImage" Source="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/up-arrow.png"/>
 
 </ResourceDictionary>

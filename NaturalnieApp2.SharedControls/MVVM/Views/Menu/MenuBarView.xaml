@@ -31,16 +31,16 @@
         </Grid.ColumnDefinitions>
 
         <!--Logo image-->
-        <Button Grid.ColumnSpan="2" Command="{Binding}" 
+        <Button Command="{Binding}" 
                     Style="{StaticResource GeneralButtonStyle}" BorderBrush="{x:Null}" >
             <Image Source="{StaticResource NaturalnieLogoImage}" Stretch="Fill"/>
         </Button>
-        <!--Buttons-->
-        <ItemsControl x:Name="ScreensButtons" Grid.Row="1"  
-                      ItemsSource="{Binding MenuBarItems}">
+        <!-- Menu groups with buttons-->
+        <ItemsControl x:Name="MenuGroups" Grid.Row="1"  
+                      ItemsSource="{Binding MenuGroupItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <local:MenuButtonView/>
+                    <local:MenuGroupView/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

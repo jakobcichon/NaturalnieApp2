@@ -1,23 +1,25 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.ViewModels
 {
-    using NaturalnieApp2.SharedControls.MVVM.ViewModels.MenuButtons;
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using NaturalnieApp2.SharedControls.MVVM.ViewModels.Menu;
 
     internal class MainViewModel : BaseViewModel
     {
-        public ObservableCollection<MenuButtonViewModel> Buttons { get; init; }
+        public MenuBarViewModel MenuBar { get; init; }
 
         public MainViewModel()
         {
-            Buttons = new ObservableCollection<MenuButtonViewModel>();
-            MenuButtonViewModel button = new MenuButtonViewModel("Test button 1");
-            button.ChildElements.Add(new MenuButtonViewModel("Test sub button 1"));
-            Buttons.Add(button);
+            MenuBar = new MenuBarViewModel();
+            MenuGroupViewModel group = new MenuGroupViewModel("Test group 1");
+            group.Buttons.Add(new MenuButtonViewModel("Test sub button 1"));
+            group.Buttons.Add(new MenuButtonViewModel("Test sub button 2"));
+            MenuBar.MenuGroupItems.Add(group);
+
+            group = new MenuGroupViewModel("Test group 2");
+            group.Buttons.Add(new MenuButtonViewModel("Test sub button 1"));
+            group.Buttons.Add(new MenuButtonViewModel("Test sub button 2"));
+            group.Buttons.Add(new MenuButtonViewModel("Test sub button 3"));
+            group.Buttons.Add(new MenuButtonViewModel("Test sub button 4"));
+            MenuBar.MenuGroupItems.Add(group);
         }
     }
 }

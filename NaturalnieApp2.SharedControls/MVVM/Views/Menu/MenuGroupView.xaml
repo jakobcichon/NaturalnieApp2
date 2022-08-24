@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NaturalnieApp2.SharedControls.MVVM.Views.Menu.MenuButtonView"
+﻿<UserControl x:Class="NaturalnieApp2.SharedControls.MVVM.Views.Menu.MenuGroupView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -11,7 +11,7 @@
 
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ResourcesDict.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ResourcesDict.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="ButtonStyle" TargetType="Button">
@@ -43,7 +43,7 @@
                                     <Border.Background>
                                         <RadialGradientBrush RadiusX="0.4" RadiusY="1" Opacity="1" SpreadMethod="Pad">
                                             <GradientStop Color="{StaticResource GeneralBackgorundColor}"/>
-                                            <GradientStop Color="{StaticResource GeneralBackgorundColor}" Offset="1"/>
+                                            <GradientStop Color="{StaticResource DarkBackgorundColor}" Offset="1"/>
                                         </RadialGradientBrush>
                                     </Border.Background>
                                 </Border>
@@ -95,8 +95,8 @@
 
         <!-- Main button-->
         <Button x:Name="MainButton" FontSize="22" Height="40"
-                Content="{Binding Name}" d:Content="Main button"
-                Command="{Binding}" 
+                Content="{Binding DisplayName}" d:Content="Main button"
+                Command="{Binding CommandMainButton}" 
                 CommandParameter="{Binding}" 
                 Style="{StaticResource ButtonStyle}"
                 >
@@ -107,16 +107,15 @@
         </Button>
 
         <!-- Sub buttons-->
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding SubButtonCollection}"
-                      Visibility="{Binding Visibility}">
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Buttons}"
+                      Visibility="{Binding GroupShown}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button FontSize="16" Height="30"  
-                                Content="{Binding Path=DisplayText}"
-                                Command="{Binding}" 
-                                CommandParameter="{Binding}" 
-                                Style="{StaticResource ButtonStyle}" 
-                                Click="Button_Click">
+                    <Button FontSize="16" Height="30"
+                            Content="{Binding DisplayName}"
+                            Command="{Binding Command}" 
+                            CommandParameter="{Binding}" 
+                            Style="{StaticResource ButtonStyle}">
                         <Button.Background>
                             <SolidColorBrush Color="{StaticResource GeneralBackgorundColor}"/>
                         </Button.Background>

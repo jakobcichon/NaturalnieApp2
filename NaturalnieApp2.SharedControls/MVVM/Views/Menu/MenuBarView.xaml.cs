@@ -8,9 +8,7 @@ namespace NaturalnieApp2.SharedControls.MVVM.Views.Menu
         public MenuBarView()
         {
             InitializeComponent();
-
         }
-
     }
 
 
