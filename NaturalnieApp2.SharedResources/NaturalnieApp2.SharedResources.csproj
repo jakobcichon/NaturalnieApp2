@@ -11,6 +11,7 @@
     <None Remove="Images\clear-filter.png" />
     <None Remove="Images\down-arrow.png" />
     <None Remove="Images\error-icon.png" />
+    <None Remove="Images\GreenTexture1.png" />
     <None Remove="Images\mainIcon.ico" />
     <None Remove="Images\Naturalnielogo.png" />
     <None Remove="Images\right-arrow.png" />
@@ -28,6 +29,7 @@
     <Resource Include="Images\clear-filter.png" />
     <Resource Include="Images\down-arrow.png" />
     <Resource Include="Images\error-icon.png" />
+    <Resource Include="Images\GreenTexture1.png" />
     <Resource Include="Images\mainIcon.ico" />
     <Resource Include="Images\Naturalnielogo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>

@@ -67,7 +67,7 @@
                    BasedOn="{StaticResource ButtonStyle}">
                 <Setter Property="Foreground">
                     <Setter.Value>
-                        <SolidColorBrush Color="{StaticResource GeneralBackgorundColor}"/>
+                        <SolidColorBrush Color="{StaticResource NaturalnieGreenDark}"/>
                     </Setter.Value>
                 </Setter>
             </Style>
@@ -117,7 +117,7 @@
                             CommandParameter="{Binding}" 
                             Style="{StaticResource ButtonStyle}">
                         <Button.Background>
-                            <SolidColorBrush Color="{StaticResource GeneralBackgorundColor}"/>
+                            <SolidColorBrush Color="{StaticResource NaturalnieGreenBright}"/>
                         </Button.Background>
                     </Button>
 
