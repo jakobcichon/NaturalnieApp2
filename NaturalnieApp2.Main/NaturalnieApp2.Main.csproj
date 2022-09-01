@@ -12,11 +12,15 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="MVVM\Models\" />
+    <ProjectReference Include="..\NaturalnieApp2.Logger\NaturalnieApp2.Logger.csproj" />
+    <ProjectReference Include="..\NaturalnieApp2.SharedControls\NaturalnieApp2.SharedControls.csproj" />
+    <ProjectReference Include="..\NaturalnieApp2.SharedInterfaces\NaturalnieApp2.SharedInterfaces.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NaturalnieApp2.SharedControls\NaturalnieApp2.SharedControls.csproj" />
+    <Page Update="ResourcesDict.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>

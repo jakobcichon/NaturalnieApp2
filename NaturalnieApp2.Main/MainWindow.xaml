@@ -8,7 +8,15 @@
         Title="MainWindow" Height="450" Width="800"
         xmlns:menubuttons="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.Menu;assembly=NaturalnieApp2.SharedControls"
         >
-    
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/ResourcesDict.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="300"/>
@@ -21,5 +29,26 @@
         </Grid.RowDefinitions>
 
         <menubuttons:MenuBarView DataContext="{Binding MenuBar}" Grid.Row="1"/>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBox Text="{Binding SelectedScreen.ScreenInfo, Mode=OneWay}" 
+                     Height="30"
+                     HorizontalAlignment="Stretch" 
+                     HorizontalContentAlignment="Center" 
+                     VerticalContentAlignment="Center"
+                     Visibility="{Binding SelectedScreen.ShowScreenInfo, 
+                Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBox.Background>
+                    <SolidColorBrush Color="{StaticResource 
+                        DarkBackgorundColor}"/>
+                </TextBox.Background>
+            </TextBox>
+
+            <ContentControl Grid.Row="1"  Content="{Binding SelectedScreen}"/>
+        </Grid>
+
     </Grid>
 </Window>

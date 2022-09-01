@@ -9,6 +9,8 @@
         <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/ColorResources.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/ImageResources.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/StyleResources.xaml"/>
+
+
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary> 
