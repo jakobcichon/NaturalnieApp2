@@ -21,22 +21,8 @@
     </UserControl.Style>
 
     <Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="100" MinHeight="50"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
-        <!--Logo image-->
-        <Button Command="{Binding}" 
-                    Style="{StaticResource GeneralButtonStyle}" BorderBrush="{x:Null}" >
-            <Image Source="{StaticResource NaturalnieLogoImage}" Stretch="Fill"/>
-        </Button>
         <!-- Menu groups with buttons-->
-        <ItemsControl x:Name="MenuGroups" Grid.Row="1"  
+        <ItemsControl x:Name="MenuGroups" 
                       ItemsSource="{Binding MenuGroupItems}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

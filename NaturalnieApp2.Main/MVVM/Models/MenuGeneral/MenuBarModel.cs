@@ -11,16 +11,10 @@
     internal class MenuBarModel
     {
         public Dictionary<string, Dictionary<string, IMenuScreen>> MenuScreenList { get; init; }
-        public IMenuScreen? DefaultScreen { get; private set; }
 
         public MenuBarModel()
         {
             MenuScreenList = new();
-        }
-
-        public void AddDefaultScreen(IMenuScreen? defaultScreen)
-        {
-            DefaultScreen = defaultScreen;
         }
 
         public void AddGroup(string groupName)

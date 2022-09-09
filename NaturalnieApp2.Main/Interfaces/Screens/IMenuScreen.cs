@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.Main.Interfaces.Screens
 {
+    using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -11,8 +12,9 @@
     {
         public string ScreenInfo { get; }
         public bool ShowScreenInfo { get; }
-        public void Load();
+        public IDialogBox? DialogBox { get; }
 
+        public void Load();
         public Task LoadAsync();
     }
 }

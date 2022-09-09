@@ -6,7 +6,10 @@
     using NaturalnieApp2.Main.MVVM.Models.MenuGeneral;
     using NaturalnieApp2.Main.MVVM.ViewModels;
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
+    using NaturalnieApp2.SharedControls.MVVM.Models.MessageBox;
+    using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
+    using System.Threading.Tasks;
     using System.Windows;
 
     public partial class App : Application
@@ -29,10 +32,15 @@
 
             NaturalnieExceptionBase.Logger = Services.GetService<Logger>();
 
+            // Main window context
             MainViewModel mainWindowContex = Services.GetService<MainViewModel>()!;
+            mainWindowContex.DefaultScreen = Services.GetService<DefaulMenuScreenViewModel>();
 
             MainWindow mainWindow = new(mainWindowContex);
+
             mainWindow.Show();
+
+            ;
         }
 
         /// <summary>
@@ -43,12 +51,12 @@
             var services = new ServiceCollection();
 
             // Main kwindow
-            services.AddSingleton<MainViewModel>((s) =>
+            services.AddSingleton((s) =>
             {
                 return new MainViewModel(s.GetService<MenuBarModel>());
             });
 
-            services.AddSingleton<MenuBarModel>((s) =>
+            services.AddSingleton((s) =>
             {
                 return CreateMenuScreens(s);
             });
@@ -68,6 +76,9 @@
             // Exception
             services.AddSingleton<NaturalnieExceptionBase>();
 
+            // Screen dialog box
+            services.AddTransient<DialogBoxViewModel>
+
 
             return services.BuildServiceProvider();
         }
@@ -75,9 +86,6 @@
         private static MenuBarModel CreateMenuScreens(IServiceProvider services)
         {
             MenuBarModel menuBarModel = new();
-
-            // Default screen
-            menuBarModel.AddDefaultScreen(services.GetService<DefaulMenuScreenViewModel>());
 
             // Product menu
             string groupName = "Menu produktu";

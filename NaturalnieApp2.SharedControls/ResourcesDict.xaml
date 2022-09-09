@@ -2,6 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:v_menu="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.Menu"
                     xmlns:vm_menu="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.Menu"
+                    xmlns:v_messagebox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.MessageBox"
+                    xmlns:vm_messagebox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.MessageBox"
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -12,5 +14,6 @@
 
 
     </ResourceDictionary.MergedDictionaries>
+
 
 </ResourceDictionary> 

@@ -24,16 +24,30 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <menubuttons:MenuBarView DataContext="{Binding MenuBar}" Grid.Row="1"/>
-        <Grid Grid.Row="1" Grid.Column="1">
+        <!--Logo image-->
+        <Button Command="{Binding LogoButtonPressed}" 
+                Style="{StaticResource GeneralButtonStyle}" 
+                BorderBrush="{x:Null}" 
+                Grid.Row="1"
+                >
+            <Image Source="{StaticResource NaturalnieLogoImage}" Stretch="Fill"/>
+        </Button>
+
+        <!--Menu bar-->
+        <menubuttons:MenuBarView DataContext="{Binding MenuBar}" Grid.Row="2"/>
+        
+        <Grid Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
+            <!--Menu screen info bar-->
             <TextBox Text="{Binding SelectedScreen.ScreenInfo, Mode=OneWay}" 
                      Height="30"
                      HorizontalAlignment="Stretch" 
@@ -46,7 +60,8 @@
                         DarkBackgorundColor}"/>
                 </TextBox.Background>
             </TextBox>
-
+            
+            <!--Menu screen instance--> 
             <ContentControl Grid.Row="1"  Content="{Binding SelectedScreen}"/>
         </Grid>
 
