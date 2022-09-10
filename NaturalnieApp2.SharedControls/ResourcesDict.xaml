@@ -2,8 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:v_menu="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.Menu"
                     xmlns:vm_menu="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.Menu"
-                    xmlns:v_messagebox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.MessageBox"
-                    xmlns:vm_messagebox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.MessageBox"
+                    xmlns:v_dialogbox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox"
+                    xmlns:vm_dialogbox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox"
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -14,6 +14,10 @@
 
 
     </ResourceDictionary.MergedDictionaries>
+
+    <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxYesNoViewModel}">
+        <v_dialogbox:DialogBoxYesNoView/>
+    </DataTemplate>
 
 
 </ResourceDictionary> 

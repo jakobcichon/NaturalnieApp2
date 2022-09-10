@@ -7,6 +7,7 @@
     using NaturalnieApp2.Main.MVVM.ViewModels;
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
     using NaturalnieApp2.SharedControls.MVVM.Models.MessageBox;
+    using NaturalnieApp2.SharedControls.Services.DialogBoxService;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Threading.Tasks;
@@ -50,7 +51,7 @@
         {
             var services = new ServiceCollection();
 
-            // Main kwindow
+            // Main window
             services.AddSingleton((s) =>
             {
                 return new MainViewModel(s.GetService<MenuBarModel>());
@@ -66,7 +67,12 @@
             services.AddSingleton<DefaulMenuScreenViewModel>();
 
             // Product screen
-            services.AddSingleton<ShowProductViewModel>();
+            services.AddSingleton((s) =>
+            {
+                ShowProductViewModel showProductViewModel = new();
+                showProductViewModel.DialogBox = s.GetService<DialogBoxService>();
+                return showProductViewModel;
+            });
 
             #endregion
 
@@ -77,7 +83,7 @@
             services.AddSingleton<NaturalnieExceptionBase>();
 
             // Screen dialog box
-            services.AddTransient<DialogBoxViewModel>
+            services.AddTransient<DialogBoxService>();
 
 
             return services.BuildServiceProvider();

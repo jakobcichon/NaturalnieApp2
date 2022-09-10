@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.ViewModels
 {
+    using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -11,6 +12,18 @@
     public class BaseViewModel : INotifyPropertyChanged
     { 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        private IDialogBox? dialogBox;
+
+        public IDialogBox? DialogBox
+        {
+            get { return dialogBox; }
+            set
+            {
+                dialogBox = value;
+                OnPropertyChanged();
+            }
+        }
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {

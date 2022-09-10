@@ -12,8 +12,8 @@
     public class DialogBoxYesNoViewModel : DialogBoxViewModelBase
     {
 
-        public CommandBase LeftButton => new(ButtonPressed, CanBePresed);
-        public CommandBase RightButton => new(ButtonPressed, CanBePresed);
+        public CommandBase LeftButton => new(OnButtonPressed, CanBePresed);
+        public CommandBase RightButton => new(OnButtonPressed, CanBePresed);
 
         public DialogBoxYesNoViewModel()
         {

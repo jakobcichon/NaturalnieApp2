@@ -8,8 +8,8 @@
         mc:Ignorable="d"
         Title="MessageBoxMainWindow" Height="200" Width="300">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type vm:DialogBoxTwoButtonsViewModel}">
-            <local:DialogBoxTwoButtonsView/>
+        <DataTemplate DataType="{x:Type vm:DialogBoxYesNoViewModel}">
+            <local:DialogBoxYesNoView/>
         </DataTemplate>
     </Window.Resources>
     

@@ -8,31 +8,28 @@
     using System.Threading.Tasks;
     using System.Windows;
 
-    public class DialogBoxViewModelBase: IDialogBox
+    public class DialogBoxViewModelBase: BaseViewModel
     {
-        public DialogBoxViewModelBase? DialogBoxInstance { get; set; }
-        public bool Visiable { get; private set; }
+        public event EventHandler<string> ButtonPressed;
+        private string message = string.Empty;
 
-        public void Show(string message)
+        public string Message
         {
-            DialogBoxInstance = new DialogBoxYesNoViewModel();
-            Visiable = true;
+            get { return message; }
+            set 
+            {
+                message = value;
+                OnPropertyChanged();
+            }
         }
 
-        public DialogResultEnum ShowYesNo(string message)
+        protected virtual void OnButtonPressed(object? parameters)
         {
-            throw new NotImplementedException();
-        }
-
-        public DialogResultEnum ShowYesNoCancel(string message)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected virtual void ButtonPressed(object? parameters)
-        {
-            Visiable = false;
-            DialogBoxInstance = null;
+/*            if (parameters is not string buttonName)
+            {
+                return;
+            }*/
+            ButtonPressed?.Invoke(this, "test");
         }
 
         protected virtual bool CanBePresed(object? parameters)

@@ -8,16 +8,14 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    internal class ShowProductViewModel : IMenuScreen
+    internal class ShowProductViewModel : BaseViewModel, IMenuScreen
     {
         public string ScreenInfo => "Informacje o produkcie";
 
         public bool ShowScreenInfo => true;
 
-        public IDialogBox? DialogBox { get; set; }
-
         public void Load()
-        {
+        { 
             _ = LoadOperation();
         }
 
@@ -29,6 +27,7 @@
         private async Task LoadOperation()
         {
             await Task.Delay(1000);
+            DialogBox?.Show("Test");
         }
     }
 }
