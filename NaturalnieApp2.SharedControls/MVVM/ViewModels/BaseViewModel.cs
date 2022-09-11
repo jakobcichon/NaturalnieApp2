@@ -10,13 +10,19 @@
 
     public class BaseViewModel : INotifyPropertyChanged
     {
+        #region Events
         public event PropertyChangedEventHandler? PropertyChanged;
+        #endregion
 
+        #region Public methods
+        public virtual Task LoadAsync() => Task.CompletedTask;
+        #endregion
+
+        #region Protected methods
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
-        public virtual Task LoadAsync() => Task.CompletedTask;
+        #endregion
     }
 }

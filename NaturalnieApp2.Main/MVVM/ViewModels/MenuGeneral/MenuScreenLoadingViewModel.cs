@@ -8,21 +8,26 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class MenuScreenLoadingViewModel : IMenuScreen
+    public class MenuScreenLoadingViewModel : BaseViewModel, IMenuScreen
     {
-        public string ScreenInfo => $"Ładowanie ekranu \"{additionalInfo}\"";
-
-        public bool ShowScreenInfo => false;
-
-        public IDialogBox? DialogBox => null;
-
+        #region Fields
         private readonly string additionalInfo;
+        #endregion
 
+        #region Constructor
         public MenuScreenLoadingViewModel(string screenInfo)
         {
             additionalInfo = screenInfo;
         }
+        #endregion
 
+        #region Properties
+        public override string ScreenInfo => $"Ładowanie ekranu \"{additionalInfo}\"";
+
+        public override bool ShowScreenInfo => false;
+        #endregion
+
+        #region Public methods
         public void Load()
         {
             
@@ -32,5 +37,6 @@
         {
             return Task.CompletedTask;
         }
+        #endregion
     }
 }

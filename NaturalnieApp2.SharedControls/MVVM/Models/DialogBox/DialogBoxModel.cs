@@ -24,7 +24,7 @@
             bool? decision = null;
             Application.Current.Dispatcher.Invoke(() =>
            {
-               Window dialogWindow = new DialogBoxMainWindow();
+               Window dialogWindow = new ModalDialogBoxMainWindow();
                DialogBoxYesNoViewModel dialogBoxViewModel = new();
 
                dialogWindow.DataContext = dialogBoxViewModel;

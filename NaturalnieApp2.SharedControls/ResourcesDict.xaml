@@ -15,6 +15,10 @@
 
     </ResourceDictionary.MergedDictionaries>
 
+    <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxOkViewModel}">
+        <v_dialogbox:DialogBoxOkView/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxYesNoViewModel}">
         <v_dialogbox:DialogBoxYesNoView/>
     </DataTemplate>

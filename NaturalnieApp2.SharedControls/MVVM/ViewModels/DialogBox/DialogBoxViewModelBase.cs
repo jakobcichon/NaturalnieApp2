@@ -10,9 +10,17 @@
 
     public class DialogBoxViewModelBase: BaseViewModel
     {
-        public event EventHandler<string> ButtonPressed;
-        private string message = string.Empty;
+        #region Events
+        public event EventHandler<object?> ButtonPressed;
+        #endregion
 
+        #region Fields
+        private string message = string.Empty;
+        private Dictionary<DialogResultEnum, Action> dialogResultActionList = new();
+        private DialogResultEnum dialogResult;
+        #endregion
+
+        #region Properties
         public string Message
         {
             get { return message; }
@@ -23,18 +31,63 @@
             }
         }
 
+        private bool visibility;
+
+        public bool Visibility
+        {
+            get { return visibility; }
+            set 
+            { 
+                visibility = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DialogResultEnum DialogResult
+        {
+            get { return dialogResult; }
+            set 
+            { 
+                dialogResult = value;
+                CallActionForDialogResult(dialogResult);
+            }
+        }
+
+        #endregion
+
+        #region Public methods
+        public void Show()
+        {
+            Visibility = true;
+        }
+
+        public void Hide()
+        {
+            Visibility = false;
+        }
+
+        public void AddAction(DialogResultEnum dialogResult, Action action)
+        {
+            dialogResultActionList.Add(dialogResult, action);
+        }
+        #endregion
+
+        #region Private/Protected methods
         protected virtual void OnButtonPressed(object? parameters)
         {
-/*            if (parameters is not string buttonName)
-            {
-                return;
-            }*/
-            ButtonPressed?.Invoke(this, "test");
+            ButtonPressed?.Invoke(this, parameters);
         }
 
         protected virtual bool CanBePresed(object? parameters)
         {
             return true;
         }
+
+        private void CallActionForDialogResult(DialogResultEnum dialogResult)
+        {
+            dialogResultActionList.TryGetValue(dialogResult, out var action);
+            action?.Invoke();
+        }
+        #endregion
     }
 }

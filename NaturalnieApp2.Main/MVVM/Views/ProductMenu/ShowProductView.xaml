@@ -28,8 +28,6 @@
         <Button HorizontalAlignment="Left" Width="100" Height="50"/>
 
         <ContentControl Content="{Binding DialogBox.DialogBoxViewModel}"
-                        Visibility="{Binding DialogBox.Visibility, 
-            Converter={StaticResource BoolToVisibilityConverter}}"
                         Grid.RowSpan="100" Grid.ColumnSpan="100"/>
     </Grid>
 </UserControl>

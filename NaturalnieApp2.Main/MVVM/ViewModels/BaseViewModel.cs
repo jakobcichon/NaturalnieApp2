@@ -10,9 +10,12 @@
     using System.Threading.Tasks;
 
     public class BaseViewModel : INotifyPropertyChanged
-    { 
+    {
+        #region Events
         public event PropertyChangedEventHandler? PropertyChanged;
+        #endregion
 
+        #region Properties
         private IDialogBox? dialogBox;
 
         public IDialogBox? DialogBox
@@ -25,11 +28,18 @@
             }
         }
 
+        public virtual string ScreenInfo => "Ekran menu";
+
+        public virtual bool ShowScreenInfo => true;
+        #endregion
+
+        #region Protected methods
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        #endregion
 
-        
+
     }
 }

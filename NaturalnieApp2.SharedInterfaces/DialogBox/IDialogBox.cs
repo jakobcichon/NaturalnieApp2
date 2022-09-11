@@ -2,8 +2,9 @@
 {
     public interface IDialogBox
     {
-        public void Show(string message);
-        public DialogResultEnum ShowYesNo(string message);
-        public DialogResultEnum ShowYesNoCancel(string message);
+        public IDialogBox Show(string message);
+        public IDialogBox ShowYesNo(string message);
+        public IDialogBox ShowYesNoCancel(string message);
+        public IDialogBox AddAction(DialogResultEnum resultType, Action action);
     }
 }

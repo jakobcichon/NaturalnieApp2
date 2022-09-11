@@ -1,6 +1,5 @@
 ﻿namespace NaturalnieApp2.SharedControls.MVVM.Views.DialogBox
 {
-    using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,14 +12,15 @@
     using System.Windows.Input;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
+    using System.Windows.Navigation;
     using System.Windows.Shapes;
 
     /// <summary>
-    /// Interaction logic for DialogBoxView.xaml
+    /// Interaction logic for DialogBoxYesNoView.xaml
     /// </summary>
-    public partial class DialogBoxMainWindow : Window
+    public partial class DialogBoxOkView : UserControl
     {
-        public DialogBoxMainWindow()
+        public DialogBoxOkView()
         {
             InitializeComponent();
         }
