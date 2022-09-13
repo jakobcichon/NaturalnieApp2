@@ -18,22 +18,13 @@
         #endregion
 
         #region Fields
-        private DialogBoxViewModelBase? dialogBoxViewModel;
-        private DialogBoxViewModelBase? lastlyShownDialogBox;
-        private readonly List<DialogBoxViewModelBase> dialogBoxViewModelWaitingList = new();
-        #endregion
-
-        #region Enums
-        private enum DialogBoxTypes
-        {
-            Ok,
-            YesNo,
-            YesNoCancel
-        }
+        private DialogBoxBaseViewModel? dialogBoxViewModel;
+        private DialogBoxBaseViewModel? lastlyShownDialogBox;
+        private readonly List<DialogBoxBaseViewModel> dialogBoxViewModelWaitingList = new();
         #endregion
 
         #region Properties
-        public DialogBoxViewModelBase? DialogBoxViewModel
+        public DialogBoxBaseViewModel? DialogBoxViewModel
         {
             get { return dialogBoxViewModel; }
             set
@@ -48,6 +39,7 @@
         #region Public methods
         public IDialogBox Show(string message)
         {
+
             if (DialogBoxViewModel == null)
             {
                 DialogBoxViewModel = CreateDialogBox(DialogBoxTypes.Ok, message);
@@ -56,8 +48,7 @@
                 return this;
             }
 
-            var test = CreateDialogBox(DialogBoxTypes.Ok, message);
-            this.dialogBoxViewModelWaitingList.Add(test);
+            dialogBoxViewModelWaitingList.Add(CreateDialogBox(DialogBoxTypes.Ok, message));
             lastlyShownDialogBox = dialogBoxViewModelWaitingList.Last();
             return this;
         }
@@ -72,7 +63,7 @@
             throw new NotImplementedException();
         }
 
-        public IDialogBox AddAction(DialogResultEnum resultType, Action action)
+        public IDialogBox AddAction(DialogBoxResults resultType, Action action)
         {
             lastlyShownDialogBox?.AddAction(resultType, action);
             return this;
@@ -80,7 +71,7 @@
         #endregion
 
         #region Private/Protected methods
-        private static DialogBoxViewModelBase CreateDialogBox(DialogBoxTypes type, string message)
+        private static DialogBoxBaseViewModel CreateDialogBox(DialogBoxTypes type, string message)
         {
             switch (type)
             {
@@ -93,19 +84,20 @@
             }
         }
 
-        private static DialogBoxOkViewModel CreateOkDialogBox(string message)
+        private static DialogBoxBaseViewModel CreateOkDialogBox(string message)
         {
-            return new DialogBoxOkViewModel
+            return new DialogBoxBaseViewModel
             {
-                Message = message
+                Message = message,
+                ButtonsPanel = new DialogBoxOkViewModel()
             };
         }
 
-        private DialogBoxViewModelBase? GetNextWaitingDialogBox()
+        private DialogBoxBaseViewModel? GetNextWaitingDialogBox()
         {
             if(dialogBoxViewModelWaitingList.Count > 0)
             {
-                DialogBoxViewModelBase retVal = dialogBoxViewModelWaitingList.First();
+                DialogBoxBaseViewModel retVal = dialogBoxViewModelWaitingList.First();
                 dialogBoxViewModelWaitingList.RemoveAt(0);
                 return retVal;
             }
@@ -113,7 +105,7 @@
             return null;
             
         }
-        private void AssignEvents(DialogBoxViewModelBase? dialogBox)
+        private void AssignEvents(DialogBoxBaseViewModel? dialogBox)
         {
             if (dialogBox == null)
             {
@@ -122,7 +114,7 @@
             dialogBox.ButtonPressed += DialogBox_ButtonPressed;
         }
 
-        private void DialogBox_ButtonPressed(object? sender, object? e)
+        private void DialogBox_ButtonPressed(object? sender, DialogBoxResults e)
         {
             CheckPendingViewModels();
         }

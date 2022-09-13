@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.DialogBoxButtonPanelOkView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="100"
+             MinHeight="50">
+
+    <UserControl.Resources>
+    <ResourceDictionary>
+        <ResourceDictionary.MergedDictionaries>
+            <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ConvertersDict.xaml"/>
+            <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ResourcesDict.xaml"/>
+        </ResourceDictionary.MergedDictionaries>
+    </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <Button Grid.Row="2" Content="Ok" Width="50" 
+                    Height="30" FontSize="20" 
+                    Command="{Binding OkButton}"
+                    Name="Ok"
+                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Name}"/>
+    </Grid>
+</UserControl>

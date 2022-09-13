@@ -8,16 +8,17 @@
     using System.Threading.Tasks;
     using System.Windows;
 
-    public class DialogBoxViewModelBase: BaseViewModel
+    public class DialogBoxBaseViewModel: BaseViewModel
     {
         #region Events
-        public event EventHandler<object?> ButtonPressed;
+        public event EventHandler<DialogBoxResults> ButtonPressed;
         #endregion
 
         #region Fields
         private string message = string.Empty;
-        private Dictionary<DialogResultEnum, Action> dialogResultActionList = new();
-        private DialogResultEnum dialogResult;
+        private Dictionary<DialogBoxResults, Action> dialogResultActionList = new();
+        private DialogBoxResults dialogResult;
+        private DialogBoxButtonsPanelBaseViewModel? buttonsPanel;
         #endregion
 
         #region Properties
@@ -43,7 +44,7 @@
             }
         }
 
-        public DialogResultEnum DialogResult
+        public DialogBoxResults DialogResult
         {
             get { return dialogResult; }
             set 
@@ -53,6 +54,23 @@
             }
         }
 
+        public DialogBoxButtonsPanelBaseViewModel? ButtonsPanel
+        {
+            get { return buttonsPanel; }
+            set 
+            { 
+                buttonsPanel = value; 
+                if (buttonsPanel != null)
+                {
+                    buttonsPanel.ButtonPressed += this.ButtonsPanel_ButtonPressed;
+                }
+            }
+        }
+
+        private void ButtonsPanel_ButtonPressed(object? sender, DialogBoxResults e)
+        {
+            ButtonPressed?.Invoke(this, e);
+        }
         #endregion
 
         #region Public methods
@@ -66,24 +84,14 @@
             Visibility = false;
         }
 
-        public void AddAction(DialogResultEnum dialogResult, Action action)
+        public void AddAction(DialogBoxResults dialogResult, Action action)
         {
             dialogResultActionList.Add(dialogResult, action);
         }
         #endregion
 
         #region Private/Protected methods
-        protected virtual void OnButtonPressed(object? parameters)
-        {
-            ButtonPressed?.Invoke(this, parameters);
-        }
-
-        protected virtual bool CanBePresed(object? parameters)
-        {
-            return true;
-        }
-
-        private void CallActionForDialogResult(DialogResultEnum dialogResult)
+        private void CallActionForDialogResult(DialogBoxResults dialogResult)
         {
             dialogResultActionList.TryGetValue(dialogResult, out var action);
             action?.Invoke();

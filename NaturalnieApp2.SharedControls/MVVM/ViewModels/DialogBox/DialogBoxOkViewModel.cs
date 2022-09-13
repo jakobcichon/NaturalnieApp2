@@ -8,21 +8,27 @@
     using System.Text;
     using System.Threading.Tasks;
     using System.Windows;
+    using System.Windows.Controls;
 
-    public class DialogBoxOkViewModel : DialogBoxViewModelBase
+    public class DialogBoxOkViewModel : DialogBoxButtonsPanelBaseViewModel
     {
 
-        public CommandBase OkButton => new(OnButtonPressed, CanBePresed);
+        public CommandBase OkButton => new(ButtonPressedAction, CanBePresed);
 
         public DialogBoxOkViewModel()
         {
         }
 
-        protected override void OnButtonPressed(object? parameters)
+        private void ButtonPressedAction(object? parameters)
         {
-            base.OnButtonPressed(parameters);
-
-            DialogResult = DialogResultEnum.OK;
+            if (parameters is string)
+            {
+                if(parameters.ToString().ToLower() == "ok")
+                {
+                    OnButtonPressed(DialogBoxResults.OK);
+                }
+                
+            }
         }
     }
 }

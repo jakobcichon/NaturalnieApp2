@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.SharedControls.MVVM.Commands
 {
+    using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
     using System.Linq;

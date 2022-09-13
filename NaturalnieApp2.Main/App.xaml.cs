@@ -6,7 +6,6 @@
     using NaturalnieApp2.Main.MVVM.Models.MenuGeneral;
     using NaturalnieApp2.Main.MVVM.ViewModels;
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
-    using NaturalnieApp2.SharedControls.MVVM.Models.MessageBox;
     using NaturalnieApp2.SharedControls.Services.DialogBoxService;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;

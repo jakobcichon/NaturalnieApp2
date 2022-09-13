@@ -15,13 +15,16 @@
 
     </ResourceDictionary.MergedDictionaries>
 
+    <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxBaseViewModel}">
+        <v_dialogbox:DialogBoxBaseView/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxOkViewModel}">
-        <v_dialogbox:DialogBoxOkView/>
+        <v_dialogbox:DialogBoxButtonPanelOkView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxYesNoViewModel}">
-        <v_dialogbox:DialogBoxYesNoView/>
-    </DataTemplate>
-
+    <Style x:Key="DialogBoxBackgroundStyle" TargetType="Border">
+        <Setter Property="Background" Value="#7F000000"/>
+    </Style>
 
 </ResourceDictionary> 

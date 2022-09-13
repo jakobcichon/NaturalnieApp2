@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\" />
+    <Folder Include="MVVM\Models\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,13 +21,20 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="MVVM\Views\DialogBox\DialogBoxOkView.xaml.cs">
+    <Compile Update="MVVM\Views\DialogBox\DialogBoxBaseView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MVVM\Views\DialogBox\DialogBoxButtonPanelOkView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="MVVM\Views\DialogBox\DialogBoxOkView.xaml">
+    <Page Update="MVVM\Views\DialogBox\DialogBoxBaseView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\Views\DialogBox\DialogBoxButtonPanelOkView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

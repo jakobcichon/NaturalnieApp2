@@ -16,11 +16,11 @@
     using System.Windows.Shapes;
 
     /// <summary>
-    /// Interaction logic for DialogBoxYesNoView.xaml
+    /// Interaction logic for DialogBoxBaseView.xaml
     /// </summary>
-    public partial class DialogBoxOkView : UserControl
+    public partial class DialogBoxBaseView : UserControl
     {
-        public DialogBoxOkView()
+        public DialogBoxBaseView()
         {
             InitializeComponent();
         }
