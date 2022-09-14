@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox
 {
+    using NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox.ButtonsPanel;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
@@ -18,8 +19,16 @@
         private string message = string.Empty;
         private Dictionary<DialogBoxResults, Action> dialogResultActionList = new();
         private DialogBoxResults dialogResult;
-        private DialogBoxButtonsPanelBaseViewModel? buttonsPanel;
+        private ButtonsPanelBaseViewModel? buttonsPanel;
         #endregion
+
+        #region Constructor 
+        public DialogBoxBaseViewModel(DialogBoxTypes dialogBoxType)
+        {
+            ButtonsPanel = GetDialogBoxButtonsPanel(dialogBoxType);
+
+        }
+        #endregion 
 
         #region Properties
         public string Message
@@ -54,21 +63,22 @@
             }
         }
 
-        public DialogBoxButtonsPanelBaseViewModel? ButtonsPanel
+        public ButtonsPanelBaseViewModel? ButtonsPanel
         {
             get { return buttonsPanel; }
             set 
             { 
-                buttonsPanel = value; 
-                if (buttonsPanel != null)
+                if (value != buttonsPanel && buttonsPanel != null)
                 {
-                    buttonsPanel.ButtonPressed += this.ButtonsPanel_ButtonPressed;
+                    buttonsPanel.ButtonPressed -= ButtonsPanel_ButtonPressed;
                 }
+                buttonsPanel = value; 
             }
         }
 
         private void ButtonsPanel_ButtonPressed(object? sender, DialogBoxResults e)
         {
+            DialogResult = e;
             ButtonPressed?.Invoke(this, e);
         }
         #endregion
@@ -93,8 +103,76 @@
         #region Private/Protected methods
         private void CallActionForDialogResult(DialogBoxResults dialogResult)
         {
-            dialogResultActionList.TryGetValue(dialogResult, out var action);
+            dialogResultActionList.TryGetValue(dialogResult, out Action? action);
             action?.Invoke();
+        }
+
+        private ButtonsPanelBaseViewModel? GetDialogBoxButtonsPanel(DialogBoxTypes buttonPanelType)
+        {
+            switch(buttonPanelType)
+            {
+                case DialogBoxTypes.Ok:
+                    return GetButtonsPanel_Ok();
+                case DialogBoxTypes.YesNo:
+                    return GetButtonsPanel_YesNo();
+                case DialogBoxTypes.YesNoCancel:
+                    return GetButtonsPanel_YesNoCancel();
+
+
+                default:
+                    return null;
+            }
+        }
+
+        private ButtonsPanelOkViewModel GetButtonsPanel_Ok()
+        {
+            ButtonsPanelOkViewModel buttonsPanel = new();
+            buttonsPanel.ButtonPressed += ButtonsPanel_ButtonPressed;
+
+            return buttonsPanel;
+        }
+
+        private ButtonsPanelYesNoViewModel GetButtonsPanel_YesNo()
+        {
+            ButtonsPanelYesNoViewModel buttonsPanel = new();
+            buttonsPanel.ButtonPressed += ButtonsPanel_ButtonPressed;
+
+            return buttonsPanel;
+        }
+
+        private ButtonsPanelYesNoCancelViewModel GetButtonsPanel_YesNoCancel()
+        {
+            ButtonsPanelYesNoCancelViewModel buttonsPanel = new();
+            buttonsPanel.ButtonPressed += ButtonsPanel_ButtonPressed;
+
+            return buttonsPanel;
+        }
+        #endregion
+
+        #region Disposable
+        private bool _disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose managed state (managed objects).
+                    if(buttonsPanel != null)
+                    {
+                        buttonsPanel.ButtonPressed -= ButtonsPanel_ButtonPressed;
+                        buttonsPanel.Dispose();
+                        buttonsPanel = null;
+                    }
+                }
+
+                // Free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // Set large fields to null.
+                _disposedValue = true;
+            }
+
+            // Call the base class implementation.
+            base.Dispose(disposing);
         }
         #endregion
     }

@@ -1,4 +1,4 @@
-﻿namespace NaturalnieApp2.SharedControls.MVVM.Views.DialogBox
+﻿namespace NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.ButtonsPanel
 {
     using System;
     using System.Collections.Generic;
@@ -18,9 +18,9 @@
     /// <summary>
     /// Interaction logic for DialogBoxButtonPanelOkView.xaml
     /// </summary>
-    public partial class DialogBoxButtonPanelOkView : UserControl
+    public partial class ButtonPanelOkView : UserControl
     {
-        public DialogBoxButtonPanelOkView()
+        public ButtonPanelOkView()
         {
             InitializeComponent();
         }

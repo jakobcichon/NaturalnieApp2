@@ -4,6 +4,8 @@
                     xmlns:vm_menu="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.Menu"
                     xmlns:v_dialogbox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox"
                     xmlns:vm_dialogbox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox"
+                    xmlns:v_dialogboxButtonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.ButtonsPanel"
+                    xmlns:vm_dialogboxButtonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox.ButtonsPanel"
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -14,13 +16,21 @@
 
 
     </ResourceDictionary.MergedDictionaries>
-
+    
     <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxBaseViewModel}">
         <v_dialogbox:DialogBoxBaseView/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxOkViewModel}">
-        <v_dialogbox:DialogBoxButtonPanelOkView/>
+    <DataTemplate DataType="{x:Type vm_dialogboxButtonsPanel:ButtonsPanelOkViewModel}">
+        <v_dialogboxButtonsPanel:ButtonPanelOkView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm_dialogboxButtonsPanel:ButtonsPanelYesNoViewModel}">
+        <v_dialogboxButtonsPanel:ButtonPanelYesNoView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm_dialogboxButtonsPanel:ButtonsPanelYesNoCancelViewModel}">
+        <v_dialogboxButtonsPanel:ButtonPanelYesNoCancelView/>
     </DataTemplate>
 
     <Style x:Key="DialogBoxBackgroundStyle" TargetType="Border">

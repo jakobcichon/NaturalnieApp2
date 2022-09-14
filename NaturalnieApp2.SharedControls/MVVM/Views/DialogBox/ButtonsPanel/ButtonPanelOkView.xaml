@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.DialogBoxButtonPanelOkView"
+﻿<UserControl x:Class="NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.ButtonsPanel.ButtonPanelOkView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -18,10 +18,8 @@
     </UserControl.Resources>
 
     <Grid>
-        <Button Grid.Row="2" Content="Ok" Width="50" 
-                    Height="30" FontSize="20" 
-                    Command="{Binding OkButton}"
-                    Name="Ok"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Name}"/>
+        <Button Content="Ok"
+                Command="{Binding OkButton}"
+                CommandParameter="{Binding}"/>
     </Grid>
 </UserControl>

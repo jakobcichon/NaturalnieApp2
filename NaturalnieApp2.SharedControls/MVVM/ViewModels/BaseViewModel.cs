@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.SharedControls.MVVM.ViewModels
 {
+    using NaturalnieApp2.Common.Disposable;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel;
@@ -8,7 +9,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class BaseViewModel : INotifyPropertyChanged
+    public class BaseViewModel : DisposableBase, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler? PropertyChanged;

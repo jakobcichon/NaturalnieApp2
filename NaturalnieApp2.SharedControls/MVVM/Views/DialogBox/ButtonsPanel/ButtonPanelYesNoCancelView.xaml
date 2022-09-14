@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.ButtonsPanel.ButtonPanelYesNoCancelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="100"
+             MinHeight="50">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ConvertersDict.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ResourcesDict.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel HorizontalAlignment="Right">
+        <Button  Content="Yes"
+                 Command="{Binding YesButton}"
+                 CommandParameter="{Binding}"/>
+        
+        <Button  Content="No"
+                 Command="{Binding NoButton}"
+                 CommandParameter="{Binding}"/>
+
+        <Button  Content="Cancel"
+                 Command="{Binding CancelButton}"
+                 CommandParameter="{Binding}"/>
+    </DockPanel>
+</UserControl>

@@ -1,4 +1,4 @@
-﻿namespace NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox
+﻿namespace NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox.ButtonsPanel
 {
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
@@ -8,7 +8,7 @@
     using System.Threading.Tasks;
     using static NaturalnieApp2.SharedInterfaces.DialogBox.DialogBoxResults;
 
-    public class DialogBoxButtonsPanelBaseViewModel: BaseViewModel
+    public class ButtonsPanelBaseViewModel : BaseViewModel
     {
         #region Events
         public event EventHandler<DialogBoxResults> ButtonPressed;

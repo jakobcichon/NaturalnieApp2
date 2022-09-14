@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NaturalnieApp2.Common\NaturalnieApp2.Common.csproj" />
     <ProjectReference Include="..\NaturalnieApp2.SharedInterfaces\NaturalnieApp2.SharedInterfaces.csproj" />
     <ProjectReference Include="..\NaturalnieApp2.SharedResources\NaturalnieApp2.SharedResources.csproj" />
   </ItemGroup>
@@ -30,6 +31,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="MVVM\Views\DialogBox\ButtonsPanel\ButtonPanelYesNoCancelView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MVVM\Views\DialogBox\ButtonsPanel\ButtonPanelYesNoView.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="MVVM\Views\DialogBox\DialogBoxBaseView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>

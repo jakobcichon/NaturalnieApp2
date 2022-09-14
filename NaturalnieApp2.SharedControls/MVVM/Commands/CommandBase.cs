@@ -10,6 +10,8 @@
 
     public class CommandBase : ICommand
     {
+        public event EventHandler? CanExecuteChanged;
+
         private readonly Action<object?>? execute;
         private readonly Predicate<object?>? canExecute;
 
@@ -18,7 +20,12 @@
             this.execute = execute;
             this.canExecute = canExecute;
         }
-        public event EventHandler? CanExecuteChanged;
+
+        public CommandBase(Action<object?>? execute)
+        {
+            this.execute = execute;
+            this.canExecute = null;
+        }
 
         public bool CanExecute(object? parameter)
         {

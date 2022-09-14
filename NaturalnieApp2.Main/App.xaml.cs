@@ -37,6 +37,9 @@
             mainWindowContex.DefaultScreen = Services.GetService<DefaulMenuScreenViewModel>();
 
             MainWindow mainWindow = new(mainWindowContex);
+            mainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
+            mainWindow.Left = SystemParameters.PrimaryScreenWidth - mainWindow.Width;
+            mainWindow.Top = SystemParameters.PrimaryScreenHeight - mainWindow.Height;
 
             mainWindow.Show();
 

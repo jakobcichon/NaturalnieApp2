@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.SharedInterf
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Logger", "NaturalnieApp2.Logger\NaturalnieApp2.Logger.csproj", "{8E07D155-FD53-491C-AE3B-DA17276D5E72}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalnieApp2.Common", "NaturalnieApp2.Common\NaturalnieApp2.Common.csproj", "{B4862C4B-45E5-41FC-93AF-57B33951F2F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8E07D155-FD53-491C-AE3B-DA17276D5E72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8E07D155-FD53-491C-AE3B-DA17276D5E72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8E07D155-FD53-491C-AE3B-DA17276D5E72}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4862C4B-45E5-41FC-93AF-57B33951F2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4862C4B-45E5-41FC-93AF-57B33951F2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4862C4B-45E5-41FC-93AF-57B33951F2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4862C4B-45E5-41FC-93AF-57B33951F2F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

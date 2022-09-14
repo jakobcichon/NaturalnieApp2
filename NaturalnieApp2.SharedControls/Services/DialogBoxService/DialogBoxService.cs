@@ -19,7 +19,7 @@
 
         #region Fields
         private DialogBoxBaseViewModel? dialogBoxViewModel;
-        private DialogBoxBaseViewModel? lastlyShownDialogBox;
+        private DialogBoxBaseViewModel? lastlyAddedDialogBox;
         private readonly List<DialogBoxBaseViewModel> dialogBoxViewModelWaitingList = new();
         #endregion
 
@@ -29,6 +29,13 @@
             get { return dialogBoxViewModel; }
             set
             {
+                // Dispose old dialog box view model
+                if(dialogBoxViewModel != null)
+                {
+                    dialogBoxViewModel.ButtonPressed -= DialogBox_ButtonPressed;
+                    dialogBoxViewModel.Dispose();
+                }
+
                 dialogBoxViewModel = value;
                 AssignEvents(dialogBoxViewModel);
                 OnPropertyChanged();
@@ -39,38 +46,43 @@
         #region Public methods
         public IDialogBox Show(string message)
         {
-
-            if (DialogBoxViewModel == null)
-            {
-                DialogBoxViewModel = CreateDialogBox(DialogBoxTypes.Ok, message);
-                DialogBoxViewModel.Show();
-                lastlyShownDialogBox = DialogBoxViewModel;
-                return this;
-            }
-
-            dialogBoxViewModelWaitingList.Add(CreateDialogBox(DialogBoxTypes.Ok, message));
-            lastlyShownDialogBox = dialogBoxViewModelWaitingList.Last();
+            ShowCommonaAction(message, DialogBoxTypes.Ok);
             return this;
         }
 
         public IDialogBox ShowYesNo(string message)
         {
-            throw new NotImplementedException();
+            ShowCommonaAction(message, DialogBoxTypes.YesNo);
+            return this;
         }
 
         public IDialogBox ShowYesNoCancel(string message)
         {
-            throw new NotImplementedException();
+            ShowCommonaAction(message, DialogBoxTypes.YesNoCancel);
+            return this;
         }
 
         public IDialogBox AddAction(DialogBoxResults resultType, Action action)
         {
-            lastlyShownDialogBox?.AddAction(resultType, action);
+            lastlyAddedDialogBox?.AddAction(resultType, action);
             return this;
         }
         #endregion
 
         #region Private/Protected methods
+        private void ShowCommonaAction(string message, DialogBoxTypes buttonsPanelType)
+        {
+            if (DialogBoxViewModel == null)
+            {
+                DialogBoxViewModel = CreateDialogBox(buttonsPanelType, message);
+                DialogBoxViewModel.Show();
+                lastlyAddedDialogBox = DialogBoxViewModel;
+            }
+
+            dialogBoxViewModelWaitingList.Add(CreateDialogBox(buttonsPanelType, message));
+            lastlyAddedDialogBox = dialogBoxViewModelWaitingList.Last();
+        }
+
         private static DialogBoxBaseViewModel CreateDialogBox(DialogBoxTypes type, string message)
         {
             switch (type)
@@ -78,7 +90,9 @@
                 case DialogBoxTypes.Ok:
                     return CreateOkDialogBox(message);
                 case DialogBoxTypes.YesNo:
+                    return CreateYesNoDialogBox(message);
                 case DialogBoxTypes.YesNoCancel:
+                    return CreateYesNoCancelDialogBox(message);
                 default:
                     return CreateOkDialogBox(message);
             }
@@ -86,10 +100,25 @@
 
         private static DialogBoxBaseViewModel CreateOkDialogBox(string message)
         {
-            return new DialogBoxBaseViewModel
+            return new DialogBoxBaseViewModel(DialogBoxTypes.Ok)
             {
                 Message = message,
-                ButtonsPanel = new DialogBoxOkViewModel()
+            };
+        }
+
+        private static DialogBoxBaseViewModel CreateYesNoDialogBox(string message)
+        {
+            return new DialogBoxBaseViewModel(DialogBoxTypes.YesNo)
+            {
+                Message = message,
+            };
+        }
+
+        private static DialogBoxBaseViewModel CreateYesNoCancelDialogBox(string message)
+        {
+            return new DialogBoxBaseViewModel(DialogBoxTypes.YesNoCancel)
+            {
+                Message = message,
             };
         }
 
@@ -98,7 +127,7 @@
             if(dialogBoxViewModelWaitingList.Count > 0)
             {
                 DialogBoxBaseViewModel retVal = dialogBoxViewModelWaitingList.First();
-                dialogBoxViewModelWaitingList.RemoveAt(0);
+                dialogBoxViewModelWaitingList.Remove(retVal);
                 return retVal;
             }
 
