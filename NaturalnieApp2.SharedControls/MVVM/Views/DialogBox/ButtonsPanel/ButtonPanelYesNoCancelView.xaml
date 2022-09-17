@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox"
              mc:Ignorable="d" 
              d:DesignHeight="50" d:DesignWidth="100"
-             MinHeight="50">
+             MinHeight="50" VerticalAlignment="Center">
 
     <UserControl.Resources>
         <ResourceDictionary>

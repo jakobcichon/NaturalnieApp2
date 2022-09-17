@@ -12,12 +12,14 @@
     public class DialogBoxBaseViewModel: BaseViewModel
     {
         #region Events
-        public event EventHandler<DialogBoxResults> ButtonPressed;
+        public event EventHandler<DialogBoxResults>? ButtonPressed;
         #endregion
 
         #region Fields
+        private static readonly string defaultTitle = "Okno wiadomości";
         private string message = string.Empty;
-        private Dictionary<DialogBoxResults, Action> dialogResultActionList = new();
+        private string title = defaultTitle;
+        private readonly Dictionary<DialogBoxResults, Action> dialogResultActionList = new();
         private DialogBoxResults dialogResult;
         private ButtonsPanelBaseViewModel? buttonsPanel;
         #endregion
@@ -37,6 +39,19 @@
             set 
             {
                 message = value;
+                OnPropertyChanged();
+            }
+        }
+        public string Title
+        {
+            get { return title; }
+            set
+            {
+                title = value;
+                if (title is null || title == string.Empty)
+                {
+                    title = defaultTitle;
+                }
                 OnPropertyChanged();
             }
         }
@@ -117,8 +132,6 @@
                     return GetButtonsPanel_YesNo();
                 case DialogBoxTypes.YesNoCancel:
                     return GetButtonsPanel_YesNoCancel();
-
-
                 default:
                     return null;
             }
@@ -163,6 +176,11 @@
                         buttonsPanel.ButtonPressed -= ButtonsPanel_ButtonPressed;
                         buttonsPanel.Dispose();
                         buttonsPanel = null;
+                    }
+
+                    if(dialogResultActionList != null)
+                    {
+                        dialogResultActionList.Clear();
                     }
                 }
 

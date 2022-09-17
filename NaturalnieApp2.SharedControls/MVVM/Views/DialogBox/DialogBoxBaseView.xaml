@@ -31,31 +31,40 @@
     </UserControl.Style>
 
     <Border Style="{StaticResource DialogBoxBackgroundStyle}">
-        <Grid Background="White" MaxWidth="{Binding RelativeSource={
-            RelativeSource AncestorType=UserControl}, 
-            Path=MinWidth}" 
+        <Grid Background="White" 
+              MaxWidth="{Binding RelativeSource={
+                    RelativeSource AncestorType=UserControl}, 
+                    Path=MinWidth}" 
               MaxHeight="{Binding RelativeSource={
-            RelativeSource AncestorType=UserControl}, 
-            Path=MinHeight}">
+                    RelativeSource AncestorType=UserControl}, 
+                    Path=MinHeight}">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
             <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
                 <RowDefinition Height="3*"/>
                 <RowDefinition Height="2"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <Grid Background="LightGray">
+                <TextBlock Text="{Binding Title}"
+                            d:Text="Tile"
+                           Margin="10 0 0 0"
+                           VerticalAlignment="Center"/>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
                 <TextBox Margin="2" FontSize="16" Text="{Binding Message}" TextWrapping="Wrap" BorderThickness="0"
                      d:Text="Message box example text"
                     VerticalAlignment="Center" HorizontalAlignment="Center" >
                 </TextBox>
             </ScrollViewer>
 
-            <Border Grid.Row="1" BorderBrush="White">
+            <Border Grid.Row="2" BorderBrush="White">
                 <Border.Background >
                     <RadialGradientBrush Center="0.5,0.5" RadiusX="0.8" RadiusY="0.5">
                         <GradientStop Color="Black"/>
@@ -63,8 +72,8 @@
                     </RadialGradientBrush>
                 </Border.Background>
             </Border>
-            
-            <ContentControl Grid.Row="2" Content="{Binding ButtonsPanel}"/>
+
+            <ContentControl Grid.Row="3" VerticalAlignment="Center" Content="{Binding ButtonsPanel}"/>
         </Grid>
     </Border>
 

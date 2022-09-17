@@ -2,7 +2,9 @@
 {
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
+    using NaturalnieApp2.SharedInterfaces.Logger;
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
@@ -18,9 +20,17 @@
         #endregion
 
         #region Fields
+        private ILogger logger;
         private DialogBoxBaseViewModel? dialogBoxViewModel;
         private DialogBoxBaseViewModel? lastlyAddedDialogBox;
-        private readonly List<DialogBoxBaseViewModel> dialogBoxViewModelWaitingList = new();
+        private readonly BlockingCollection<DialogBoxBaseViewModel> dialogBoxViewModelWaitingList = new();
+        #endregion
+
+        #region Constructor
+        public DialogBoxService(ILogger logger)
+        {
+            this.logger = logger;
+        }
         #endregion
 
         #region Properties
@@ -44,21 +54,22 @@
         #endregion
 
         #region Public methods
-        public IDialogBox Show(string message)
+        public IDialogBox Show(string message, string? title = null)
         {
-            ShowCommonaAction(message, DialogBoxTypes.Ok);
+            ShowCommonaAction(message, DialogBoxTypes.Ok, title);
+            logger.Info("Okno dialogowe z przyciskiem Ok zostało utworzone");
             return this;
         }
 
-        public IDialogBox ShowYesNo(string message)
+        public IDialogBox ShowYesNo(string message, string? title = null)
         {
-            ShowCommonaAction(message, DialogBoxTypes.YesNo);
+            ShowCommonaAction(message, DialogBoxTypes.YesNo, title);
             return this;
         }
 
-        public IDialogBox ShowYesNoCancel(string message)
+        public IDialogBox ShowYesNoCancel(string message, string? title = null)
         {
-            ShowCommonaAction(message, DialogBoxTypes.YesNoCancel);
+            ShowCommonaAction(message, DialogBoxTypes.YesNoCancel, title);
             return this;
         }
 
@@ -70,55 +81,58 @@
         #endregion
 
         #region Private/Protected methods
-        private void ShowCommonaAction(string message, DialogBoxTypes buttonsPanelType)
+        private void ShowCommonaAction(string message, DialogBoxTypes buttonsPanelType, string? title = null)
         {
             if (DialogBoxViewModel == null)
             {
-                DialogBoxViewModel = CreateDialogBox(buttonsPanelType, message);
+                DialogBoxViewModel = CreateDialogBox(buttonsPanelType, message, title);
                 DialogBoxViewModel.Show();
                 lastlyAddedDialogBox = DialogBoxViewModel;
             }
 
-            dialogBoxViewModelWaitingList.Add(CreateDialogBox(buttonsPanelType, message));
+            dialogBoxViewModelWaitingList.Add(CreateDialogBox(buttonsPanelType, message, title));
             lastlyAddedDialogBox = dialogBoxViewModelWaitingList.Last();
         }
 
-        private static DialogBoxBaseViewModel CreateDialogBox(DialogBoxTypes type, string message)
+        private static DialogBoxBaseViewModel CreateDialogBox(DialogBoxTypes type, string message, string? title = null)
         {
             switch (type)
             {
                 case DialogBoxTypes.Ok:
-                    return CreateOkDialogBox(message);
+                    return CreateOkDialogBox(message, title);
                 case DialogBoxTypes.YesNo:
-                    return CreateYesNoDialogBox(message);
+                    return CreateYesNoDialogBox(message, title);
                 case DialogBoxTypes.YesNoCancel:
-                    return CreateYesNoCancelDialogBox(message);
+                    return CreateYesNoCancelDialogBox(message, title);
                 default:
-                    return CreateOkDialogBox(message);
+                    return CreateOkDialogBox(message, title);
             }
         }
 
-        private static DialogBoxBaseViewModel CreateOkDialogBox(string message)
+        private static DialogBoxBaseViewModel CreateOkDialogBox(string message, string? title=null)
         {
             return new DialogBoxBaseViewModel(DialogBoxTypes.Ok)
             {
                 Message = message,
+                Title = title ?? string.Empty,
             };
         }
 
-        private static DialogBoxBaseViewModel CreateYesNoDialogBox(string message)
+        private static DialogBoxBaseViewModel CreateYesNoDialogBox(string message, string? title= null)
         {
             return new DialogBoxBaseViewModel(DialogBoxTypes.YesNo)
             {
                 Message = message,
+                Title = title ?? string.Empty,
             };
         }
 
-        private static DialogBoxBaseViewModel CreateYesNoCancelDialogBox(string message)
+        private static DialogBoxBaseViewModel CreateYesNoCancelDialogBox(string message, string? title = null)
         {
             return new DialogBoxBaseViewModel(DialogBoxTypes.YesNoCancel)
             {
                 Message = message,
+                Title = title ?? string.Empty,
             };
         }
 
@@ -126,9 +140,7 @@
         {
             if(dialogBoxViewModelWaitingList.Count > 0)
             {
-                DialogBoxBaseViewModel retVal = dialogBoxViewModelWaitingList.First();
-                dialogBoxViewModelWaitingList.Remove(retVal);
-                return retVal;
+                return dialogBoxViewModelWaitingList.Take();
             }
 
             return null;

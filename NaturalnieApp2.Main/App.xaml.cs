@@ -8,6 +8,7 @@
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
     using NaturalnieApp2.SharedControls.Services.DialogBoxService;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
+    using NaturalnieApp2.SharedInterfaces.Logger;
     using System;
     using System.Threading.Tasks;
     using System.Windows;
@@ -53,6 +54,14 @@
         {
             var services = new ServiceCollection();
 
+            #region Logger
+            // Logger
+            services.AddSingleton<ILogger>((s) =>
+            {
+                return new Logger();
+            });
+            #endregion
+
             // Main window
             services.AddSingleton((s) =>
             {
@@ -78,14 +87,14 @@
 
             #endregion
 
-            // Logger
-            services.AddSingleton<Logger>();
-
             // Exception
             services.AddSingleton<NaturalnieExceptionBase>();
 
             // Screen dialog box
-            services.AddTransient<DialogBoxService>();
+            services.AddTransient((s) =>
+            {
+                return new DialogBoxService(s.GetRequiredService<ILogger>());
+            });
 
 
             return services.BuildServiceProvider();
