@@ -1,13 +1,15 @@
 ﻿namespace NaturalnieApp2.Logger
 {
+    using NaturalnieApp2.Common.Disposable;
     using NaturalnieApp2.SharedInterfaces.Logger;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
 
-    public class Logger : ILogger
+    public class Logger : DisposableBase, ILogger
     {
         #region Fields
-        BlockingCollection<ILoggerEntry> entries = new();
+        object locker = new object();
+        readonly BlockingCollection<ILoggerEntry> entries = new();
         #endregion
 
         #region Public methods
@@ -50,6 +52,33 @@
         private void AddEntry(string message, LoggerEntryType entryType)
         {
             entries.Add(new LoggerEntry(message, entryType));
+
+        }
+        #endregion
+
+        #region Disposable
+        private bool _disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose managed state (managed objects).
+                    foreach(ILoggerEntry element in entries)
+                    {
+                        element.Dispose();
+                    }    
+                    entries.Dispose();
+                }
+
+                // Free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // Set large fields to null.
+                _disposedValue = true;
+            }
+
+            // Call the base class implementation.
+            base.Dispose(disposing);
         }
         #endregion
 

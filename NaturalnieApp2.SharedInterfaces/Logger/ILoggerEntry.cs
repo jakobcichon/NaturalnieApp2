@@ -8,5 +8,7 @@
         string Details { get; }
         LoggerEntryType EntryType { get; }
         DateTime DateTime { get; }
+
+        public void Dispose();
     }
 }

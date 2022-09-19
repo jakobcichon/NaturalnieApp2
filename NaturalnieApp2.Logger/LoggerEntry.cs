@@ -1,9 +1,10 @@
 ﻿namespace NaturalnieApp2.Logger
 {
+    using NaturalnieApp2.Common.Disposable;
     using NaturalnieApp2.SharedInterfaces.Logger;
     using System;
 
-    public class LoggerEntry : ILoggerEntry
+    public class LoggerEntry : DisposableBase, ILoggerEntry
     {
         #region Fields
         private object locker = new();
@@ -81,6 +82,27 @@
         #endregion
 
         #region Private methods
+        #endregion
+
+        #region Disposable
+        private bool _disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose managed state (managed objects).
+                }
+
+                // Free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // Set large fields to null.
+                _disposedValue = true;
+            }
+
+            // Call the base class implementation.
+            base.Dispose(disposing);
+        }
         #endregion
     }
 }
