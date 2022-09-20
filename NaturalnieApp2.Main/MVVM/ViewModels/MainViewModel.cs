@@ -19,6 +19,7 @@
             MenuBar = new MenuBarViewModel();
 
             LogoButtonPressed = new(OnLogoButtonPressed, null);
+            MenuCollapseButtoPressed = new(OnMenuCollapseButtonPressed);
 
             CreateMenuBarFromModel(MenuBarModel, MenuBar);
 
@@ -37,6 +38,7 @@
         public MenuBarModel? MenuBarModel { get; init; }
 
         public CommandBase LogoButtonPressed { get; init; }
+        public CommandBase MenuCollapseButtoPressed { get; init; }
 
         private IMenuScreen? defaultScreen;
 
@@ -64,6 +66,19 @@
                 OnPropertyChanged();
             }
         }
+
+        private bool isMenuCollapsed;
+
+        public bool IsMenuCollapsed
+        {
+            get { return isMenuCollapsed; }
+            set 
+            { 
+                isMenuCollapsed = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Public methods
@@ -96,6 +111,18 @@
             {
                 await ChangeActiveScreen(DefaultScreen);
             }
+
+        }
+
+        private void OnMenuCollapseButtonPressed(object? parameters)
+        {
+            if (IsMenuCollapsed)
+            {
+                IsMenuCollapsed = false;
+                return;
+            }
+
+            IsMenuCollapsed = true;
 
         }
 

@@ -7,8 +7,6 @@
     public class LoggerEntry : DisposableBase, ILoggerEntry
     {
         #region Fields
-        private object locker = new();
-
         private string message;
         private string details;
         private LoggerEntryType entryType;
@@ -18,13 +16,12 @@
 
         public LoggerEntry(string message, LoggerEntryType entryType, string? details = null)
         {
-            lock (locker)
-            {
-                this.message = message;
-                this.entryType = entryType;
-                this.dateTime = DateTime.Now;
-                this.details = details ?? string.Empty;
-            }
+
+            this.message = message;
+            this.entryType = entryType;
+            this.dateTime = DateTime.Now;
+            this.details = details ?? string.Empty;
+
         }
 
         #region Properties

@@ -33,6 +33,11 @@
             AddEntry(message, LoggerEntryType.Info);
         }
 
+        public void UiAction(string message)
+        {
+            AddEntry(message, LoggerEntryType.UiAction);
+        }
+
         public void UiAction(string uiElementName, string message)
         {
             AddEntry(message, LoggerEntryType.UiAction);
