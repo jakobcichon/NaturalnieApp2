@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:NaturalnieApp2.Main.MVVM.Views.ProductMenu"
              xmlns:views="clr-namespace:NaturalnieApp2.Main.MVVM.Views"
-             xmlns:sh_db="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox;assembly=NaturalnieApp2.SharedControls"
+             xmlns:sh_db="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox;assembly=NaturalnieApp2.SharedControls" 
+             xmlns:modelpresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter;assembly=NaturalnieApp2.SharedControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -32,14 +33,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <ListView>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Test"/>
-                        <GridViewColumn Header="Test2"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <modelpresenter:ModelPresenterView DataContext="{Binding ModelPresenter}"/>
 
             <StackPanel Grid.Column="1"/>
         </Grid>

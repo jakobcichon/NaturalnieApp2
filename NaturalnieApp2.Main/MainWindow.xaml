@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         xmlns:menubuttons="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.Menu;assembly=NaturalnieApp2.SharedControls"
+        xmlns:animations_grid="clr-namespace:NaturalnieApp2.SharedControls.Animations.Grid;assembly=NaturalnieApp2.SharedControls"
         >
     <Window.Resources>
         <ResourceDictionary>
@@ -55,30 +56,18 @@
                         <DataTrigger.EnterActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Duration="0">
-                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                            <DiscreteObjectKeyFrame.Value>
-                                                <GridLength >
-                                                    20
-                                                </GridLength>
-                                            </DiscreteObjectKeyFrame.Value>
-                                        </DiscreteObjectKeyFrame>
-                                    </ObjectAnimationUsingKeyFrames>
+                                    <animations_grid:GridLengthAnimation Storyboard.TargetProperty="Width" 
+                                                                         From="290" To="30" 
+                                                                         Duration="0:0:0.25"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </DataTrigger.EnterActions>
                         <DataTrigger.ExitActions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Width" Duration="0">
-                                        <DiscreteObjectKeyFrame KeyTime="0">
-                                            <DiscreteObjectKeyFrame.Value>
-                                                <GridLength >
-                                                    290
-                                                </GridLength>
-                                            </DiscreteObjectKeyFrame.Value>
-                                        </DiscreteObjectKeyFrame>
-                                    </ObjectAnimationUsingKeyFrames>
+                                    <animations_grid:GridLengthAnimation Storyboard.TargetProperty="Width" 
+                                                                         From="30" To="290" 
+                                                                         Duration="0:0:0.25"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </DataTrigger.ExitActions>

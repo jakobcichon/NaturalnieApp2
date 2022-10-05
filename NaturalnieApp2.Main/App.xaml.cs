@@ -6,17 +6,24 @@
     using NaturalnieApp2.Main.MVVM.Models.MenuGeneral;
     using NaturalnieApp2.Main.MVVM.ViewModels;
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
+    using NaturalnieApp2.Main.Sandbox;
+    using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
+    using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
     using NaturalnieApp2.SharedControls.Services.DialogBoxService;
+    using NaturalnieApp2.SharedControls.Services.ModelPresenter;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using NaturalnieApp2.SharedInterfaces.Logger;
     using System;
     using System.Threading.Tasks;
     using System.Windows;
-
+   
     public partial class App : Application
     {
         public App()
         {
+            Sandbox1 sandbox = new();
+            sandbox.Play();
+
             Services = ConfigureServices();
 
         }
@@ -82,9 +89,23 @@
             {
                 ShowProductViewModel showProductViewModel = new();
                 showProductViewModel.DialogBox = s.GetService<DialogBoxService>();
+                showProductViewModel.ModelToPropertyPresenterConverter = s.GetRequiredService<IModelToPropertyPresenterConverter>();
+
                 return showProductViewModel;
             });
 
+            #endregion
+
+            #region Model converter services
+            services.AddTransient<PropertyPresenterTextBoxViewModel>();
+
+            services.AddTransient<IModelToPropertyPresenterConverter>((s) =>
+            {
+                return new ModelToPropertyPresenterConverter 
+                { 
+                    DefaultPropertyPresenter = s.GetRequiredService<PropertyPresenterTextBoxViewModel>() 
+                };
+            });
             #endregion
 
             // Exception
