@@ -10,9 +10,9 @@
 
     public interface IModelToPropertyPresenterConverter
     {
-        void AddPresenterForPropertyType(Type propType, IPropertyPresenter propertyPresenter);
-        void AddPresenterForPropertyName(string propertyName, IPropertyPresenter propertyPresenter);
+        void AddPresenterForPropertyType(Type propType, IPropertyPresenterDataField propertyPresenter);
+        void AddPresenterForPropertyName(string propertyName, IPropertyPresenterDataField propertyPresenter);
         IEnumerable<IPropertyPresenter> GetPropertyPresenterForModel(IModel model);
-        IPropertyPresenter? GetPropertyPresenter(PropertyInfo propertyInfo);
+        IPropertyPresenter? GetPropertyPresenter(PropertyInfo propertyInfo, IModel model);
     }
 }

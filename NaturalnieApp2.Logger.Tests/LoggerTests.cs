@@ -1,9 +1,5 @@
 namespace NaturalnieApp2.Logger.Tests
 {
-    using NaturalnieApp2.SharedInterfaces.DialogBox;
-    using System.CodeDom;
-    using System.Runtime.CompilerServices;
-
     public class Tests
     {
         Logger logger;

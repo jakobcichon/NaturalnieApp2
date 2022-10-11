@@ -2,8 +2,22 @@
 {
     public record DummyProductModel : DisplayableModelBase
     {
-        public string Name { get; set; }
+        private string name;
+
+        public string Name
+        {
+            get 
+            { 
+                return name; 
+            }
+            set 
+            { 
+                name = value; 
+            }
+        }
         public int Price { get; set; }
+
+        public double Margin { get; set; }
 
     }
 }

@@ -97,14 +97,9 @@
             #endregion
 
             #region Model converter services
-            services.AddTransient<PropertyPresenterTextBoxViewModel>();
-
             services.AddTransient<IModelToPropertyPresenterConverter>((s) =>
             {
-                return new ModelToPropertyPresenterConverter 
-                { 
-                    DefaultPropertyPresenter = s.GetRequiredService<PropertyPresenterTextBoxViewModel>() 
-                };
+               return new ModelToPropertyPresenterConverter();
             });
             #endregion
 

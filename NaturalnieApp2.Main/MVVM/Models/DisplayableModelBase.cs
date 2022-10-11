@@ -7,6 +7,12 @@
     {
         public event EventHandler? ModelUpdated;
 
+        public object? GetValue(string propertyName)
+        {
+            var test = this.GetType().UnderlyingSystemType?.GetProperty(propertyName)?.GetValue(this);
+            return test;
+        }
+
         public void OnModelUpdated()
         {
             ModelUpdated?.Invoke(this, EventArgs.Empty);

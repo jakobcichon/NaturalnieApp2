@@ -12,6 +12,7 @@
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using System.Windows.Media.TextFormatting;
 
     internal class ShowProductViewModel : BaseViewModel, IMenuScreen
     {
@@ -19,7 +20,7 @@
         public override string ScreenInfo => "Informacje o produkcie";
         public ModelPresenterViewModel ModelPresenter { get; init; }
 
-        private IModel model;
+        private DummyProductModel model;
 
         private IModelToPropertyPresenterConverter? modelToPropertyPresenterConverter;
         public IModelToPropertyPresenterConverter? ModelToPropertyPresenterConverter 
@@ -39,6 +40,7 @@
         public ShowProductViewModel()
         {
             this.model = new DummyProductModel();
+            this.model.Price = 20;
             ModelPresenter = new ModelPresenterViewModel();
         }
 

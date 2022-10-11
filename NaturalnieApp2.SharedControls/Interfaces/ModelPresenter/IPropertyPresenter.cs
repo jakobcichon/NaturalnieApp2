@@ -2,7 +2,7 @@
 {
     public interface IPropertyPresenter
     {
-        public string? DisplayText { get; set; }
-        public object? DisplayValue { get; set; }
+        public string? HeaderText { get; set; }
+        public IPropertyPresenterDataField? PropertyPresenterDataField { get; set; }
     }
 }

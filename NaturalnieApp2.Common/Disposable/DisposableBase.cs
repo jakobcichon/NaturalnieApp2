@@ -35,5 +35,32 @@
                 _disposedValue = true;
             }
         }
+
+
+        //#region Disposable
+        //private bool _disposedValue;
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (!_disposedValue)
+        //    {
+        //        if (disposing)
+        //        {
+        //            // Dispose managed state (managed objects).
+        //            foreach (ILoggerEntry element in entries)
+        //            {
+        //                element.Dispose();
+        //            }
+        //            entries.Dispose();
+        //        }
+
+        //        // Free unmanaged resources (unmanaged objects) and override a finalizer below.
+        //        // Set large fields to null.
+        //        _disposedValue = true;
+        //    }
+
+        //    // Call the base class implementation.
+        //    base.Dispose(disposing);
+        //}
+        //#endregion
     }
 }

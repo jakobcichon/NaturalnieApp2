@@ -39,6 +39,10 @@
         <v_modelPresenter:PropertyPresenterBaseView/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm_modelPresenter:PropertyPresenterBaseViewModel}">
+        <v_modelPresenter:PropertyPresenterBaseView/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type vm_modelPresenter:PropertyPresenterTextBoxViewModel}">
         <v_modelPresenter:PropertyPresenterTextBoxView/>
     </DataTemplate>

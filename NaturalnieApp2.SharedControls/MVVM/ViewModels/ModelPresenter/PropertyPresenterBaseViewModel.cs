@@ -6,28 +6,28 @@
     public class PropertyPresenterBaseViewModel : BaseViewModel, IPropertyPresenter
     {
         #region Fields
-        private string? displayText;
-        private object? displayValue;
+        private string? headerText;
+        private IPropertyPresenterDataField? propertyPresenterDataField;
         #endregion
 
         #region Properties
 
-        public string? DisplayText
+        public string? HeaderText
         {
-            get { return displayText; }
+            get { return headerText; }
             set
             {
-                displayText = value;
+                headerText = value;
                 OnPropertyChanged();
             }
         }
 
-        public virtual object? DisplayValue
+        public IPropertyPresenterDataField? PropertyPresenterDataField
         {
-            get { return displayValue; }
+            get { return propertyPresenterDataField; }
             set
             {
-                displayValue = value;
+                propertyPresenterDataField = value;
                 OnPropertyChanged();
             }
         }
