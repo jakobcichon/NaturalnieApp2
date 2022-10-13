@@ -4,6 +4,7 @@
 
     public interface IPropertyPresenterDataField
     {
+        public bool HasError { get; set; }
         public ProxyPropertyService ProxyProperty { get; init; }
         public object? DisplayableValue {get; set;}
     }
