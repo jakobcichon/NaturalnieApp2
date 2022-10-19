@@ -18,18 +18,5 @@
                 ProxyProperty?.SetValue(value);
 			}
 		}
-
-		public bool HasError
-		{
-			get
-			{
-				throw new System.NotImplementedException();
-			}
-
-			set
-			{
-				throw new System.NotImplementedException();
-			}
-		}
 	}
 }

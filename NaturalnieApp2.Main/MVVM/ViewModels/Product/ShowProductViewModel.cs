@@ -5,7 +5,6 @@
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
-    using NaturalnieApp2.SharedInterfaces.Models;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -74,7 +73,7 @@
         #region Private methods
         private async Task LoadOperation()
         {
-            IModel model = new DummyProductModel();
+            object model = new DummyProductModel();
 
             await Task.CompletedTask;
         }

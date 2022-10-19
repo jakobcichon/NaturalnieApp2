@@ -218,7 +218,7 @@
                 retList.Add(new()
                 {
                     PropertyName = propertyInfo.Name,
-                    PropertyOwnerObject = model
+                    PropertyContext = model
                 });
             }
 

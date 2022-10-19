@@ -10,6 +10,11 @@
     public class DisplayableModel
     {
         [AttributeUsage(AttributeTargets.Property)]
+        public sealed class CanBeDisplayed : Attribute
+        {
+        }
+
+        [AttributeUsage(AttributeTargets.Property)]
         public sealed class NameToBeDisplayed : Attribute
         {
             public string Name { get; init; }

@@ -1,7 +1,6 @@
 ﻿namespace NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter
 {
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
-    using NaturalnieApp2.SharedInterfaces.Models;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
 

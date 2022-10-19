@@ -6,19 +6,11 @@
     public class PropertyPresenterBaseViewModel : BaseViewModel, IPropertyPresenter
     {
         #region Fields
-        private bool hasError;
         private string? headerText;
         private IPropertyPresenterDataField? propertyPresenterDataField;
         #endregion
 
         #region Properties
-        public bool HasError
-        {
-            get { return hasError; }
-            set { hasError = value; }
-        }
-
-
         public string? HeaderText
         {
             get { return headerText; }

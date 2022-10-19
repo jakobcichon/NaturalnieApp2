@@ -7,18 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="20" d:DesignWidth="100">
     <Grid>
-        <TextBox Text="{Binding DisplayableValue, 
-            NotifyOnValidationError=True, 
-            ValidatesOnExceptions=True}" >
-            <TextBox.Style>
-                <Style>
-                    <Style.Triggers>
-                        <Trigger Property="Validation.HasError" Value="True">
-                            <Setter {Bin
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </TextBox.Style>
+
+        <TextBox Text="{Binding DisplayableValue, ValidatesOnDataErrors=True}" >
+            
         </TextBox>
     </Grid>
 </UserControl>

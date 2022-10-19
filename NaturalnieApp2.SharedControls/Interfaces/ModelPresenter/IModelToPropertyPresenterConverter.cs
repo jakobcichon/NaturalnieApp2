@@ -1,6 +1,5 @@
 ﻿namespace NaturalnieApp2.SharedControls.Interfaces.ModelPresenter
 {
-    using NaturalnieApp2.SharedInterfaces.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,7 +11,7 @@
     {
         void AddPresenterForPropertyType(Type propType, IPropertyPresenterDataField propertyPresenter);
         void AddPresenterForPropertyName(string propertyName, IPropertyPresenterDataField propertyPresenter);
-        IEnumerable<IPropertyPresenter> GetPropertyPresenterForModel(IModel model);
-        IPropertyPresenter? GetPropertyPresenter(PropertyInfo propertyInfo, IModel model);
+        IEnumerable<IPropertyPresenter> GetPropertyPresenterForModel(object model);
+        IPropertyPresenter? GetPropertyPresenter(PropertyInfo propertyInfo, object model);
     }
 }
