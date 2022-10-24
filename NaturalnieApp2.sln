@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# Blend for Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Main", "NaturalnieApp2.Main\NaturalnieApp2.Main.csproj", "{C507CB6F-B71A-4CF5-9B1C-14A103C5B2FB}"
@@ -17,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Common", "Na
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Logger.Tests", "NaturalnieApp2.Logger.Tests\NaturalnieApp2.Logger.Tests.csproj", "{91F1A4D6-408C-42CE-8011-E580E49C44A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalnieApp2.Common.Tests", "NaturalnieApp2.Common.Tests\NaturalnieApp2.Common.Tests.csproj", "{FFAAFCAB-C838-4F31-8B42-65A42A084C94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Common.Tests", "NaturalnieApp2.Common.Tests\NaturalnieApp2.Common.Tests.csproj", "{FFAAFCAB-C838-4F31-8B42-65A42A084C94}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

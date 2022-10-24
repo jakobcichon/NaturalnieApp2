@@ -23,12 +23,16 @@
             set { SetProperty(ref name, value); }
         }
 
+        [CanBeDisplayed]
+        [Range(0, double.MaxValue)]
+        [DisplayFormat(DataFormatString = "{0:0.00}")]
         public double Price
         {
             get { return price; }
             set { SetProperty(ref price, value); }
         }
 
+        [CanBeDisplayed]
         public int Tax
         {
             get { return tax; }

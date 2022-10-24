@@ -36,8 +36,8 @@
         protected override void SetProperty<T>(ref T member, T val,
             [CallerMemberName] string? propertyName = null)
         {
-            base.SetProperty<T>(ref member, val, propertyName);
             ValidateProperty(propertyName, val);
+            base.SetProperty<T>(ref member, val, propertyName);
         }
 
         private void ValidateProperty<T>(string? propertyName, T value)

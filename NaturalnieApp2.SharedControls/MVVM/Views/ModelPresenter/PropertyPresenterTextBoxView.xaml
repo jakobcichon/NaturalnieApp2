@@ -3,13 +3,50 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter"
+             xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter" xmlns:textbox="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.TextBox"
              mc:Ignorable="d" 
              d:DesignHeight="20" d:DesignWidth="100">
-    <Grid>
 
-        <TextBox Text="{Binding DisplayableValue, ValidatesOnDataErrors=True}" >
-            
-        </TextBox>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="auto"/>
+        </Grid.ColumnDefinitions>
+
+        <textbox:MaskedTextBox x:Name="InputField"
+                               Margin="2"
+                 Text="{Binding ProxyProperty.PropertyValue, 
+            ValidatesOnDataErrors=True}"
+                               MaskPattern="{Binding CustomMask}">
+            <Validation.ErrorTemplate>
+                <ControlTemplate/>
+            </Validation.ErrorTemplate>
+        </textbox:MaskedTextBox>
+
+        <Image x:Name="ValidationErrorIndicator" 
+                   Source="{StaticResource ErrorIconImage}"
+                   Grid.Column="1"
+                   Grid.Row="2" 
+                   Height="30"
+                   Width="30"
+                   VerticalAlignment="Stretch" 
+                   HorizontalAlignment="Stretch" 
+                   Stretch="Uniform" 
+                   Margin="1"
+                   >
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding (Validation.HasError), ElementName=InputField}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="ToolTip"
+                                    Value="{Binding (Validation.Errors)/ErrorContent, RelativeSource={x:Static RelativeSource.Self}}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+
+        </Image>
     </Grid>
 </UserControl>

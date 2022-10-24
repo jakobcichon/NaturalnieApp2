@@ -1,0 +1,13 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:textBox="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.TextBox">
+
+
+    <Style TargetType="{x:Type textBox:MaskedTextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Style.Setters>
+            <Setter Property="BorderBrush" Value="{x:Null}"/>
+        </Style.Setters>
+    </Style>
+    
+</ResourceDictionary>

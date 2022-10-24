@@ -5,17 +5,21 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.ComponentModel;
+    using System.ComponentModel.DataAnnotations;
+    using System.Globalization;
+    using System.Linq;
     using System.Reflection;
     using System.Windows.Documents;
+    using System.Windows.Input;
 
     public class ProxyPropertyService: DisposableBase, INotifyPropertyChanged, INotifyDataErrorInfo
     {
-        #region Fields
+        #region Fieldsc
+        private const string defaultFormat = "{0}";
         private object? propertyContext;
         private string? propertyName;
         private PropertyInfo? propertyInfo;
         private INotifyDataErrorInfo validatableContext;
-        private bool hasErrors;
         #endregion
 
         #region Properties
@@ -26,6 +30,12 @@
                 return validatableContext?.HasErrors ?? false;
             }
         }
+        public object? PropertyValue
+        {
+            get { return GetValue(); }
+            set { SetValue(value); }
+        }
+
 
         public object? PropertyContext
         {
@@ -48,6 +58,16 @@
                 UpdatePropertyInfo();
             }
         }
+
+        public Type? PropertyType
+        {
+            get
+            {
+                return propertyInfo?.PropertyType;
+            }
+        }
+
+        public object? LastValidValue { get; set; }
         #endregion
 
         #region Events
@@ -61,17 +81,20 @@
             return validatableContext?.GetErrors(this.propertyName) ?? new List<string>();
         }
 
-        public object? GetValue()
+        public string? GetValue()
         {
             if (PropertyName == null)
             {
                 return default;
             }
 
-            return propertyInfo?.GetValue(PropertyContext);
+            string? propertyValueAsString = propertyInfo?.GetValue(PropertyContext)?.ToString();
+            string format = GetDisplayFormatString();
+            string? propertyValueAsStringFormated = string.Format(format, propertyValueAsString);
+            return propertyValueAsStringFormated;
         }
 
-        public void SetValue(object value)
+        public void SetValue(object? value)
         {
             if (PropertyName == null || propertyInfo == null)
             {
@@ -82,9 +105,23 @@
 
             if (value is IConvertible && propertyInfo != null)
             {
-                localObject = (value as IConvertible)!.ToType(propertyInfo.PropertyType, null);
+                try
+                {
+                    localObject = (value as IConvertible)!.ToType(propertyInfo.PropertyType, CultureInfo.InvariantCulture);
+                }
+                catch (FormatException)
+                {
+                    localObject = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
+                }
+
             }
+
             propertyInfo?.SetValue(PropertyContext, localObject);
+
+            if(!this.HasErrors)
+            {
+                LastValidValue = localObject;
+            }
         }
         #endregion
 
@@ -124,6 +161,18 @@
         private void ValidatableContext_ErrorsChanged(object? sender, DataErrorsChangedEventArgs e)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(PropertyName));
+        }
+
+        private string GetDisplayFormatString()
+        {
+            DisplayFormatAttribute? attribute = propertyInfo?.GetCustomAttribute<DisplayFormatAttribute>();
+
+            if (attribute != null)
+            {
+                return attribute.DataFormatString ?? defaultFormat;
+            }
+
+            return defaultFormat;
         }
         #endregion
 

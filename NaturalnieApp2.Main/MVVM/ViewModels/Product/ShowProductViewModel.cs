@@ -41,6 +41,12 @@
             this.model = new DummyProductModel();
             this.model.Price = 20;
             ModelPresenter = new ModelPresenterViewModel();
+
+            double testVal = 20;
+            string testString;
+
+            testString = string.Format("{0:f2}", "20.");
+            ;
         }
 
         private void OnPropertyPresenterConverterChange()
