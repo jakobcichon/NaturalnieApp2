@@ -6,7 +6,7 @@
 	using System;
 	using System.Windows.Input;
 
-	public class PropertyPresenterTextBoxViewModel : BaseViewModel, IPropertyPresenterDataField
+	public class PropertyPresenterTextBoxViewModel : BaseViewModel, IPropertyPresenterInputField
     {
 		public ProxyPropertyService ProxyProperty { get; init; }
 

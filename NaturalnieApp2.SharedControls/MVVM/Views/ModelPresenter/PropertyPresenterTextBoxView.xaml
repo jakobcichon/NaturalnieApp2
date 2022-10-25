@@ -21,6 +21,10 @@
             <Validation.ErrorTemplate>
                 <ControlTemplate/>
             </Validation.ErrorTemplate>
+            <textbox:MaskedTextBox.ToolTip>
+                <ToolTip MaxWidth="200" 
+                         Content="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=Text}"/>
+            </textbox:MaskedTextBox.ToolTip>
         </textbox:MaskedTextBox>
 
         <Image x:Name="ValidationErrorIndicator" 
@@ -41,7 +45,7 @@
                         <DataTrigger Binding="{Binding (Validation.HasError), ElementName=InputField}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>
                             <Setter Property="ToolTip"
-                                    Value="{Binding (Validation.Errors)/ErrorContent, RelativeSource={x:Static RelativeSource.Self}}"/>
+                                    Value="{Binding (Validation.Errors)/ErrorContent, ElementName=InputField}"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>

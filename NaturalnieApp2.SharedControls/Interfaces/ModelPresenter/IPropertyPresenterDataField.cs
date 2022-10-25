@@ -5,6 +5,5 @@
     public interface IPropertyPresenterDataField
     {
         public ProxyPropertyService ProxyProperty { get; init; }
-        public string? CustomMask { get;}
     }
 }

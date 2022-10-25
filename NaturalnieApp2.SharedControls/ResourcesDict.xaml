@@ -47,6 +47,10 @@
         <v_modelPresenter:PropertyPresenterTextBoxView/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type vm_modelPresenter:PropertyPresenterListViewModel}">
+        <v_modelPresenter:PropertyPresenterListView/>
+    </DataTemplate>
+
     <Style x:Key="DialogBoxBackgroundStyle" TargetType="Border">
         <Setter Property="Background" Value="#7F000000"/>
     </Style>

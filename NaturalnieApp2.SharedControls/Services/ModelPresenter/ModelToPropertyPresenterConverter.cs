@@ -13,14 +13,23 @@
     public class ModelToPropertyPresenterConverter : IModelToPropertyPresenterConverter
     {
 
-        private Dictionary<Type, IPropertyPresenterDataField> propertyPresenterForPropTypeDict = new();
+        private Dictionary<Type, Func<string, object, IPropertyPresenterDataField>> propertyPresenterForPropTypeDict = new();
         private Dictionary<string, IPropertyPresenterDataField> propertyPresenterForPropNameDict = new();
 
         public void AddPresenterForPropertyType(Type propType, IPropertyPresenterDataField propertyPresenter)
         {
             if (!propertyPresenterForPropTypeDict.Any(e => e.Key == propType))
             {
-                propertyPresenterForPropTypeDict.Add(propType, propertyPresenter);
+                propertyPresenterForPropTypeDict.Add(propType, (name, context) =>
+                { return propertyPresenter; });
+            }
+        }
+
+        public void AddPresenterForPropertyType(Type propType, Func<string, object, IPropertyPresenterDataField> func)
+        {
+            if (!propertyPresenterForPropTypeDict.Any(e => e.Key == propType))
+            {
+                propertyPresenterForPropTypeDict.Add(propType, func);
             }
         }
 
@@ -66,7 +75,13 @@
             // First serched by type
             if (!result)
             {
-                result = this.propertyPresenterForPropTypeDict.TryGetValue(propertyInfo.PropertyType, out propertyPresenterDataField);
+                Func<string, object, IPropertyPresenterDataField>? func;
+                result = this.propertyPresenterForPropTypeDict.TryGetValue(propertyInfo.PropertyType, out func);
+
+                if(result && func != null)
+                {
+                    propertyPresenterDataField = func.Invoke(propertyInfo.Name, model);
+                }
             }
 
             // Last - get default

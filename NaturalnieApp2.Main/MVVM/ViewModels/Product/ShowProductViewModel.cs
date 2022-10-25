@@ -4,6 +4,7 @@
     using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
+    using NaturalnieApp2.SharedControls.Services.ModelPresenter;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
@@ -51,6 +52,16 @@
 
         private void OnPropertyPresenterConverterChange()
         {
+            ModelToPropertyPresenterConverter?.AddPresenterForPropertyType(typeof(TestEnum), (name, context) =>
+            {
+                PropertyPresenterListViewModel model = new() { ProxyProperty = new() { PropertyContext = context, PropertyName = name } };
+
+                foreach (string? element in Enum.GetNames(typeof(TestEnum)).ToList())
+                {
+                    model.HintList.Add(element);
+                }
+                return model;
+            });
             IEnumerable<IPropertyPresenter>? propPresenter = ModelToPropertyPresenterConverter?.GetPropertyPresenterForModel(model);
 
             if (propPresenter == null)

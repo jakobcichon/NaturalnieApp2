@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.Models.Product
 {
+    using NaturalnieApp2.Common.Attributes.ValidationRules;
     using NaturalnieApp2.Common.Binding;
     using System;
     using System.Collections;
@@ -8,14 +9,23 @@
     using System.Configuration;
     using static NaturalnieApp2.Common.Attributes.DisplayableModel.DisplayableModel;
 
+    public enum TestEnum
+    {
+        Test,
+        kwiatek,
+        Dziewczyna
+
+    }
+
     public record DummyProductModel: ValidatableBindableRecordBase
     {
         private string name;
         private double price;
         private int tax;
+        private TestEnum options;
 
         [RegexStringValidator("*")]
-        [StringLength(5)]
+        [StringLengthCustom(5)]
         [CanBeDisplayed]
         public string Name
         {
@@ -25,7 +35,6 @@
 
         [CanBeDisplayed]
         [Range(0, double.MaxValue)]
-        [DisplayFormat(DataFormatString = "{0:0.00}")]
         public double Price
         {
             get { return price; }
@@ -37,6 +46,13 @@
         {
             get { return tax; }
             set { SetProperty(ref tax, value); }
+        }
+
+        [CanBeDisplayed]
+        public TestEnum Options
+        {
+            get { return options; }
+            set { SetProperty(ref options, value); }
         }
 
     }
