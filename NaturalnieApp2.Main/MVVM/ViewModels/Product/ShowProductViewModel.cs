@@ -18,61 +18,15 @@
     {
         #region Properties
         public override string ScreenInfo => "Informacje o produkcie";
-        public ModelPresenterViewModel ModelPresenter { get; init; }
+        public IModelPresenter ModelPresenter { get; init; }
 
         private DummyProductModel model;
-
-        private IModelToPropertyPresenterConverter? modelToPropertyPresenterConverter;
-        public IModelToPropertyPresenterConverter? ModelToPropertyPresenterConverter 
-        {
-            get
-            {
-                return modelToPropertyPresenterConverter;
-            }
-            set
-            {
-                modelToPropertyPresenterConverter = value;
-                OnPropertyPresenterConverterChange();
-            }
-        }
         #endregion
 
         public ShowProductViewModel()
         {
             this.model = new DummyProductModel();
             this.model.Price = 20;
-            ModelPresenter = new ModelPresenterViewModel();
-
-            double testVal = 20;
-            string testString;
-
-            testString = string.Format("{0:f2}", "20.");
-            ;
-        }
-
-        private void OnPropertyPresenterConverterChange()
-        {
-            ModelToPropertyPresenterConverter?.AddPresenterForPropertyType(typeof(TestEnum), (name, context) =>
-            {
-                PropertyPresenterListViewModel model = new() { ProxyProperty = new() { PropertyContext = context, PropertyName = name } };
-
-                foreach (string? element in Enum.GetNames(typeof(TestEnum)).ToList())
-                {
-                    model.HintList.Add(element);
-                }
-                return model;
-            });
-            IEnumerable<IPropertyPresenter>? propPresenter = ModelToPropertyPresenterConverter?.GetPropertyPresenterForModel(model);
-
-            if (propPresenter == null)
-            {
-                return;
-            }
-
-            foreach (var propP in propPresenter)
-            {
-                ModelPresenter.DisplayableProperties.Add(propP);
-            }
         }
 
         #region Public methods
@@ -91,8 +45,15 @@
         private async Task LoadOperation()
         {
             object model = new DummyProductModel();
+            
+            await CreateModelPresenter();
 
             await Task.CompletedTask;
+        }
+
+        private async Task CreateModelPresenter()
+        {
+            await ModelPresenter.CreateFromModel(model);
         }
         #endregion
     }

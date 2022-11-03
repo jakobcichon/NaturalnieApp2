@@ -9,8 +9,8 @@
 
     public interface IModelToPropertyPresenterConverter
     {
-        void AddPresenterForPropertyType(Type propType, IPropertyPresenterDataField propertyPresenter);
-        void AddPresenterForPropertyType(Type propType, Func<string, object, IPropertyPresenterDataField> func);
+        void AddPresenterForPropertyType<T>(IPropertyPresenterDataField propertyPresenter);
+        void AddPresenterForPropertyType<T>(Func<string, object, IPropertyPresenterDataField> func);
         void AddPresenterForPropertyName(string propertyName, IPropertyPresenterDataField propertyPresenter);
         IEnumerable<IPropertyPresenter> GetPropertyPresenterForModel(object model);
         IPropertyPresenter? GetPropertyPresenter(PropertyInfo propertyInfo, object model);

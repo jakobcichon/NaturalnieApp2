@@ -1,7 +1,9 @@
 ﻿namespace NaturalnieApp2.Common.Attributes.ValidationRules
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
 
+    [AttributeUsage(AttributeTargets.Property)]
     public sealed class StringLengthCustomAttribute: StringLengthAttribute
     {
         public int ActualLength { get; set; }

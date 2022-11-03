@@ -4,6 +4,7 @@
     using NaturalnieApp2.Logger;
     using NaturalnieApp2.Main.Exceptions;
     using NaturalnieApp2.Main.MVVM.Models.MenuGeneral;
+    using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.Main.MVVM.ViewModels;
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
     using NaturalnieApp2.Main.Sandbox;
@@ -14,9 +15,12 @@
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using NaturalnieApp2.SharedInterfaces.Logger;
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
-   
+
+    using static NaturalnieApp2.Main.Services.ModelServices.NaturalnieAppPropertyPresenterService;
+
     public partial class App : Application
     {
         public App()
@@ -87,9 +91,11 @@
             // Product screen
             services.AddSingleton((s) =>
             {
-                ShowProductViewModel showProductViewModel = new();
-                showProductViewModel.DialogBox = s.GetService<DialogBoxService>();
-                showProductViewModel.ModelToPropertyPresenterConverter = s.GetRequiredService<IModelToPropertyPresenterConverter>();
+                ShowProductViewModel showProductViewModel = new()
+                {
+                    DialogBox = s.GetService<DialogBoxService>(),
+                    ModelPresenter = s.GetService<IModelPresenter>()
+                };
 
                 return showProductViewModel;
             });
@@ -99,7 +105,18 @@
             #region Model converter services
             services.AddTransient<IModelToPropertyPresenterConverter>((s) =>
             {
-               return new ModelToPropertyPresenterConverter();
+                ModelToPropertyPresenterConverter converter = new();
+                ConfigureConverter(converter);
+                return converter;
+
+            });
+
+            services.AddTransient<IModelPresenter>((s) =>
+            {
+                return new ModelPresenterViewModel()
+                {
+                    ModelToPropertyPresenterConverter = s.GetService<IModelToPropertyPresenterConverter>()
+                };
             });
             #endregion
 

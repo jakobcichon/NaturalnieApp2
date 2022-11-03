@@ -15,10 +15,7 @@
         {
             get
             {
-                if(hintList == null)
-                {
-                    return new();
-                }
+                hintList ??= new();
 
                 return hintList;
             }

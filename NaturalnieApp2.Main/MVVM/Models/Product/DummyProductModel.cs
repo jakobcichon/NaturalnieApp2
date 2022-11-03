@@ -1,13 +1,10 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.Models.Product
 {
+    using NaturalnieApp2.Common.Attributes.DisplayableModel;
     using NaturalnieApp2.Common.Attributes.ValidationRules;
     using NaturalnieApp2.Common.Binding;
-    using System;
     using System.Collections;
-    using System.ComponentModel;
-    using System.ComponentModel.DataAnnotations;
-    using System.Configuration;
-    using static NaturalnieApp2.Common.Attributes.DisplayableModel.DisplayableModel;
+    using System.Runtime.CompilerServices;
 
     public enum TestEnum
     {
@@ -22,9 +19,10 @@
         private string name;
         private double price;
         private int tax;
+        private IList taxValuesProvider;
         private TestEnum options;
 
-        [RegexStringValidator("*")]
+        [RegexStringValidatorCustom(@"\d")]
         [StringLengthCustom(5)]
         [CanBeDisplayed]
         public string Name
@@ -34,7 +32,7 @@
         }
 
         [CanBeDisplayed]
-        [Range(0, double.MaxValue)]
+        [RangeCustom(2, 5.13)]
         public double Price
         {
             get { return price; }
@@ -42,10 +40,17 @@
         }
 
         [CanBeDisplayed]
+        [HasAdmissibleList("TaxValuesProvider")]
         public int Tax
         {
             get { return tax; }
             set { SetProperty(ref tax, value); }
+        }
+
+        public IList TaxValuesProvider
+        {
+            get { return taxValuesProvider; }
+            set { SetProperty(ref taxValuesProvider, value); }
         }
 
         [CanBeDisplayed]

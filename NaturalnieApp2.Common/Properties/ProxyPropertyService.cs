@@ -22,6 +22,12 @@
         private INotifyDataErrorInfo validatableContext;
         #endregion
 
+        public ProxyPropertyService(object propertyContext, string propertyName)
+        {
+            PropertyContext = propertyContext;
+            PropertyName = propertyName;
+        }
+
         #region Properties
         public bool HasErrors
         {
@@ -101,7 +107,38 @@
                 return;
             }
 
+            object? localObject = ConvertValue(value);
+
+            propertyInfo?.SetValue(PropertyContext, localObject);
+
+            if(!this.HasErrors)
+            {
+                LastValidValue = localObject;
+            }
+        }
+        #endregion
+
+        #region Private methods
+        private object? ConvertValue(object? value)
+        {
+            if(propertyInfo == null || value == null)
+            {
+                return null;
+            }
+
             object? localObject = value;
+
+            if (propertyInfo.PropertyType.IsSubclassOf(typeof(Enum)))
+            {
+                string? stringLocalValue = localObject?.ToString();
+
+                if(stringLocalValue != null)
+                {
+
+                    return Enum.Parse(propertyInfo.PropertyType, stringLocalValue);
+                }
+
+            }
 
             if (value is IConvertible && propertyInfo != null)
             {
@@ -114,18 +151,13 @@
                     localObject = propertyInfo.PropertyType.IsValueType ? Activator.CreateInstance(propertyInfo.PropertyType) : null;
                 }
 
+                return localObject;
+
             }
 
-            propertyInfo?.SetValue(PropertyContext, localObject);
-
-            if(!this.HasErrors)
-            {
-                LastValidValue = localObject;
-            }
+            return localObject;
         }
-        #endregion
 
-        #region Private methods
         private void OnPropertyObjectChange()
         {
             Type? changeInterface = PropertyContext?.GetType().GetInterface("INotifyPropertyChanged");
