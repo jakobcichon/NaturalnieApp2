@@ -45,7 +45,7 @@
                             </BeginStoryboard>
                         </DataTrigger.ExitActions>
                     </DataTrigger>
-                    
+
                 </Style.Triggers>
             </Style>
 
@@ -84,7 +84,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
-        
+
         <!--Menu bar, collapse button and menu screen-->
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -143,15 +143,17 @@
 
                 <!--Menu screen info bar-->
                 <TextBox Text="{Binding SelectedScreen.ScreenInfo, Mode=OneWay}" 
-                     Height="30"
-                     HorizontalAlignment="Stretch" 
-                     HorizontalContentAlignment="Center" 
-                     VerticalContentAlignment="Center"
-                     Visibility="{Binding SelectedScreen.ShowScreenInfo, 
+                         Height="30"
+                         IsReadOnly="True"
+                         HorizontalAlignment="Stretch" 
+                         HorizontalContentAlignment="Center" 
+                         VerticalContentAlignment="Center"
+                         BorderBrush="{x:Null}"
+                         Visibility="{Binding SelectedScreen.ShowScreenInfo, 
                 Converter={StaticResource BoolToVisibilityConverter}}">
                     <TextBox.Background>
                         <SolidColorBrush Color="{StaticResource 
-                        DarkBackgorundColor}"/>
+                        DarkBackgorundColor}" Opacity=".5"/>
                     </TextBox.Background>
                 </TextBox>
 
@@ -161,7 +163,7 @@
 
         </Grid>
 
-        
+
 
     </Grid>
 </Window>

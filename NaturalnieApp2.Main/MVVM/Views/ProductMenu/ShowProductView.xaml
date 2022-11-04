@@ -18,7 +18,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.Background>
-        <SolidColorBrush Color="{StaticResource NaturalnieGreenDark}"/>
+        <SolidColorBrush Color="{StaticResource DarkBackgorundColor}"/>
     </UserControl.Background>
     <Grid>
         <Grid.RowDefinitions>

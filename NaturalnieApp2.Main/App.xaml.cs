@@ -7,6 +7,7 @@
     using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.Main.MVVM.ViewModels;
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
+    using NaturalnieApp2.Main.MVVM.ViewModels.SettingsMenu;
     using NaturalnieApp2.Main.Sandbox;
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
@@ -14,6 +15,8 @@
     using NaturalnieApp2.SharedControls.Services.ModelPresenter;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using NaturalnieApp2.SharedInterfaces.Logger;
+    using NaturalnieApp2.SharedInterfaces.Xml;
+    using NaturalnieApp2.XmlSerializer;
     using System;
     using System.Linq;
     using System.Threading.Tasks;
@@ -63,47 +66,65 @@
         /// </summary>
         private static IServiceProvider ConfigureServices()
         {
-            var services = new ServiceCollection();
+            ServiceCollection services = new ServiceCollection();
 
             #region Logger
-            // Logger
-            services.AddSingleton<ILogger>((s) =>
-            {
-                return new Logger();
-            });
+            ConfigureLogger(services);
             #endregion
 
-            // Main window
-            services.AddSingleton((s) =>
-            {
-                return new MainViewModel(s.GetService<MenuBarModel>());
-            });
-
-            services.AddSingleton((s) =>
-            {
-                return CreateMenuScreens(s);
-            });
+            #region Main window
+            ConfigureMainWindow(services);
+            #endregion
 
             #region Menu screens
-            // Default screen
-            services.AddSingleton<DefaulMenuScreenViewModel>();
-
-            // Product screen
-            services.AddSingleton((s) =>
-            {
-                ShowProductViewModel showProductViewModel = new()
-                {
-                    DialogBox = s.GetService<DialogBoxService>(),
-                    ModelPresenter = s.GetService<IModelPresenter>()
-                };
-
-                return showProductViewModel;
-            });
-
+            ConfigureMenuScreens(services);
             #endregion
 
             #region Model converter services
-            services.AddTransient<IModelToPropertyPresenterConverter>((s) =>
+            ConfigureModelConverters(services);
+            #endregion
+
+            #region Exceptions
+            ConfigureExceptions(services);
+            #endregion
+
+            #region Dialog box
+            ConfigureDialogBox(services);
+            #endregion
+
+            #region XmlSerializer
+            ConfigureXmlSerializer(services);
+            #endregion
+
+            return services.BuildServiceProvider();
+        }
+
+        private static void ConfigureXmlSerializer(ServiceCollection services)
+        {
+            services.AddTransient<IXmlSerializer>((s) =>
+            {
+                return new XmlSerializer(AppDomain.CurrentDomain.BaseDirectory, s.GetRequiredService<ILogger>());
+            });
+        }
+
+        private static void ConfigureExceptions(ServiceCollection services)
+        {
+            // Exception
+            services.AddSingleton<NaturalnieExceptionBase>();
+        }
+
+        private static void ConfigureDialogBox(ServiceCollection services)
+        {
+            // Screen dialog box
+            services.AddTransient((s) =>
+            {
+                return new DialogBoxService(s.GetRequiredService<ILogger>());
+            });
+        }
+
+        private static void ConfigureModelConverters(ServiceCollection services)
+        {
+            services.AddSingleton<IModelToPropertyPresenterConverter>((s) =>
             {
                 ModelToPropertyPresenterConverter converter = new();
                 ConfigureConverter(converter);
@@ -118,19 +139,62 @@
                     ModelToPropertyPresenterConverter = s.GetService<IModelToPropertyPresenterConverter>()
                 };
             });
+        }
+
+        private static void ConfigureMenuScreens(ServiceCollection services)
+        {
+            // Default screen
+            services.AddSingleton<DefaulMenuScreenViewModel>();
+
+            #region Product group
+            // Product screen
+            services.AddSingleton((s) =>
+            {
+                ShowProductViewModel showProductViewModel = new()
+                {
+                    DialogBox = s.GetService<DialogBoxService>(),
+                    ModelPresenter = s.GetService<IModelPresenter>()
+                };
+
+                return showProductViewModel;
+            });
             #endregion
 
-            // Exception
-            services.AddSingleton<NaturalnieExceptionBase>();
-
-            // Screen dialog box
-            services.AddTransient((s) =>
+            #region Settings
+            // Database settings screen
+            services.AddSingleton((s) =>
             {
-                return new DialogBoxService(s.GetRequiredService<ILogger>());
+                DatabaseSettingsViewModel databaseSettingsViewModel = new()
+                {
+                    XmlSerializer = s.GetService<IXmlSerializer>(),
+                    ModelPresenter = s.GetService<IModelPresenter>()
+                };
+
+                return databaseSettingsViewModel;
+            });
+            #endregion
+        }
+
+        private static void ConfigureMainWindow(ServiceCollection services)
+        {
+            services.AddSingleton((s) =>
+            {
+                return new MainViewModel(s.GetService<MenuBarModel>());
             });
 
+            services.AddSingleton((s) =>
+            {
+                return CreateMenuScreens(s);
+            });
+        }
 
-            return services.BuildServiceProvider();
+        private static void ConfigureLogger(ServiceCollection services)
+        {
+            // Logger
+            services.AddSingleton<ILogger>((s) =>
+            {
+                return new Logger();
+            });
         }
 
         private static MenuBarModel CreateMenuScreens(IServiceProvider services)
@@ -146,6 +210,11 @@
             groupName = "Menu magazyn";
             menuBarModel.AddGroup(groupName);
             menuBarModel.AddScreen(groupName, "Testowy przycisk", null);
+
+            // Settings menu
+            groupName = "Ustawienia";
+            menuBarModel.AddGroup(groupName);
+            menuBarModel.AddScreen(groupName, "Ustawienia bazy danych", services.GetService<DatabaseSettingsViewModel>()!);
 
 
 

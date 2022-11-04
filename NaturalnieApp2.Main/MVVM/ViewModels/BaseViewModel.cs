@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.ViewModels
 {
+    using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
@@ -31,6 +32,25 @@
         public virtual string ScreenInfo => "Ekran menu";
 
         public virtual bool ShowScreenInfo => true;
+        #endregion
+
+        #region Public methods
+        public void Load()
+        {
+            _ = LoadOperation();
+        }
+
+        public async Task LoadAsync()
+        {
+            await LoadOperation();
+        }
+        #endregion
+
+        #region Private methods
+        protected virtual async Task LoadOperation()
+        {
+            await Task.CompletedTask;
+        }
         #endregion
 
         #region Protected methods

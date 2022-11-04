@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Blend for Visual Studio Version 17
+# Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Main", "NaturalnieApp2.Main\NaturalnieApp2.Main.csproj", "{C507CB6F-B71A-4CF5-9B1C-14A103C5B2FB}"
@@ -18,6 +18,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Logger.Tests", "NaturalnieApp2.Logger.Tests\NaturalnieApp2.Logger.Tests.csproj", "{91F1A4D6-408C-42CE-8011-E580E49C44A6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Common.Tests", "NaturalnieApp2.Common.Tests\NaturalnieApp2.Common.Tests.csproj", "{FFAAFCAB-C838-4F31-8B42-65A42A084C94}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NaturalnieApp2.Database", "NaturalnieApp2.Database\NaturalnieApp2.Database.csproj", "{36A35C33-E5D6-49E8-A8EB-23BCD6AB16F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaturalnieApp2.XmlSerializer", "NaturalnieApp2.XmlSerializer\NaturalnieApp2.XmlSerializer.csproj", "{8015F1E6-5457-43E7-BBB3-E2E876631B5C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +61,14 @@ Global
 		{FFAAFCAB-C838-4F31-8B42-65A42A084C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFAAFCAB-C838-4F31-8B42-65A42A084C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFAAFCAB-C838-4F31-8B42-65A42A084C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A35C33-E5D6-49E8-A8EB-23BCD6AB16F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A35C33-E5D6-49E8-A8EB-23BCD6AB16F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A35C33-E5D6-49E8-A8EB-23BCD6AB16F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A35C33-E5D6-49E8-A8EB-23BCD6AB16F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8015F1E6-5457-43E7-BBB3-E2E876631B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8015F1E6-5457-43E7-BBB3-E2E876631B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8015F1E6-5457-43E7-BBB3-E2E876631B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8015F1E6-5457-43E7-BBB3-E2E876631B5C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -46,6 +46,11 @@
 
         public IEnumerable<IPropertyPresenter> GetPropertyPresenterForModel(object model)
         {
+            if(model is null)
+            {
+                return Enumerable.Empty<IPropertyPresenter>();
+            }
+
             List<IPropertyPresenter> result = new();
             List<PropertyInfo> propertyInfos = model.GetType().GetProperties().ToList();
 

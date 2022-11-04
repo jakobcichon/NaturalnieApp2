@@ -30,20 +30,8 @@
             this.model.Price = 20;
         }
 
-        #region Public methods
-        public void Load()
-        {
-            _ = LoadOperation();
-        }
-
-        public async Task LoadAsync()
-        {
-            await LoadOperation();
-        }
-        #endregion
-
-        #region Private methods
-        private async Task LoadOperation()
+        #region Private/Protected methods
+        protected override async Task LoadOperation()
         {
             object model = new DummyProductModel();
             
