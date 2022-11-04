@@ -10,7 +10,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public class ObservableCollectionCustom<T> : ObservableCollection<T> 
+    public class ObservableCollectionCustom<T> : ObservableCollection<T>
     {
         public void AddRange(IEnumerable<T> items)
         {

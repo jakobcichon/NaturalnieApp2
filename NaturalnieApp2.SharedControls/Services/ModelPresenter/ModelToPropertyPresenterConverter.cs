@@ -1,13 +1,16 @@
 ﻿namespace NaturalnieApp2.SharedControls.Services.ModelPresenter
 {
     using NaturalnieApp2.Common.Attributes.DisplayableModel;
+    using NaturalnieApp2.Common.Collections;
     using NaturalnieApp2.Common.Properties;
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using System.Windows.Media;
     using static NaturalnieApp2.Common.Attributes.DisplayableModel.CanBeDisplayedAttribute;
 
     public class ModelToPropertyPresenterConverter : IModelToPropertyPresenterConverter
@@ -84,8 +87,12 @@
             // Check if property has addmisible list of values
             if(HasPropertyAddmisibleList(propertyInfo))
             {
-                GetAddmisibleList(propertyInfo, model);
+                IEnumerable? list = GetAddmisibleList(propertyInfo, model);
 
+                if(list is not null)
+                {
+                    return GetDataFieldForAddmisibleList(propertyInfo.Name, model, list);
+                }
             }
 
             // First serched by name
@@ -112,7 +119,7 @@
             return propertyPresenterDataField;
         }
 
-        private static object? GetAddmisibleList(PropertyInfo propertyInfo, object model)
+        private static IEnumerable? GetAddmisibleList(PropertyInfo propertyInfo, object model)
         {
             if (HasPropertyAddmisibleList(propertyInfo))
             {
@@ -123,7 +130,7 @@
                     return null;
                 }
 
-                return model.GetType().GetProperty(propertyName)?.GetValue(model);
+                return model.GetType().GetProperty(propertyName)?.GetValue(model) as IEnumerable;
             }
 
             return null;
@@ -149,6 +156,18 @@
             return false;
         }
 
+        private static ObservableCollectionCustom<object> CreateObservableCollectionFromList(IEnumerable inputList)
+        {
+            ObservableCollectionCustom<object> collection = new();
+
+            foreach (var element in inputList)
+            {
+                collection.Add(element);
+            }
+
+            return collection;
+        }
+
         private static IPropertyPresenterDataField GetDefaultPropertyPresenter(string propertyName, object propertyOwner)
         {
             return new PropertyPresenterTextBoxViewModel()
@@ -157,12 +176,12 @@
             };
         }
 
-        private static IPropertyPresenterDataField GetDataFieldForAddmisibleList(string propertyName, object propertyOwner, object list)
+        private static IPropertyPresenterDataField GetDataFieldForAddmisibleList(string propertyName, object propertyOwner, IEnumerable list)
         {
             return new PropertyPresenterListViewModel()
             {
                 ProxyProperty = new(propertyOwner, propertyName),
-                HintList = list
+                HintList =  CreateObservableCollectionFromList(list)
             };
         }
     }

@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.SharedControls.Interfaces.ModelPresenter
 {
+    using NaturalnieApp2.Common.Collections;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -9,6 +10,6 @@
 
     public interface IPropertyPresenterListView : IPropertyPresenterDataField
     {
-        public ObservableCollection<object> HintList { get;}
+        public ObservableCollectionCustom<object> HintList { get;}
     }
 }

@@ -4,7 +4,9 @@
     using NaturalnieApp2.Common.Attributes.ValidationRules;
     using NaturalnieApp2.Common.Binding;
     using System.Collections;
+    using System.Collections.Generic;
     using System.Runtime.CompilerServices;
+    using System.Windows.Documents;
 
     public enum TestEnum
     {
@@ -19,7 +21,7 @@
         private string name;
         private double price;
         private int tax;
-        private IList taxValuesProvider;
+        private List<int> taxValuesProvider;
         private TestEnum options;
 
         [RegexStringValidatorCustom(@"\d")]
@@ -47,7 +49,7 @@
             set { SetProperty(ref tax, value); }
         }
 
-        public IList TaxValuesProvider
+        public List<int> TaxValuesProvider
         {
             get { return taxValuesProvider; }
             set { SetProperty(ref taxValuesProvider, value); }

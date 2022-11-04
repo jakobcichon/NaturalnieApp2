@@ -26,6 +26,7 @@
         public ShowProductViewModel()
         {
             this.model = new DummyProductModel();
+            this.model.TaxValuesProvider = new List<int> { 1, 2, 3, 4 };
             this.model.Price = 20;
         }
 
