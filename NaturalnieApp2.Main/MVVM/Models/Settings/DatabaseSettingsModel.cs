@@ -15,7 +15,7 @@
         private string connectionString;
 
         [XmlElement]
-        [CanBeDisplayed]
+        [DoNotDisplay]
         public string ConnectionString
         {
             get { return connectionString; }

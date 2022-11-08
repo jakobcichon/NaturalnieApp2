@@ -34,8 +34,9 @@
         protected override async Task LoadOperation()
         {
             object model = new DummyProductModel();
-            
+
             await CreateModelPresenter();
+
 
             await Task.CompletedTask;
         }

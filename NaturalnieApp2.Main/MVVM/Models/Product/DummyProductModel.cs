@@ -26,14 +26,13 @@
 
         [RegexStringValidatorCustom(@"\d")]
         [StringLengthCustom(5)]
-        [CanBeDisplayed]
+
         public string Name
         {
             get { return name; }
             set { SetProperty(ref name, value); }
         }
 
-        [CanBeDisplayed]
         [RangeCustom(2, 5.13)]
         public double Price
         {
@@ -41,7 +40,6 @@
             set { SetProperty(ref price, value); }
         }
 
-        [CanBeDisplayed]
         [HasAdmissibleList("TaxValuesProvider")]
         public int Tax
         {
@@ -49,13 +47,13 @@
             set { SetProperty(ref tax, value); }
         }
 
+        [DoNotDisplay]
         public List<int> TaxValuesProvider
         {
             get { return taxValuesProvider; }
             set { SetProperty(ref taxValuesProvider, value); }
         }
 
-        [CanBeDisplayed]
         public TestEnum Options
         {
             get { return options; }

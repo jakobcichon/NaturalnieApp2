@@ -4,7 +4,7 @@
 
 
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class CanBeDisplayedAttribute : Attribute
+    public sealed class DoNotDisplayAttribute : Attribute
     {
 
     }

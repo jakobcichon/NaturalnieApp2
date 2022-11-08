@@ -11,7 +11,7 @@
     using System.Linq;
     using System.Reflection;
     using System.Windows.Media;
-    using static NaturalnieApp2.Common.Attributes.DisplayableModel.CanBeDisplayedAttribute;
+    using static NaturalnieApp2.Common.Attributes.DisplayableModel.DoNotDisplayAttribute;
 
     public class ModelToPropertyPresenterConverter : IModelToPropertyPresenterConverter
     {
@@ -153,12 +153,12 @@
 
         private static bool CheckIfPropertyCanBeDisplayed(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.CustomAttributes.Any(a => a.AttributeType == typeof(CanBeDisplayedAttribute)))
+            if (propertyInfo.CustomAttributes.Any(a => a.AttributeType == typeof(DoNotDisplayAttribute)))
             {
-                return true;
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         private static ObservableCollectionCustom<object> CreateObservableCollectionFromList(IEnumerable inputList)

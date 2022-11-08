@@ -142,20 +142,19 @@
                 </Grid.RowDefinitions>
 
                 <!--Menu screen info bar-->
-                <TextBox Text="{Binding SelectedScreen.ScreenInfo, Mode=OneWay}" 
+                <Label Content="{Binding SelectedScreen.ScreenInfo, Mode=OneWay}" 
                          Height="30"
-                         IsReadOnly="True"
                          HorizontalAlignment="Stretch" 
                          HorizontalContentAlignment="Center" 
                          VerticalContentAlignment="Center"
                          BorderBrush="{x:Null}"
                          Visibility="{Binding SelectedScreen.ShowScreenInfo, 
                 Converter={StaticResource BoolToVisibilityConverter}}">
-                    <TextBox.Background>
+                    <Label.Background>
                         <SolidColorBrush Color="{StaticResource 
                         DarkBackgorundColor}" Opacity=".5"/>
-                    </TextBox.Background>
-                </TextBox>
+                    </Label.Background>
+                </Label>
 
                 <!--Menu screen instance-->
                 <ContentControl Grid.Row="1"  Content="{Binding SelectedScreen}"/>
