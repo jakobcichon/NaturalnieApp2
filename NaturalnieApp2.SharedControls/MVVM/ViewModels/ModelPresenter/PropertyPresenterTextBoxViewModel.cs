@@ -10,13 +10,13 @@
     {
 		public ProxyPropertyService ProxyProperty { get; init; }
 
-		public string? CustomMask
+		public string CustomMask
 		{
 			get
 			{
 				if(ProxyProperty.PropertyType == null )
 				{
-					return null;
+					return String.Empty;
 				}
 				
 				if(ProxyProperty.PropertyType.IsFloatingPoint())
@@ -29,7 +29,7 @@
                     return "^\\d$";
                 }
 
-                return null;
+                return String.Empty;
             }
 
 		}

@@ -10,10 +10,18 @@
         <ItemsControl ItemsSource="{Binding DisplayableProperties}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <WrapPanel/>
+                    <WrapPanel Orientation="Horizontal"
+                               MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, Path=ActualWidth}"/>
+
                 </ItemsPanelTemplate>
             </ItemsControl.ItemsPanel>
-
+            <ItemsControl.Template>
+                <ControlTemplate>
+                    <ScrollViewer x:Name="ScrollViewer" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </ItemsControl.Template>
         </ItemsControl>
     </Grid>
 </UserControl>

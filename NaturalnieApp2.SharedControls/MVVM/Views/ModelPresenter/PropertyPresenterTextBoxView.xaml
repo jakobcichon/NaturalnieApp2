@@ -3,9 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter" xmlns:textbox="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.TextBox"
+             xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter" 
+             xmlns:textbox="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.TextBox"
              mc:Ignorable="d" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="20" d:DesignWidth="100">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ConvertersDict.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="{x:Type ToolTip}">
+                <Setter Property="Visibility" Value="Visible"/>
+                <Style.Triggers>
+                    <Trigger Property="Content" Value="{x:Static sys:String.Empty}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                    <Trigger Property="Content" Value="{x:Null}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,15 +37,27 @@
 
         <textbox:MaskedTextBox x:Name="InputField"
                                Margin="2"
-                 Text="{Binding ProxyProperty.PropertyValue, 
-            ValidatesOnDataErrors=True}"
-                               MaskPattern="{Binding CustomMask}">
+                               Text="{Binding ProxyProperty.PropertyValue, ValidatesOnDataErrors=True}"
+                               MaskPattern="{Binding CustomMask}"
+                               >
+            
             <Validation.ErrorTemplate>
                 <ControlTemplate/>
             </Validation.ErrorTemplate>
+            
             <textbox:MaskedTextBox.ToolTip>
                 <ToolTip MaxWidth="200" 
-                         Content="{Binding RelativeSource={RelativeSource AncestorType=TextBox}, Path=Text}"/>
+                         DataContext="{Binding Path=PlacementTarget, RelativeSource={x:Static RelativeSource.Self}}"
+                         Content="{Binding Text}">
+                    <ToolTip.ContentTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding}" 
+                                       TextWrapping="Wrap" 
+                                       MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=ToolTip}, Path=MaxWidth}"/>
+                        </DataTemplate>
+                    </ToolTip.ContentTemplate>
+                </ToolTip>
+                
             </textbox:MaskedTextBox.ToolTip>
         </textbox:MaskedTextBox>
 

@@ -6,6 +6,7 @@
     using System.Runtime.CompilerServices;
     using System;
     using System.Linq;
+    using NaturalnieApp2.Common.Attributes.DisplayableModel;
 
     public record ValidatableBindableRecordBase : BindableRecordBase, INotifyDataErrorInfo
     {
@@ -28,6 +29,7 @@
             return new List<string>();
         }
 
+        [DoNotDisplay]
         public bool HasErrors
         {
             get { return errors.Count > 0; }

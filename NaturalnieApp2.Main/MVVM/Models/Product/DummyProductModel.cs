@@ -23,6 +23,7 @@
         private int tax;
         private List<int> taxValuesProvider;
         private TestEnum options;
+        private bool inCashRegister;
 
         [RegexStringValidatorCustom(@"\d")]
         [StringLengthCustom(5)]
@@ -58,6 +59,12 @@
         {
             get { return options; }
             set { SetProperty(ref options, value); }
+        }
+
+        public bool InCashRegister
+        {
+            get { return inCashRegister; }
+            set { SetProperty(ref inCashRegister, value); }
         }
 
     }

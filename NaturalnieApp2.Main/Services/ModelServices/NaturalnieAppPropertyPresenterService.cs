@@ -25,6 +25,13 @@
                 return model;
             });
 
+            converter?.AddPresenterForPropertyType<bool>((name, context) =>
+            {
+                PropertyPresenterCheckBoxViewModel model = new() { ProxyProperty = new(context, name) };
+
+                return model;
+            });
+
         }
     }
 }
