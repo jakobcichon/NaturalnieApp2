@@ -19,5 +19,7 @@
     <Color x:Key="NaturalnieSandColor">
         #FFfede84
     </Color>
+    
+    <SolidColorBrush x:Key="NaturalnieBlue" Color="Blue"/>
 
 </ResourceDictionary>
