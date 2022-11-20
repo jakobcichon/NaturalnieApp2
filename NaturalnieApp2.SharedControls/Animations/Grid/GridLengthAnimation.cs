@@ -46,7 +46,8 @@
             }
             else
             {
-                return new GridLength((animationClock!.CurrentProgress!.Value) * (toValue - fromValue) + fromValue, this.To.IsStar ? GridUnitType.Star : GridUnitType.Pixel);
+                var val = new GridLength((animationClock!.CurrentProgress!.Value) * (toValue - fromValue) + fromValue, this.To.IsStar ? GridUnitType.Star : GridUnitType.Pixel);
+                return val;
             }
         }
     }

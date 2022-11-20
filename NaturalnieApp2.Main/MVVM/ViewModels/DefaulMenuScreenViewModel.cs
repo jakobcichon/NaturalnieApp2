@@ -17,6 +17,8 @@
 
         public IDialogBox? DialogBox => null;
 
+        public bool IsInitialized => true;
+
         public void Load()
         {
             ;

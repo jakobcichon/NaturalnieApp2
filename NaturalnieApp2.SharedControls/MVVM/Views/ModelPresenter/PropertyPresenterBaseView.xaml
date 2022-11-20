@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              mc:Ignorable="d" 
-             MaxHeight="100" Width="250" x:Name="PropertyDisplayUserControl" 
+             MaxWidth="400"  x:Name="PropertyDisplayUserControl" 
              FontSize="18" FontWeight="DemiBold"
              VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="10"
              >
@@ -50,7 +50,7 @@
                 <Setter Property="FontSize" Value="{Binding 
                 RelativeSource={RelativeSource AncestorType=UserControl}, Path=FontSize}"/>
                 <Setter Property="FontFamily" Value="18"/>
-                <Setter Property="HorizontalAlignment" Value="Left"/>
+                <Setter Property="HorizontalAlignment" Value="Left"/> 
             </Style>
 
             <Style x:Key="ErroredBottomBarStyle" TargetType="Canvas">
@@ -77,19 +77,22 @@
                 <RowDefinition Height="1"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
 
-            <Label Grid.Row="0" d:Content="Default text"  
-                   Grid.ColumnSpan="2"
+            <Label x:Name="TextLabel"
+                Grid.Row="0" d:Content="Default text"  
                    Content="{Binding HeaderText}" 
-                   Style="{StaticResource BorderLessControl}">
+                   Style="{StaticResource BorderLessControl}"
+                   MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                Path=MaxWidth}">
             </Label>
 
             <Rectangle Grid.Row="1"
-                   Grid.ColumnSpan="2"
-                   Margin="5 0 5 0" Opacity="0.5">
+                   Margin="5 0 5 0"
+                   Opacity="0.5"
+                   MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                Path=MaxWidth}">
                 <Rectangle.Fill>
                     <RadialGradientBrush SpreadMethod="Pad">
                         <GradientStop Color="Blue"/>
@@ -99,12 +102,15 @@
             </Rectangle>
 
             <ContentControl x:Name="ContentForVisualPresenter" 
+                            HorizontalAlignment="Center" 
                             Content="{Binding PropertyPresenterDataField}"
+                            MaxWidth="{Binding RelativeSource={RelativeSource AncestorType=UserControl}, 
+                Path=MaxWidth}"
+                            Width="{Binding ElementName=TextLabel, Path=ActualWidth}"
                         Grid.Row="2"/>
 
             <Canvas Name="BottomBar"
                 Grid.Row="3" 
-                Grid.ColumnSpan="2"
                 Height="2" 
                 Margin="0 0 0 0" 
                 Visibility="Collapsed">

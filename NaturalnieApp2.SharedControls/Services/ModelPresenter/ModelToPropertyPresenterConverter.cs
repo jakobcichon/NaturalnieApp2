@@ -80,9 +80,21 @@
             IPropertyPresenterDataField? propertyPresenterDataField = GetPropertyPresenterDataField(propertyInfo, model);
 
             propertyPresenter.PropertyPresenterDataField = propertyPresenterDataField;
-            propertyPresenter.HeaderText = propertyInfo.Name;
+            propertyPresenter.HeaderText = GetPropertyDisplayabeName(propertyInfo) ?? propertyInfo.Name;
 
             return propertyPresenter;
+        }
+
+        private static string? GetPropertyDisplayabeName(PropertyInfo propertyInfo)
+        {
+            DisplayableNameAttribute? attribute = propertyInfo.GetCustomAttributes().Where(a => a is DisplayableNameAttribute).FirstOrDefault() as DisplayableNameAttribute;
+
+            if(attribute is null)
+            {
+                return null;
+            }
+
+            return attribute.DisplayName;
         }
 
         private IPropertyPresenterDataField? GetPropertyPresenterDataField(PropertyInfo propertyInfo, object model)
@@ -128,7 +140,7 @@
         {
             if (HasPropertyAddmisibleList(propertyInfo))
             {
-                string? propertyName = (propertyInfo.GetCustomAttributes().Where(a => a is HasAdmissibleList).FirstOrDefault() as HasAdmissibleList)?.PropertyName;
+                string? propertyName = (propertyInfo.GetCustomAttributes().Where(a => a is HasAdmissibleListAttribute).FirstOrDefault() as HasAdmissibleListAttribute)?.PropertyName;
 
                 if(propertyName == null)
                 {
@@ -143,7 +155,7 @@
 
         private static bool HasPropertyAddmisibleList(PropertyInfo propertyInfo)
         {
-            if (propertyInfo.CustomAttributes.Any(a => a.AttributeType == typeof(HasAdmissibleList)))
+            if (propertyInfo.CustomAttributes.Any(a => a.AttributeType == typeof(HasAdmissibleListAttribute)))
             {
                 return true;
             }

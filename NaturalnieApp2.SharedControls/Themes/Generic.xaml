@@ -1,7 +1,8 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:textBox="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.TextBox">
+    xmlns:textBox="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.TextBox"
+    xmlns:dataGrid="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.DataGrid">
 
 
     <Style TargetType="{x:Type textBox:MaskedTextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
@@ -9,5 +10,21 @@
             <Setter Property="BorderBrush" Value="{x:Null}"/>
         </Style.Setters>
     </Style>
-    
+
+
+    <Style TargetType="{x:Type dataGrid:DataGridCustom}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="dataGrid:DataGridCustom">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <DataGrid Grid.Row="1" ItemsSource="{TemplateBinding ItemsSource}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

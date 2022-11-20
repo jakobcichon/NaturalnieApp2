@@ -1,8 +1,15 @@
 ﻿namespace NaturalnieApp2.Main
 {
+    using global::Main.MVVM.Models.GlobalSettingsModel.DatabaseSettings;
+    using global::Main.MVVM.Models.GlobalSettingsModel.DatabaseSettings.DatabaseSettingsModel;
     using Microsoft.Extensions.DependencyInjection;
+    using NaturalnieApp2.Database.Commands;
+    using NaturalnieApp2.Database.Models;
     using NaturalnieApp2.Logger;
     using NaturalnieApp2.Main.Exceptions;
+    using NaturalnieApp2.Main.Interfaces.GlobalSettings;
+    using NaturalnieApp2.Main.Interfaces.GlobalSettings.DatabaseSettings;
+    using NaturalnieApp2.Main.MVVM.Models.GlobalSettingsModel;
     using NaturalnieApp2.Main.MVVM.Models.MenuGeneral;
     using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.Main.MVVM.ViewModels;
@@ -13,6 +20,7 @@
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
     using NaturalnieApp2.SharedControls.Services.DialogBoxService;
     using NaturalnieApp2.SharedControls.Services.ModelPresenter;
+    using NaturalnieApp2.SharedInterfaces.Database;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using NaturalnieApp2.SharedInterfaces.Logger;
     using NaturalnieApp2.SharedInterfaces.Xml;
@@ -96,6 +104,14 @@
             ConfigureXmlSerializer(services);
             #endregion
 
+            #region Global settings
+            ConfigureGlobalSettings(services);
+            #endregion
+
+            #region Databse
+            ConfigureDatabase(services);
+            #endregion
+
             return services.BuildServiceProvider();
         }
 
@@ -153,7 +169,8 @@
                 ShowProductViewModel showProductViewModel = new()
                 {
                     DialogBox = s.GetService<DialogBoxService>(),
-                    ModelPresenter = s.GetService<IModelPresenter>()
+                    ModelPresenter = s.GetService<IModelPresenter>(),
+                    ProductDatabaseCommands = s.GetService<IDatabaseGeneralCommands<ProductModel>>()
                 };
 
                 return showProductViewModel;
@@ -167,7 +184,9 @@
                 DatabaseSettingsViewModel databaseSettingsViewModel = new()
                 {
                     XmlSerializer = s.GetService<IXmlSerializer>(),
-                    ModelPresenter = s.GetService<IModelPresenter>()
+                    ModelPresenter = s.GetService<IModelPresenter>(),
+                    Model = s.GetRequiredService<IGlobalSettingsProvider>().DatabaseSettings,
+                    DialogBox = s.GetService<DialogBoxService>(),
                 };
 
                 return databaseSettingsViewModel;
@@ -194,6 +213,40 @@
             services.AddSingleton<ILogger>((s) =>
             {
                 return new Logger();
+            });
+        }
+
+        private static void ConfigureGlobalSettings(ServiceCollection services)
+        {
+            ConfigureDatabaseSettings(services);
+
+            // Global settings
+            services.AddSingleton<IGlobalSettingsProvider>((s) =>
+            {
+                return new GlobalSettingsModel()
+                {
+                    DatabaseSettings = s.GetRequiredService<IDatabseSettingsProvider>()
+                };
+            });
+        }
+
+        private static void ConfigureDatabase(ServiceCollection services)
+        {
+            services.AddTransient<IDatabaseGeneralCommands<ProductModel>>((s) =>
+            {
+                return new ProductCommands(s.GetRequiredService<IDatabseSettingsProvider>().ConnectionString);
+            });
+        }
+
+        private static void ConfigureDatabaseSettings(ServiceCollection services)
+        {
+            // Logger
+            services.AddSingleton<IDatabseSettingsProvider>((s) =>
+            {
+                return new DatabaseSettingsModel() 
+                { 
+                    ConnectionString = string.Format("server = {0}; port = 3306; database = shop; uid = admin; password = admin; Connection Timeout = 10", "localhost")
+                };
             });
         }
 

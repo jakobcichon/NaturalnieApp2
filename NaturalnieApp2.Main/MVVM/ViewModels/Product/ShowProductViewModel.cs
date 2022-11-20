@@ -1,10 +1,13 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.ViewModels.Product
 {
+    using NaturalnieApp2.Database.Commands;
+    using NaturalnieApp2.Database.Models;
     using NaturalnieApp2.Main.Interfaces.Screens;
     using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
     using NaturalnieApp2.SharedControls.Services.ModelPresenter;
+    using NaturalnieApp2.SharedInterfaces.Database;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using System;
     using System.Collections.Generic;
@@ -19,8 +22,11 @@
         #region Properties
         public override string ScreenInfo => "Informacje o produkcie";
         public IModelPresenter ModelPresenter { get; init; }
+        public IDatabaseGeneralCommands<ProductModel> ProductDatabaseCommands { get; init;}
 
-        private DummyProductModel model;
+        public bool IsInitialized { get; private set; }
+
+        public DummyProductModel model { get; set; }
         #endregion
 
         public ShowProductViewModel()
@@ -37,7 +43,7 @@
             object model = new DummyProductModel();
 
             await CreateModelPresenter();
-
+            var products = await ProductDatabaseCommands.GetAllElements();
 
             await Task.CompletedTask;
         }

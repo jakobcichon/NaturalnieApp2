@@ -5,7 +5,7 @@
     using System.Diagnostics;
 
     [AttributeUsage(AttributeTargets.Property)]
-    public sealed class HasAdmissibleList : Attribute
+    public sealed class HasAdmissibleListAttribute : Attribute
     {
         public string PropertyName { get; set; }
 
@@ -13,7 +13,7 @@
         /// Class constructor
         /// </summary>
         /// <param name="propertyName">Property name that provides admissible list</param>
-        public HasAdmissibleList(string propertyName)
+        public HasAdmissibleListAttribute(string propertyName)
         {
             PropertyName = propertyName;
         }

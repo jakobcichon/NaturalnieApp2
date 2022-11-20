@@ -7,7 +7,8 @@
              xmlns:textbox="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.TextBox"
              mc:Ignorable="d" 
              xmlns:sys="clr-namespace:System;assembly=mscorlib"
-             d:DesignHeight="20" d:DesignWidth="100">
+             d:DesignHeight="20" d:DesignWidth="100" 
+             x:Name="PropertyPresenterTextBox">
     
     <UserControl.Resources>
         <ResourceDictionary>
@@ -39,6 +40,8 @@
                                Margin="2"
                                Text="{Binding ProxyProperty.PropertyValue, ValidatesOnDataErrors=True}"
                                MaskPattern="{Binding CustomMask}"
+                               HorizontalContentAlignment="Center"
+                               VerticalContentAlignment="Center"
                                >
             
             <Validation.ErrorTemplate>

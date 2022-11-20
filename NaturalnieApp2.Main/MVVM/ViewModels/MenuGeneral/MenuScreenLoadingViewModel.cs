@@ -25,6 +25,8 @@
         public override string ScreenInfo => $"Ładowanie ekranu \"{additionalInfo}\"";
 
         public override bool ShowScreenInfo => false;
+
+        public bool IsInitialized => true;
         #endregion
 
         #region Public methods

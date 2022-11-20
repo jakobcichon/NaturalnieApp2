@@ -2,8 +2,8 @@
 {
     using NaturalnieApp2.Main.Interfaces.GlobalSettings.DatabaseSettings;
 
-    public interface IGlobalVariablesProvider
+    public interface IGlobalSettingsProvider
     {
-        IDatabseSettingsProvider DatabaseSettings { get;}
+        IDatabseSettingsProvider? DatabaseSettings { get;}
     }
 }

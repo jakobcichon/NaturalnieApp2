@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="NaturalnieApp2.SharedControls.UserControls.CollabsableContentControl.CollapsableContentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.UserControls.CollabsableContentControl" xmlns:animations_grid="clr-namespace:NaturalnieApp2.SharedControls.Animations.Grid"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Style TargetType="ColumnDefinition" x:Key="CollapsedMenu">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:CollapsableContentControl}, 
+                        Path=IsCollapsed, 
+                        Mode=OneWay}"
+                                 Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <animations_grid:GridLengthAnimation Storyboard.TargetProperty="Width" 
+                                                                         From="*"  To="0*" 
+                                                                         Duration="0:0:0.8"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <animations_grid:GridLengthAnimation Storyboard.TargetProperty="Width" 
+                                                                         From="0*" To="*" 
+                                                                         Duration="0:0:0.8"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+
+                </Style.Triggers>
+            </Style>
+
+            <Style TargetType="ColumnDefinition" x:Key="CollapsedMenuReversed">
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=local:CollapsableContentControl}, 
+                        Path=IsCollapsed, 
+                        Mode=OneWay}"
+                                 Value="True">
+                        <DataTrigger.EnterActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <animations_grid:GridLengthAnimation Storyboard.TargetProperty="Width" 
+                                                                         From="0*"  To="*" 
+                                                                         Duration="0:0:0.8"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.EnterActions>
+                        <DataTrigger.ExitActions>
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <animations_grid:GridLengthAnimation Storyboard.TargetProperty="Width" 
+                                                                         From="*" To="0*" 
+                                                                         Duration="0:0:0.8"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </DataTrigger.ExitActions>
+                    </DataTrigger>
+
+                </Style.Triggers>
+            </Style>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Style="{StaticResource CollapsedMenu}"/>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Style="{StaticResource CollapsedMenuReversed}"/>
+        </Grid.ColumnDefinitions>
+
+        <ContentControl Content="{Binding RelativeSource={RelativeSource AncestorType=local:CollapsableContentControl}, 
+            Path=LeftContent, 
+            Mode=OneWay}"/>
+
+        <Button Grid.Column="1" 
+                Click="Button_Click"
+                Margin="5 0 0 0"/>
+
+        <ContentControl Grid.Column="2" 
+                        Content="{Binding RelativeSource={RelativeSource AncestorType=local:CollapsableContentControl}, 
+            Path=RightContent, 
+            Mode=OneWay}"/>
+    </Grid>
+</UserControl>

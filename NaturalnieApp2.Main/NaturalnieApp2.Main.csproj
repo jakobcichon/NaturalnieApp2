@@ -2,16 +2,18 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net7.0-windows10.0.22621.0</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NaturalnieApp2.Database\NaturalnieApp2.Database.csproj" />
     <ProjectReference Include="..\NaturalnieApp2.Logger\NaturalnieApp2.Logger.csproj" />
     <ProjectReference Include="..\NaturalnieApp2.SharedControls\NaturalnieApp2.SharedControls.csproj" />
     <ProjectReference Include="..\NaturalnieApp2.SharedInterfaces\NaturalnieApp2.SharedInterfaces.csproj" />

@@ -13,6 +13,7 @@
         public string ScreenInfo { get; }
         public bool ShowScreenInfo { get; }
         public IDialogBox? DialogBox { get; }
+        public bool IsInitialized { get; }
 
         public void Load();
         public Task LoadAsync();

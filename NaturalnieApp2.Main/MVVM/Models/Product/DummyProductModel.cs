@@ -16,7 +16,7 @@
 
     }
 
-    public record DummyProductModel: ValidatableBindableRecordBase
+    internal record DummyProductModel: ModelBase
     {
         private string name;
         private double price;
@@ -27,7 +27,7 @@
 
         [RegexStringValidatorCustom(@"\d")]
         [StringLengthCustom(5)]
-
+        [DisplayableName("Nazwa produktu")]
         public string Name
         {
             get { return name; }
@@ -35,13 +35,15 @@
         }
 
         [RangeCustom(2, 5.13)]
+        [DisplayableName("Cena netto")]
         public double Price
         {
             get { return price; }
             set { SetProperty(ref price, value); }
         }
 
-        [HasAdmissibleList("TaxValuesProvider")]
+        [HasAdmissibleListAttribute("TaxValuesProvider")]
+        [DisplayableName("Podatek")]
         public int Tax
         {
             get { return tax; }
@@ -55,12 +57,14 @@
             set { SetProperty(ref taxValuesProvider, value); }
         }
 
+        [DisplayableName("Opcje testowe")]
         public TestEnum Options
         {
             get { return options; }
             set { SetProperty(ref options, value); }
         }
 
+        [DisplayableName("Obecny w kasie")]
         public bool InCashRegister
         {
             get { return inCashRegister; }

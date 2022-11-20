@@ -6,6 +6,8 @@
                     xmlns:vm_dialogbox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox"
                     xmlns:v_dialogboxButtonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.ButtonsPanel"
                     xmlns:vm_dialogboxButtonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox.ButtonsPanel"
+                    xmlns:v_buttonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ButtonsPanel"
+                    xmlns:vm_buttonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.ButtonsPanel"
                     xmlns:v_modelPresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter"
                     xmlns:vm_modelPresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter"
                     >
@@ -53,6 +55,10 @@
 
     <DataTemplate DataType="{x:Type vm_modelPresenter:PropertyPresenterCheckBoxViewModel}">
         <v_modelPresenter:PropertyPresenterCheckBoxView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm_buttonsPanel:ButtonsPanelViewModel}">
+        <v_buttonsPanel:ButtonsPanelView/>
     </DataTemplate>
 
     <Style x:Key="DialogBoxBackgroundStyle" TargetType="Border">

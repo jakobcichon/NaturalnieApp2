@@ -56,20 +56,20 @@
         #region Public methods
         public IDialogBox Show(string message, string? title = null)
         {
-            ShowCommonaAction(message, DialogBoxTypes.Ok, title);
+            ShowCommonAction(message, DialogBoxTypes.Ok, title);
             logger.Info("Okno dialogowe z przyciskiem Ok zostało utworzone");
             return this;
         }
 
         public IDialogBox ShowYesNo(string message, string? title = null)
         {
-            ShowCommonaAction(message, DialogBoxTypes.YesNo, title);
+            ShowCommonAction(message, DialogBoxTypes.YesNo, title);
             return this;
         }
 
         public IDialogBox ShowYesNoCancel(string message, string? title = null)
         {
-            ShowCommonaAction(message, DialogBoxTypes.YesNoCancel, title);
+            ShowCommonAction(message, DialogBoxTypes.YesNoCancel, title);
             return this;
         }
 
@@ -81,13 +81,14 @@
         #endregion
 
         #region Private/Protected methods
-        private void ShowCommonaAction(string message, DialogBoxTypes buttonsPanelType, string? title = null)
+        private void ShowCommonAction(string message, DialogBoxTypes buttonsPanelType, string? title = null)
         {
             if (DialogBoxViewModel == null)
             {
                 DialogBoxViewModel = CreateDialogBox(buttonsPanelType, message, title);
                 DialogBoxViewModel.Show();
                 lastlyAddedDialogBox = DialogBoxViewModel;
+                return;
             }
 
             dialogBoxViewModelWaitingList.Add(CreateDialogBox(buttonsPanelType, message, title));
