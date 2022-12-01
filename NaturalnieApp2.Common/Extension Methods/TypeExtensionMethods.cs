@@ -59,5 +59,32 @@
 
             }
         }
+
+        public static bool IsString(this Type? type)
+        {
+            if(type == typeof(string))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool IsBool(this Type? type)
+        {
+            if (type == typeof(bool))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool IsEnum(this Type? type)
+        {
+            if (type == typeof(Enum))
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

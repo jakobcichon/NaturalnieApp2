@@ -6,7 +6,12 @@
              xmlns:local="clr-namespace:NaturalnieApp2.Main.MVVM.Views.ProductMenu"
              xmlns:views="clr-namespace:NaturalnieApp2.Main.MVVM.Views"
              xmlns:sh_db="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox;assembly=NaturalnieApp2.SharedControls" 
-             xmlns:modelpresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter;assembly=NaturalnieApp2.SharedControls" xmlns:animations_grid="clr-namespace:NaturalnieApp2.SharedControls.Animations.Grid;assembly=NaturalnieApp2.SharedControls" xmlns:collabsablecontentcontrol="clr-namespace:NaturalnieApp2.SharedControls.UserControls.CollabsableContentControl;assembly=NaturalnieApp2.SharedControls" xmlns:datagrid="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.DataGrid;assembly=NaturalnieApp2.SharedControls" xmlns:sys="clr-namespace:System;assembly=netstandard"
+             xmlns:modelpresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter;assembly=NaturalnieApp2.SharedControls" 
+             xmlns:animations_grid="clr-namespace:NaturalnieApp2.SharedControls.Animations.Grid;assembly=NaturalnieApp2.SharedControls" 
+             xmlns:collabsablecontentcontrol="clr-namespace:NaturalnieApp2.SharedControls.UserControls.CollabsableContentControl;assembly=NaturalnieApp2.SharedControls" 
+             xmlns:datagrid="clr-namespace:NaturalnieApp2.SharedControls.CustomControls.DataGrid;assembly=NaturalnieApp2.SharedControls" 
+             xmlns:sys="clr-namespace:System;assembly=netstandard" 
+             xmlns:filtercontrol="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.FilterControl;assembly=NaturalnieApp2.SharedControls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -28,14 +33,20 @@
         <collabsablecontentcontrol:CollapsableContentControl>
             
             <collabsablecontentcontrol:CollapsableContentControl.LeftContent>
-                <datagrid:DataGridCustom>
-                    <datagrid:DataGridCustom.ItemsSource>
-                        <x:Array Type="sys:String">
-                            <sys:String>1st item</sys:String>
-                            <sys:String>2nd item</sys:String>
-                        </x:Array>
-                    </datagrid:DataGridCustom.ItemsSource>
-                </datagrid:DataGridCustom>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <Expander Header="Filtry">
+                        <filtercontrol:FilterControlView DataContext="{Binding FilteredProducts}"/>
+                    </Expander>
+
+                    <datagrid:DataGridCustom ItemsSource="{Binding Products}"
+                                             Grid.Row="1"/>
+                </Grid>
+
 
             </collabsablecontentcontrol:CollapsableContentControl.LeftContent>
 
@@ -47,6 +58,7 @@
 
             </collabsablecontentcontrol:CollapsableContentControl.RightContent>
         </collabsablecontentcontrol:CollapsableContentControl>
+        
         <!--Message box-->
         <ContentControl Content="{Binding DialogBox.DialogBoxViewModel}"
                         Grid.RowSpan="100" Grid.ColumnSpan="100"/>

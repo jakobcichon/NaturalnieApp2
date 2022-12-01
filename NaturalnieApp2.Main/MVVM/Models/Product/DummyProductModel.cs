@@ -42,7 +42,7 @@
             set { SetProperty(ref price, value); }
         }
 
-        [HasAdmissibleListAttribute("TaxValuesProvider")]
+        [HasAdmissibleList("TaxValuesProvider")]
         [DisplayableName("Podatek")]
         public int Tax
         {

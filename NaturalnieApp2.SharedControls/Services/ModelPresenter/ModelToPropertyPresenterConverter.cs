@@ -70,7 +70,7 @@
 
         public IPropertyPresenter? GetPropertyPresenter(PropertyInfo propertyInfo, object model)
         {
-            if (!CheckIfPropertyCanBeDisplayed(propertyInfo))
+            if (!ModelAttributeHelpers.CheckIfPropertyCanBeDisplayed(propertyInfo))
             {
                 return null;
             }
@@ -102,9 +102,9 @@
             IPropertyPresenterDataField? propertyPresenterDataField;
 
             // Check if property has addmisible list of values
-            if(HasPropertyAddmisibleList(propertyInfo))
+            if(ModelAttributeHelpers.HasPropertyAddmisibleList(propertyInfo))
             {
-                IEnumerable? list = GetAddmisibleList(propertyInfo, model);
+                IEnumerable? list = ModelAttributeHelpers.GetAddmisibleList(propertyInfo, model);
 
                 if(list is not null)
                 {
@@ -134,43 +134,6 @@
             }
 
             return propertyPresenterDataField;
-        }
-
-        private static IEnumerable? GetAddmisibleList(PropertyInfo propertyInfo, object model)
-        {
-            if (HasPropertyAddmisibleList(propertyInfo))
-            {
-                string? propertyName = (propertyInfo.GetCustomAttributes().Where(a => a is HasAdmissibleListAttribute).FirstOrDefault() as HasAdmissibleListAttribute)?.PropertyName;
-
-                if(propertyName == null)
-                {
-                    return null;
-                }
-
-                return model.GetType().GetProperty(propertyName)?.GetValue(model) as IEnumerable;
-            }
-
-            return null;
-        }
-
-        private static bool HasPropertyAddmisibleList(PropertyInfo propertyInfo)
-        {
-            if (propertyInfo.CustomAttributes.Any(a => a.AttributeType == typeof(HasAdmissibleListAttribute)))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        private static bool CheckIfPropertyCanBeDisplayed(PropertyInfo propertyInfo)
-        {
-            if (propertyInfo.CustomAttributes.Any(a => a.AttributeType == typeof(DoNotDisplayAttribute)))
-            {
-                return false;
-            }
-
-            return true;
         }
 
         private static ObservableCollectionCustom<object> CreateObservableCollectionFromList(IEnumerable inputList)

@@ -5,6 +5,7 @@
     using NaturalnieApp2.Main.Interfaces.Screens;
     using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
+    using NaturalnieApp2.SharedControls.MVVM.ViewModels.FilterControl;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
     using NaturalnieApp2.SharedControls.Services.ModelPresenter;
     using NaturalnieApp2.SharedInterfaces.Database;
@@ -22,11 +23,13 @@
         #region Properties
         public override string ScreenInfo => "Informacje o produkcie";
         public IModelPresenter ModelPresenter { get; init; }
-        public IDatabaseGeneralCommands<ProductModel> ProductDatabaseCommands { get; init;}
+        public IDatabaseGeneralCommands<ProductModel> ProductDatabaseCommands { get; init; }
 
         public bool IsInitialized { get; private set; }
 
         public DummyProductModel model { get; set; }
+        public List<DummyProductModel> Products { get; set;}
+        public FilterControlViewModel FilteredProducts { get; set; }
         #endregion
 
         public ShowProductViewModel()
@@ -35,6 +38,11 @@
             this.model.Name = new string('a', 250);
             this.model.TaxValuesProvider = new List<int> { 1, 2, 3, 4 };
             this.model.Price = 20;
+
+            FilteredProducts = new(typeof(DummyProductModel));
+
+            Products = new();
+            Products.Add(this.model);
         }
 
         #region Private/Protected methods

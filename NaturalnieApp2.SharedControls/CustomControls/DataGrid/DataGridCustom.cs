@@ -50,5 +50,7 @@
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(DataGridCustom), new FrameworkPropertyMetadata(typeof(DataGridCustom)));
         }
+
+
     }
 }

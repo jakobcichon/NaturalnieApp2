@@ -38,25 +38,25 @@
             DependencyProperty.Register("IsCollapsed", typeof(bool), typeof(CollapsableContentControl), new PropertyMetadata(default));
 
 
-        public Control RightContent
+        public FrameworkElement RightContent
         {
-            get { return (Control)GetValue(RightContentProperty); }
+            get { return (FrameworkElement)GetValue(RightContentProperty); }
             set { SetValue(RightContentProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for RightContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty RightContentProperty =
-            DependencyProperty.Register("RightContent", typeof(Control), typeof(CollapsableContentControl), new PropertyMetadata(default));
+            DependencyProperty.Register("RightContent", typeof(FrameworkElement), typeof(CollapsableContentControl), new PropertyMetadata(default));
 
-        public Control LeftContent
+        public FrameworkElement LeftContent
         {
-            get { return (Control)GetValue(LeftContentProperty); }
+            get { return (FrameworkElement)GetValue(LeftContentProperty); }
             set { SetValue(LeftContentProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for LeftContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty LeftContentProperty =
-            DependencyProperty.Register("LeftContent", typeof(Control), typeof(CollapsableContentControl), new PropertyMetadata(default));
+            DependencyProperty.Register("LeftContent", typeof(FrameworkElement), typeof(CollapsableContentControl), new PropertyMetadata(default));
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {

@@ -10,6 +10,8 @@
                     xmlns:vm_buttonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.ButtonsPanel"
                     xmlns:v_modelPresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ModelPresenter"
                     xmlns:vm_modelPresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter"
+                    xmlns:v_FilterControl="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.FilterControl"
+                    xmlns:vm_FilterControl="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.FilterControl"
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -59,6 +61,10 @@
 
     <DataTemplate DataType="{x:Type vm_buttonsPanel:ButtonsPanelViewModel}">
         <v_buttonsPanel:ButtonsPanelView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm_FilterControl:FilterControlElementViewModel}">
+        <v_FilterControl:FilterControlElementView/>
     </DataTemplate>
 
     <Style x:Key="DialogBoxBackgroundStyle" TargetType="Border">
