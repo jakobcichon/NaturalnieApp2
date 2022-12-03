@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.ViewModels.Product
 {
+    using NaturalnieApp2.Common.Collections;
     using NaturalnieApp2.Database.Commands;
     using NaturalnieApp2.Database.Models;
     using NaturalnieApp2.Main.Interfaces.Screens;
@@ -27,22 +28,25 @@
 
         public bool IsInitialized { get; private set; }
 
-        public DummyProductModel model { get; set; }
-        public List<DummyProductModel> Products { get; set;}
-        public FilterControlViewModel FilteredProducts { get; set; }
+        public ProductModel model { get; set; }
+        public ObservableCollectionCustom<ProductModel> Products { get; set;}
+        public FilterControlViewModel<ProductModel> FilteredProducts { get; set; }
         #endregion
 
         public ShowProductViewModel()
         {
-            this.model = new DummyProductModel();
-            this.model.Name = new string('a', 250);
-            this.model.TaxValuesProvider = new List<int> { 1, 2, 3, 4 };
-            this.model.Price = 20;
-
-            FilteredProducts = new(typeof(DummyProductModel));
-
+            FilteredProducts = new(typeof(ProductModel));
+            FilteredProducts.FilterChangedHandler += OnFilterChanged;
             Products = new();
-            Products.Add(this.model);
+        }
+
+        private void OnFilterChanged(object? sender, List<ProductModel> e)
+        {
+            Products.Clear();
+            foreach(var element in e) 
+            {
+                Products.Add(element);
+            }
         }
 
         #region Private/Protected methods
@@ -52,6 +56,8 @@
 
             await CreateModelPresenter();
             var products = await ProductDatabaseCommands.GetAllElements();
+            FilteredProducts.ReferenceList = products.ToList();
+            Products.AddRange(products);
 
             await Task.CompletedTask;
         }

@@ -40,7 +40,8 @@
 
         <Button x:Name="RemoveButton" 
                 Margin="5"
-                Width="40">
+                Width="30"
+                Command="{Binding RemoveFilterCommand}">
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -74,15 +75,16 @@
 
         <TextBox Grid.Column="3"
                    VerticalAlignment="Stretch"
-                   Text="{Binding Value}"
+                   Text="{Binding SelectedValueToFilter, ValidatesOnExceptions=True}"
                    Visibility="{Binding ValueVisibility, 
             Converter={StaticResource BoolToVisibilityConverter}}"
                    Margin="5"
+                    
                    >
         </TextBox>
 
         <Button Grid.Column="4" 
-                Width="50"
+                Width="30"
                 Visibility="{Binding ValueVisibility, 
             Converter={StaticResource BoolToVisibilityConverter}}"
                 Command="{Binding FilterAppliedCommand}"

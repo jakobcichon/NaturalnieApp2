@@ -1,38 +1,60 @@
 ﻿namespace NaturalnieApp2.SharedControls.MVVM.ViewModels.FilterControl
 {
+    using NaturalnieApp2.Common.Attributes.DisplayableModel;
     using NaturalnieApp2.Common.Binding;
     using NaturalnieApp2.Common.Extension_Methods;
-    using NaturalnieApp2.Common.Properties;
-    using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
-    using NaturalnieApp2.SharedControls.Services.ModelPresenter;
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Reflection;
-    using System.Windows.Controls;
 
-    public enum ConditionsForNumericalType
+    public enum AvailableConditions
     {
         EqualTo,
         GreaterThan,
         LessThan,
+        Contains
     }
 
-    public enum ConditionsForStringType
+    public class FilteredEntity
     {
-        Contains,
-        Equals,
+        public string PropertyName { get; set; }
+        public object ExpectedValue { get; set; }
+        public AvailableConditions ComparisonType { get; set; }
     }
 
-    public enum ConditionsForSelectionType
+    public class FilterControlElementViewModel : ValidatableBindableBase
     {
-        Equals
-    }
 
-    public class FilterControlElementViewModel : BindableBase
-    {
+        private enum ConditionsForNumericalType
+        {
+            [DisplayableName("równy")]
+            EqualTo,
+
+            [DisplayableName("większy niż")]
+            GreaterThan,
+
+            [DisplayableName("mniejszy niż")]
+            LessThan,
+        }
+
+        private enum ConditionsForStringType
+        {
+            [DisplayableName("zawiera")]
+            Contains,
+
+            [DisplayableName("równy")]
+            EqualTo,
+        }
+
+        private enum ConditionsForSelectionType
+        {
+            [DisplayableName("równy")]
+            EqualTo
+        }
+
         #region Fields
         private Type typeToFilter;
         private bool valueVisibility;
@@ -41,13 +63,16 @@
         private bool conditionVisibility;
         private string selectedCondition;
         private bool applyButtonVisibility;
-        private object selectedValueToFilter;
+        private dynamic selectedValueToFilter;
         private List<string> elementsToFilter;
         private string selectedElementToFilter;
+        private Type? conditionType;
+        private Type? selectedElementTofilterType;
         #endregion
 
         #region Events
-        public EventHandler FilterAplliedHandler;
+        public EventHandler<FilteredEntity> FilterAplliedHandler { get; set; } = delegate { };
+        public EventHandler FilterRemoveRequestHandler { get; set; } = delegate { };
         #endregion
 
         #region Constructor
@@ -59,6 +84,7 @@
             ApplyButtonVisibility = false;
 
             FilterAppliedCommand = new CommandBase(OnFilterAppliedCommand);
+            RemoveFilterCommand = new CommandBase(OnRemovFilterCommand);
         }
         #endregion
 
@@ -72,7 +98,7 @@
         public List<string> Conditions
         {
             get { return conditions; }
-            set 
+            set
             {
                 if (value != null && value.First() != string.Empty)
                 {
@@ -87,11 +113,13 @@
 
         public CommandBase FilterAppliedCommand { get; init; }
 
+        public CommandBase RemoveFilterCommand { get; init; }
+
         public Type TypeToFilter
         {
             get { return typeToFilter; }
-            init 
-            { 
+            init
+            {
                 typeToFilter = value;
                 OnModelChange();
             }
@@ -169,12 +197,19 @@
             }
         }
 
-        public object SelectedValueToFilter
+        public dynamic SelectedValueToFilter
         {
             get { return selectedValueToFilter; }
             set
             {
-                selectedValueToFilter = value;
+                if(value == null)
+                {
+                    value = string.Empty;
+                }
+
+                dynamic converted = Convert.ChangeType(value, selectedElementTofilterType);
+
+                selectedValueToFilter = converted;
             }
         }
         #endregion
@@ -182,9 +217,18 @@
         #region Provate Methods
         private void OnFilterAppliedCommand(object? obj)
         {
-            FilterAplliedHandler?.Invoke(this, EventArgs.Empty);
+            FilterAplliedHandler?.Invoke(this, new FilteredEntity
+            {
+                PropertyName = SelectedElementToFilter,
+                ExpectedValue = SelectedValueToFilter,
+                ComparisonType = (AvailableConditions)Enum.Parse(typeof(AvailableConditions), conditionType.GetFieldByDisplayableName(SelectedCondition).Name)
+        });
             IsFilterComplited = true;
+        }
 
+        private void OnRemovFilterCommand(object? obj)
+        {
+            FilterRemoveRequestHandler?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnSelectedElementToFilterChange()
@@ -195,45 +239,51 @@
                 return;
             }
 
-            if(propType.IsNumeric())
+            selectedElementTofilterType = propType;
+
+            if (propType.IsNumeric())
             {
-                Conditions = Enum.GetNames(typeof(ConditionsForNumericalType)).ToList();
+                Conditions = Enum.GetValues(typeof(ConditionsForNumericalType)).Cast<ConditionsForNumericalType>().First().GetDisplayableNamesOrDefault();
+                conditionType = typeof(ConditionsForNumericalType);
                 return;
             }
             if (propType.IsString())
             {
-                Conditions = Enum.GetNames(typeof(ConditionsForStringType)).ToList();
+                Conditions = Enum.GetValues(typeof(ConditionsForStringType)).Cast<ConditionsForStringType>().First().GetDisplayableNamesOrDefault();
+                conditionType = typeof(ConditionsForStringType);
                 return;
             }
             if (propType.IsBool() || propType.IsEnum())
             {
-                Conditions = Enum.GetNames(typeof(ConditionsForSelectionType)).ToList();
+                Conditions = Enum.GetValues(typeof(ConditionsForSelectionType)).Cast<ConditionsForSelectionType>().First().GetDisplayableNamesOrDefault();
+                conditionType = typeof(ConditionsForSelectionType);
                 return;
             }
 
             Conditions = new();
+            conditionType = null;
         }
 
         private void OnModelChange()
         {
-            if(TypeToFilter != null) 
+            if (TypeToFilter != null)
             {
-                ElementsToFilter = ModelAttributeHelpers.GetPropertiesDisplayableNames(TypeToFilter);
+                ElementsToFilter = TypeToFilter.GetPropertiesDisplayableNames();
             }
         }
 
         private Type? GetTypeOfSelectedElementToFilter()
         {
-            if(TypeToFilter != null)
+            if (TypeToFilter != null)
             {
-                PropertyInfo? prop = ModelAttributeHelpers.GetPropertyByDisplayableName(TypeToFilter, SelectedElementToFilter);
+                PropertyInfo? prop = TypeToFilter.GetPropertyByDisplayableName(SelectedElementToFilter);
 
                 if (prop == null)
                 {
                     prop = TypeToFilter.GetProperty(SelectedElementToFilter);
                 }
 
-                if(prop != null)
+                if (prop != null)
                 {
                     return prop.PropertyType;
                 }

@@ -7,7 +7,7 @@
     [AttributeUsage(AttributeTargets.Property)]
     public sealed class HasAdmissibleListAttribute : Attribute
     {
-        public string PropertyName { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Class constructor
@@ -15,7 +15,7 @@
         /// <param name="propertyName">Property name that provides admissible list</param>
         public HasAdmissibleListAttribute(string propertyName)
         {
-            PropertyName = propertyName;
+            Name = propertyName;
         }
 
     }

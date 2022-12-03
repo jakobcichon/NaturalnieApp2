@@ -2,6 +2,7 @@
 {
     using NaturalnieApp2.Common.Attributes.DisplayableModel;
     using NaturalnieApp2.Common.Collections;
+    using NaturalnieApp2.Common.Extension_Methods;
     using NaturalnieApp2.Common.Properties;
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
@@ -70,7 +71,7 @@
 
         public IPropertyPresenter? GetPropertyPresenter(PropertyInfo propertyInfo, object model)
         {
-            if (!ModelAttributeHelpers.CheckIfPropertyCanBeDisplayed(propertyInfo))
+            if (!propertyInfo.CheckIfPropertyCanBeDisplayed())
             {
                 return null;
             }
@@ -102,9 +103,9 @@
             IPropertyPresenterDataField? propertyPresenterDataField;
 
             // Check if property has addmisible list of values
-            if(ModelAttributeHelpers.HasPropertyAddmisibleList(propertyInfo))
+            if(propertyInfo.HasPropertyAddmisibleList())
             {
-                IEnumerable? list = ModelAttributeHelpers.GetAddmisibleList(propertyInfo, model);
+                IEnumerable? list = propertyInfo.GetAddmisibleList(model);
 
                 if(list is not null)
                 {
