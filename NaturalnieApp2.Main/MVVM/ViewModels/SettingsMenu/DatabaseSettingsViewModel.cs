@@ -33,8 +33,8 @@
             {
                 if (XmlSerializer is not null)
                 {
-                    Model = XmlSerializer.Deserialize<IDatabseSettingsProvider>(this);
-                    Model ??= new DatabaseSettingsModel();
+                    Model = XmlSerializer.Deserialize<IDatabaseConnectionSettingsProvider>(this);
+                    Model ??= new DatabaseConnectionSettingsModel();
                 }
 
                 await CreateModelPresenter();

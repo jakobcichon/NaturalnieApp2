@@ -10,6 +10,7 @@
 
         public StringLengthCustomAttribute(int maximumLength): base(maximumLength)
         {
+            ;
         }
 
         public override string FormatErrorMessage(string name)

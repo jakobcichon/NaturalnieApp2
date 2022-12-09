@@ -2,8 +2,9 @@
 {
     using NaturalnieApp2.Main.Interfaces.Model;
 
-    public interface IDatabseSettingsProvider : IModel
+    public interface IDatabaseConnectionSettingsProvider : IModel
     {
         public string ConnectionString { get; set; }
     }
+
 }

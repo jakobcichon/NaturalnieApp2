@@ -91,24 +91,17 @@
             return searchProperties.Where(p => p.Value?.DisplayName == displayableName).Select(p => p.Key).FirstOrDefault();
         }
 
+        private static readonly HashSet<Type> NumericTypes = new HashSet<Type>
+        {
+        typeof(int),  typeof(double),  typeof(decimal),
+        typeof(long), typeof(short),   typeof(sbyte),
+        typeof(byte), typeof(ulong),   typeof(ushort),
+        typeof(uint), typeof(float)
+        };
+
         public static bool IsNumeric(this Type? type)
         {
-            switch(Type.GetTypeCode(type))
-            {
-                case TypeCode.Int16:
-                case TypeCode.Int32:
-                case TypeCode.Int64:
-                case TypeCode.UInt16:
-                case TypeCode.UInt32:
-                case TypeCode.UInt64:
-                case TypeCode.Single:
-                case TypeCode.Double:
-                case TypeCode.Decimal:
-                    return true;
-                default:
-                    return false;
-
-            }
+            return NumericTypes.Contains(Nullable.GetUnderlyingType(type) ?? type);
         }
 
         public static bool IsInteger(this Type? type)
@@ -144,7 +137,7 @@
 
         public static bool IsString(this Type? type)
         {
-            if(type == typeof(string))
+            if (type == typeof(string))
             {
                 return true;
             }

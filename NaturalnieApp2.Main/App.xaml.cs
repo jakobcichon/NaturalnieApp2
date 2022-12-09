@@ -1,4 +1,6 @@
-﻿namespace NaturalnieApp2.Main
+﻿global using static NaturalnieApp2.Main.StaticSettings.StaticSettings;
+
+namespace NaturalnieApp2.Main
 {
     using global::Main.MVVM.Models.GlobalSettingsModel.DatabaseSettings;
     using global::Main.MVVM.Models.GlobalSettingsModel.DatabaseSettings.DatabaseSettingsModel;
@@ -65,8 +67,6 @@
             mainWindow.Top = SystemParameters.PrimaryScreenHeight - mainWindow.Height;
 
             mainWindow.Show();
-
-            ;
         }
 
         /// <summary>
@@ -225,7 +225,7 @@
             {
                 return new GlobalSettingsModel()
                 {
-                    DatabaseSettings = s.GetRequiredService<IDatabseSettingsProvider>()
+                    DatabaseSettings = s.GetRequiredService<IDatabaseConnectionSettingsProvider>()
                 };
             });
         }
@@ -234,16 +234,16 @@
         {
             services.AddTransient<IDatabaseGeneralCommands<ProductModel>>((s) =>
             {
-                return new ProductCommands(s.GetRequiredService<IDatabseSettingsProvider>().ConnectionString);
+                return new ProductCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
             });
         }
 
         private static void ConfigureDatabaseSettings(ServiceCollection services)
         {
             // Logger
-            services.AddSingleton<IDatabseSettingsProvider>((s) =>
+            services.AddSingleton<IDatabaseConnectionSettingsProvider>((s) =>
             {
-                return new DatabaseSettingsModel() 
+                return new DatabaseConnectionSettingsModel() 
                 { 
                     ConnectionString = string.Format("server = {0}; port = 3306; database = shop; uid = admin; password = admin; Connection Timeout = 10", "localhost")
                 };

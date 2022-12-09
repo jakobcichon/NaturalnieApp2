@@ -239,6 +239,11 @@
                 return;
             }
 
+            if (propType.IsGenericType)
+            {
+                propType = Nullable.GetUnderlyingType(propType);
+            }
+
             selectedElementTofilterType = propType;
 
             if (propType.IsNumeric())

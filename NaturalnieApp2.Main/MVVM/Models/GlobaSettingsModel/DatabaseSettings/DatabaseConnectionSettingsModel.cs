@@ -5,7 +5,7 @@ using NaturalnieApp2.Common.Attributes.ValidationRules;
 using NaturalnieApp2.Main.Interfaces.GlobalSettings.DatabaseSettings;
 using NaturalnieApp2.Main.MVVM.Models;
 
-internal record DatabaseSettingsModel : ModelBase, IDatabseSettingsProvider
+internal record DatabaseConnectionSettingsModel : ModelBase, IDatabaseConnectionSettingsProvider
 {
     #region Fields
     private string connectionString;

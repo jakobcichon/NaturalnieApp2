@@ -11,7 +11,7 @@
         public int Id { get; set; }
         public int TaxValue { get; set; }
 
-        public ICollection<ProductModel> Products { get; set; }
+        public virtual ICollection<ProductModel> Products { get; set; }
 
         public TaxModel DeepCopy()
         {

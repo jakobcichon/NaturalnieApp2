@@ -9,17 +9,17 @@
         [Key]
         public int Id { get; set; }
         public int SupplierId { get; set; }
-        public SupplierModel Supplier { get; set; } = null!;
+        public virtual SupplierModel Supplier { get; set; } = null!;
         public int? ElzabProductId { get; set; }
         public int ManufacturerId { get; set; }
-        public ManufacturerModel Manufacturer { get; set; } = null!;
+        public virtual ManufacturerModel Manufacturer { get; set; } = null!;
         public string ProductName { get; set; } = null!;
         public string ElzabProductName { get; set; } = null!;
         public float PriceNet { get; set; }
         public int Discount { get; set; }
         public float PriceNetWithDiscount { get; set; }
         public int TaxId { get; set; }
-        public TaxModel Tax { get; set; } = null!;
+        public virtual TaxModel Tax { get; set; } = null!;
         public int Marigin { get; set; }
         public float FinalPrice { get; set; }
         public string BarCode { get; set; } = null!;

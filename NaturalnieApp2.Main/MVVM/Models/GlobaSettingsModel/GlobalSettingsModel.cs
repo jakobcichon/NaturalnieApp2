@@ -7,15 +7,17 @@
     public record GlobalSettingsModel : ValidatableBindableRecordBase, IGlobalSettingsProvider
     {
         #region Fields
-        private IDatabseSettingsProvider? databaseSettings;
+        private IDatabaseConnectionSettingsProvider? databaseSettings;
         #endregion
 
         #region Properties
-        public IDatabseSettingsProvider? DatabaseSettings
+        public IDatabaseConnectionSettingsProvider? DatabaseSettings
         {
             get { return databaseSettings; }
             set { SetProperty(ref databaseSettings, value); }
         }
+
+        public IDatabaseModelSettings? DatabaseModelSettings { get => throw new System.NotImplementedException(); }
         #endregion
 
     }

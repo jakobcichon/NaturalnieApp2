@@ -4,6 +4,8 @@
 
     public interface IGlobalSettingsProvider
     {
-        IDatabseSettingsProvider? DatabaseSettings { get;}
+        IDatabaseConnectionSettingsProvider? DatabaseSettings { get; }
+        IDatabaseModelSettings? DatabaseModelSettings { get; }
+
     }
 }

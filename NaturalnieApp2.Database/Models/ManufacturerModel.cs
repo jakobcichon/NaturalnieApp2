@@ -13,7 +13,7 @@
         public string BarcodeEanPrefix { get; set; }
         public string Info { get; set; }
 
-        public ICollection<ProductModel> Products { get; set; }
+        public virtual ICollection<ProductModel> Products { get; set; }
 
         public ManufacturerModel DeepCopy()
         {

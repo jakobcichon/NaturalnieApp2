@@ -24,11 +24,11 @@
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             // Configures one-to-many relationship
-            modelBuilder.Entity<ProductModel>()
-                .HasRequired(p => p.Tax)
-                .WithMany(x => x.Products)
-                .HasForeignKey(p => p.TaxId);
-
+/*            modelBuilder.Entity<SupplierModel>()
+                .HasMany<ProductModel>(s => s.Products)
+                .WithRequired(p => p.Supplier)
+                .HasForeignKey<int>(p => p.SupplierId);*/
+/*
             modelBuilder.Entity<ProductModel>()
                 .HasRequired(p => p.Supplier)
                 .WithMany(x => x.Products)
@@ -37,7 +37,7 @@
             modelBuilder.Entity<ProductModel>()
                 .HasRequired(p => p.Manufacturer)
                 .WithMany(x => x.Products)
-                .HasForeignKey(p => p.ManufacturerId);
+                .HasForeignKey(p => p.ManufacturerId);*/
         }
 
         public ShopContext()
@@ -60,8 +60,8 @@
 
         private void CommonSettings()
         {
-            this.Configuration.LazyLoadingEnabled = false;
-            this.Configuration.ProxyCreationEnabled = false;
+ /*           this.Configuration.LazyLoadingEnabled = false;
+            this.Configuration.ProxyCreationEnabled = false;*/
         }
     }
 }
