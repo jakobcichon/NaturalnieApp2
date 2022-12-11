@@ -6,6 +6,14 @@
              xmlns:local="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.FilterControl"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/ImageResources.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,6 +22,13 @@
         <ItemsControl ItemsSource="{Binding FilterConditions}" HorizontalContentAlignment="Stretch"/>
         <Button Grid.Row="1" 
                 MaxWidth="50"
-                Command="{Binding AddButtonCommand}"/>
+                Command="{Binding AddButtonCommand}"
+                Background="Transparent"
+                BorderThickness="0"
+                >
+            <Button.Content>
+                <Image Source="{StaticResource AddNewImage}"/>
+            </Button.Content>
+        </Button>
     </Grid>
 </UserControl>

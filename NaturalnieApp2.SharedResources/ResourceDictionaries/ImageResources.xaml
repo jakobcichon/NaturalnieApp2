@@ -2,16 +2,20 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     >
 
-    <!--Filter/sorting images-->
+    <!--
+    Filter/sorting images-->
     <BitmapImage x:Key="ClearFilterImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/clear-filter.png"/>
     <BitmapImage x:Key="SelectImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/select.png"/>
-    
     <!--Idnicator images-->
     <BitmapImage x:Key="ErrorIconImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/error-icon.png"/>
     <BitmapImage x:Key="CheckImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/check.png"/>
 
     <!--Generic images-->
     <BitmapImage x:Key="SettingsImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/settings_icon.png"/>
+    <BitmapImage x:Key="AddNewImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/add-new.png"/>
+    <BitmapImage x:Key="CheckOkImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/check-ok.png"/>
+    <BitmapImage x:Key="CheckPendingImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/check-pending.png"/>
+    <BitmapImage x:Key="RemoveImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/remove-icon.png"/>
     
     <!--Logo images-->
     <BitmapImage x:Key="NaturalnieLogoImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/Naturalnielogo.png"/>

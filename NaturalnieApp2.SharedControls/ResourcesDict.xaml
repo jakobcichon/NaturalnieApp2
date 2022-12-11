@@ -12,6 +12,8 @@
                     xmlns:vm_modelPresenter="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter"
                     xmlns:v_FilterControl="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.FilterControl"
                     xmlns:vm_FilterControl="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.FilterControl"
+                    xmlns:v_FilterControlValue="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.FilterControl.FilterControlValueElementTypes"
+                    xmlns:vm_FilterControlValue="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.FilterControl.FilterControlValueElementTypes"
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -65,6 +67,14 @@
 
     <DataTemplate DataType="{x:Type vm_FilterControl:FilterControlElementViewModel}">
         <v_FilterControl:FilterControlElementView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm_FilterControlValue:TextBoxTypeViewModel}">
+        <v_FilterControlValue:TextBoxTypeView/>
+    </DataTemplate>
+    
+    <DataTemplate DataType="{x:Type vm_FilterControlValue:CheckBoxTypeViewModel}">
+        <v_FilterControlValue:CheckBoxTypeView/>
     </DataTemplate>
 
     <Style x:Key="DialogBoxBackgroundStyle" TargetType="Border">

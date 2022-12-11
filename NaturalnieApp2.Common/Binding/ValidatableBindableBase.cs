@@ -15,7 +15,7 @@
 
         public System.Collections.IEnumerable GetErrors(string? propertyName)
         {
-            if(string.IsNullOrEmpty(propertyName))
+            if (string.IsNullOrEmpty(propertyName))
             {
                 return new List<string>();
             }
@@ -24,7 +24,7 @@
             {
                 return errors[propertyName];
             }
-            
+
             return new List<string>();
         }
 
@@ -33,18 +33,35 @@
             get { return errors.Count > 0; }
         }
 
+        protected void SetProperty<T>(ref T member, T val, Type propertyType,
+            [CallerMemberName] string? propertyName = null)
+        {
+            bool isValid = ValidatePropertyType(propertyName, val, propertyType);
+            if (isValid)
+            {
+                SetProperty(ref member, val, propertyName);
+            }
+        }
+
         protected override void SetProperty<T>(ref T member, T val,
             [CallerMemberName] string? propertyName = null)
         {
-            base.SetProperty<T>(ref member, val, propertyName);
-            ValidateProperty(propertyName, val);
-        }
+            bool isValid = ValidateProperty(propertyName, val);
 
-        private void ValidateProperty<T>(string? propertyName, T value)
-        {
-            if(string.IsNullOrEmpty(propertyName))
+            if (!isValid)
             {
                 return;
+            }
+
+            base.SetProperty(ref member, val, propertyName);
+        }
+
+        private bool ValidateProperty<T>(string? propertyName, T value)
+        {
+            bool retValue = true;
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return retValue;
             }
 
             List<ValidationResult> results = new();
@@ -55,16 +72,50 @@
             if (results.Any())
             {
                 List<string?> propErrors = results.Select(c => c.ErrorMessage).ToList();
-                if(propErrors.Any())
+                if (propErrors.Any())
                 {
                     errors[propertyName] = propErrors;
+                    retValue = false;
                 }
             }
             else
             {
                 errors.Remove(propertyName);
+                retValue = true;
             }
             ErrorsChanged!(this, new DataErrorsChangedEventArgs(propertyName));
+
+            return retValue;
+        }
+
+        protected bool ValidatePropertyType<T>(string? propertyName, T value, Type propertyType)
+        {
+            bool retValue = true;
+            if (string.IsNullOrEmpty(propertyName))
+            {
+                return retValue;
+            }
+
+            if (propertyType is null)
+            {
+                return retValue;
+            }
+
+            try
+            {
+                Convert.ChangeType(value, propertyType);
+                errors.Remove(propertyName);
+                retValue = true;
+            }
+            catch (Exception)
+            {
+                errors[propertyName] = new() { "Błędny typ zmiennej" };
+                retValue = false;
+            }
+
+            ErrorsChanged!(this, new DataErrorsChangedEventArgs(propertyName));
+
+            return retValue;
         }
 
     }

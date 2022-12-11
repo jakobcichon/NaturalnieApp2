@@ -4,6 +4,7 @@
     using NaturalnieApp2.Common.Binding;
     using NaturalnieApp2.Common.Extension_Methods;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
+    using NaturalnieApp2.SharedControls.MVVM.ViewModels.FilterControl.FilterControlValueElementTypes;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -68,6 +69,7 @@
         private string selectedElementToFilter;
         private Type? conditionType;
         private Type? selectedElementTofilterType;
+        private ValidatableBindableBase selectedValueType;
         #endregion
 
         #region Events
@@ -83,7 +85,7 @@
             ValueVisibility = false;
             ApplyButtonVisibility = false;
 
-            FilterAppliedCommand = new CommandBase(OnFilterAppliedCommand);
+            FilterAppliedCommand = new CommandBase(OnFilterAppliedCommand, CanBeApplied);
             RemoveFilterCommand = new CommandBase(OnRemovFilterCommand);
         }
         #endregion
@@ -100,12 +102,7 @@
             get { return conditions; }
             set
             {
-                if (value != null && value.First() != string.Empty)
-                {
-                    value.Insert(0, string.Empty);
-                }
                 SetProperty(ref conditions, value);
-
             }
         }
 
@@ -156,10 +153,6 @@
             get { return elementsToFilter; }
             private set
             {
-                if (value != null && value.First() != string.Empty)
-                {
-                    value.Insert(0, string.Empty);
-                }
                 SetProperty(ref elementsToFilter, value);
             }
         }
@@ -197,32 +190,49 @@
             }
         }
 
+        public ValidatableBindableBase SelectedValueType
+        {
+            get { return selectedValueType; }
+            set { SetProperty(ref selectedValueType, value); }
+        }
+
         public dynamic SelectedValueToFilter
         {
             get { return selectedValueToFilter; }
             set
             {
-                if(value == null)
+                if (value == null)
                 {
                     value = string.Empty;
                 }
 
-                dynamic converted = Convert.ChangeType(value, selectedElementTofilterType);
+                bool isValid = ValidatePropertyType(nameof(SelectedValueToFilter), value, selectedElementTofilterType);
 
-                selectedValueToFilter = converted;
+                if(isValid) 
+                {
+                    var convertedValue = Convert.ChangeType(value, selectedElementTofilterType);
+                    SetProperty(ref selectedValueToFilter, convertedValue);
+                }
+                
             }
         }
         #endregion
 
         #region Provate Methods
+        private bool CanBeApplied(object? args)
+        {
+            return !HasErrors;
+        }
+
         private void OnFilterAppliedCommand(object? obj)
         {
             FilterAplliedHandler?.Invoke(this, new FilteredEntity
             {
                 PropertyName = SelectedElementToFilter,
                 ExpectedValue = SelectedValueToFilter,
-                ComparisonType = (AvailableConditions)Enum.Parse(typeof(AvailableConditions), conditionType.GetFieldByDisplayableName(SelectedCondition).Name)
-        });
+                ComparisonType = (AvailableConditions)Enum.Parse(typeof(AvailableConditions),
+                conditionType.GetFieldByDisplayableName(SelectedCondition).Name)
+            });
             IsFilterComplited = true;
         }
 
@@ -250,23 +260,45 @@
             {
                 Conditions = Enum.GetValues(typeof(ConditionsForNumericalType)).Cast<ConditionsForNumericalType>().First().GetDisplayableNamesOrDefault();
                 conditionType = typeof(ConditionsForNumericalType);
+                ChangeSelectedValueTypeViewModel();
                 return;
             }
             if (propType.IsString())
             {
                 Conditions = Enum.GetValues(typeof(ConditionsForStringType)).Cast<ConditionsForStringType>().First().GetDisplayableNamesOrDefault();
                 conditionType = typeof(ConditionsForStringType);
+                ChangeSelectedValueTypeViewModel();
                 return;
             }
             if (propType.IsBool() || propType.IsEnum())
             {
                 Conditions = Enum.GetValues(typeof(ConditionsForSelectionType)).Cast<ConditionsForSelectionType>().First().GetDisplayableNamesOrDefault();
                 conditionType = typeof(ConditionsForSelectionType);
+                ChangeSelectedValueTypeViewModel();
                 return;
             }
 
             Conditions = new();
             conditionType = null;
+        }
+
+        private void ChangeSelectedValueTypeViewModel()
+        {
+            if(conditionType == typeof(ConditionsForStringType))
+            {
+                SelectedValueType = new TextBoxTypeViewModel(this, nameof(SelectedValueToFilter));
+                return;
+            }
+            if (conditionType == typeof(ConditionsForNumericalType))
+            {
+                SelectedValueType = new TextBoxTypeViewModel(this, nameof(SelectedValueToFilter));
+                return;
+            }
+            if (conditionType == typeof(ConditionsForSelectionType))
+            {
+                SelectedValueType = new CheckBoxTypeViewModel(this, nameof(SelectedValueToFilter));
+                return;
+            }
         }
 
         private void OnModelChange()

@@ -10,6 +10,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ConvertersDict.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedResources;component/ResourceDictionaries/ImageResources.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -41,7 +42,12 @@
         <Button x:Name="RemoveButton" 
                 Margin="5"
                 Width="30"
-                Command="{Binding RemoveFilterCommand}">
+                Command="{Binding RemoveFilterCommand}"
+                BorderThickness="0"
+                Background="Transparent">
+            <Button.Content>
+                <Image Source="{StaticResource RemoveImage}"/>
+            </Button.Content>
             <Button.Style>
                 <Style TargetType="Button">
                     <Setter Property="Visibility" Value="Collapsed"/>
@@ -73,22 +79,36 @@
                   Margin="5">
         </ComboBox>
 
-        <TextBox Grid.Column="3"
-                   VerticalAlignment="Stretch"
-                   Text="{Binding SelectedValueToFilter, ValidatesOnExceptions=True}"
-                   Visibility="{Binding ValueVisibility, 
+        <ContentControl Grid.Column="3"
+            Content="{Binding SelectedValueType}"
+                        Visibility="{Binding ValueVisibility, 
             Converter={StaticResource BoolToVisibilityConverter}}"
-                   Margin="5"
-                    
-                   >
-        </TextBox>
+                        Margin="5"/>
 
         <Button Grid.Column="4" 
                 Width="30"
                 Visibility="{Binding ValueVisibility, 
             Converter={StaticResource BoolToVisibilityConverter}}"
                 Command="{Binding FilterAppliedCommand}"
-                Margin="5"/>
+                BorderThickness="0"
+                Background="Transparent">
+            <Button.Content>
+                <Image Source="{StaticResource CheckPendingImage}"/>
+            </Button.Content>
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsFilterComplited}" Value="True">
+                            <Setter Property="Content">
+                                <Setter.Value>
+                                    <Image Source="{StaticResource CheckOkImage}"/>
+                                </Setter.Value>
+                            </Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
 
     </Grid>
 
