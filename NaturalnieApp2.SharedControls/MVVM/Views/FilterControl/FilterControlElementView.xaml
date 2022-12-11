@@ -92,11 +92,13 @@
                 Command="{Binding FilterAppliedCommand}"
                 BorderThickness="0"
                 Background="Transparent">
-            <Button.Content>
-                <Image Source="{StaticResource CheckPendingImage}"/>
-            </Button.Content>
             <Button.Style>
                 <Style TargetType="Button">
+                    <Setter Property="Content">
+                        <Setter.Value>
+                            <Image Source="{StaticResource CheckPendingImage}"/>
+                        </Setter.Value>
+                    </Setter>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsFilterComplited}" Value="True">
                             <Setter Property="Content">
