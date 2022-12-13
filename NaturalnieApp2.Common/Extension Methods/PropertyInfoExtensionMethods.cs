@@ -37,7 +37,7 @@
             return true;
         }
 
-        public static IEnumerable? GetAddmisibleList(this PropertyInfo propertyInfo, object model)
+        public static IEnumerable? GetAddmisibleList(this PropertyInfo propertyInfo, Type contextType)
         {
             if (HasPropertyAddmisibleList(propertyInfo))
             {
@@ -48,7 +48,13 @@
                     return null;
                 }
 
-                return model.GetType().GetProperty(propertyName)?.GetValue(model) as IEnumerable;
+                PropertyInfo? addmisibleListProp = contextType.GetProperty(propertyName);
+                if(addmisibleListProp == null) 
+                { 
+                    return new List<object>();
+                }
+
+                return addmisibleListProp.GetValue(null) as IEnumerable;
             }
 
             return null;

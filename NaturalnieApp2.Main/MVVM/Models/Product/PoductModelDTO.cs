@@ -5,6 +5,8 @@
     using NaturalnieApp2.Common.Binding;
     using NaturalnieApp2.Database.Models;
     using NaturalnieApp2.Main.Interfaces.Model;
+    using System.Collections.Generic;
+    using System.Windows.Documents;
 
     public record ProductModelDTO : ValidatableBindableRecordBase, IModel, IConvertableModel<ProductModel>
     {
@@ -97,10 +99,17 @@
         }
 
         [DisplayableName("Podatek")]
+        [HasAdmissibleList("TaxOptions")]
         public int Tax
         {
             get { return tax; }
             set { SetProperty(ref tax, value); }
+        }
+
+        [DoNotDisplay]
+        public static List<int> TaxOptions
+        {
+            get { return new() { 0, 5, 8, 23 }; }
         }
 
         [DisplayableName("Marża")]

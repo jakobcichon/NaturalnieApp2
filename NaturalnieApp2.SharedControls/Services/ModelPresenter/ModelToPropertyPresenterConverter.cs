@@ -105,7 +105,7 @@
             // Check if property has addmisible list of values
             if(propertyInfo.HasPropertyAddmisibleList())
             {
-                IEnumerable? list = propertyInfo.GetAddmisibleList(model);
+                IEnumerable? list = propertyInfo.GetAddmisibleList(model.GetType());
 
                 if(list is not null)
                 {

@@ -103,6 +103,10 @@
             set
             {
                 SetProperty(ref conditions, value);
+                if (conditions != null && conditions.Count == 1)
+                {
+                    SelectedCondition = conditions.First();
+                }
             }
         }
 
@@ -162,8 +166,14 @@
             get { return selectedElementToFilter; }
             set
             {
+                if (IsFilterComplited)
+                {
+                    IsFilterComplited = false;
+                }
+
                 selectedElementToFilter = value;
                 OnSelectedElementToFilterChange();
+
                 if (value == null || value == string.Empty)
                 {
                     ConditionVisibility = false;
@@ -179,8 +189,13 @@
             get { return selectedCondition; }
             set
             {
-                selectedCondition = value;
-                if (value == null || value == string.Empty)
+                if (IsFilterComplited)
+                {
+                    IsFilterComplited = false;
+                }
+
+                SetProperty(ref selectedCondition, value);
+                if (value == null)
                 {
                     ValueVisibility = false;
                     return;
@@ -203,7 +218,12 @@
             {
                 if (value == null)
                 {
-                    value = string.Empty;
+                    value = GetDefaultForSelectedValue();
+                }
+
+                if (IsFilterComplited)
+                {
+                    IsFilterComplited = false;
                 }
 
                 bool isValid = ValidatePropertyType(nameof(SelectedValueToFilter), value, selectedElementTofilterType);
@@ -218,7 +238,17 @@
         }
         #endregion
 
-        #region Provate Methods
+        #region Private Methods
+        private dynamic GetDefaultForSelectedValue()
+        {
+            if (selectedElementTofilterType == typeof(string))
+            {
+                return string.Empty;
+            }
+
+            return Activator.CreateInstance(selectedElementTofilterType);
+        }
+
         private bool CanBeApplied(object? args)
         {
             return !HasErrors;
@@ -255,26 +285,60 @@
             }
 
             selectedElementTofilterType = propType;
+            ResetFilter();
+
+            var propInfo = GetPropInfoOfSelectedElementToFilter();
+
+            SelectedCondition = null;
+
+            if (propInfo != null && propInfo.HasPropertyAddmisibleList())
+            {
+                ComboBoxTypeViewModel viewModel = new(this, nameof(SelectedValueToFilter));
+                System.Collections.IEnumerable? list = propInfo!.GetAddmisibleList(typeToFilter);
+                if (list == null)
+                {
+                    return;
+                }
+
+                foreach (object? item in list)
+                {
+                    viewModel.ItemsList.Add(item);
+                }
+
+
+                Conditions = Enum.GetValues(typeof(ConditionsForSelectionType)).Cast<ConditionsForSelectionType>().First().GetDisplayableNamesOrDefault();
+                conditionType = typeof(ConditionsForSelectionType);
+
+                SelectedValueType = viewModel;
+
+                return;
+            }
 
             if (propType.IsNumeric())
             {
                 Conditions = Enum.GetValues(typeof(ConditionsForNumericalType)).Cast<ConditionsForNumericalType>().First().GetDisplayableNamesOrDefault();
                 conditionType = typeof(ConditionsForNumericalType);
-                ChangeSelectedValueTypeViewModel();
+
+                SelectedValueType = new TextBoxTypeViewModel(this, nameof(SelectedValueToFilter));
+                
                 return;
             }
             if (propType.IsString())
             {
                 Conditions = Enum.GetValues(typeof(ConditionsForStringType)).Cast<ConditionsForStringType>().First().GetDisplayableNamesOrDefault();
                 conditionType = typeof(ConditionsForStringType);
-                ChangeSelectedValueTypeViewModel();
+
+                SelectedValueType = new TextBoxTypeViewModel(this, nameof(SelectedValueToFilter));
+
                 return;
             }
-            if (propType.IsBool() || propType.IsEnum())
+            if (propType.IsBool())
             {
                 Conditions = Enum.GetValues(typeof(ConditionsForSelectionType)).Cast<ConditionsForSelectionType>().First().GetDisplayableNamesOrDefault();
                 conditionType = typeof(ConditionsForSelectionType);
-                ChangeSelectedValueTypeViewModel();
+
+                SelectedValueType = new CheckBoxTypeViewModel(this, nameof(SelectedValueToFilter));
+
                 return;
             }
 
@@ -282,22 +346,11 @@
             conditionType = null;
         }
 
-        private void ChangeSelectedValueTypeViewModel()
+        private void ResetFilter()
         {
-            if(conditionType == typeof(ConditionsForStringType))
+            if(selectedElementTofilterType is not null)
             {
-                SelectedValueType = new TextBoxTypeViewModel(this, nameof(SelectedValueToFilter));
-                return;
-            }
-            if (conditionType == typeof(ConditionsForNumericalType))
-            {
-                SelectedValueType = new TextBoxTypeViewModel(this, nameof(SelectedValueToFilter));
-                return;
-            }
-            if (conditionType == typeof(ConditionsForSelectionType))
-            {
-                SelectedValueType = new CheckBoxTypeViewModel(this, nameof(SelectedValueToFilter));
-                return;
+                SelectedValueToFilter = GetDefaultForSelectedValue();
             }
         }
 
@@ -324,6 +377,18 @@
                 {
                     return prop.PropertyType;
                 }
+            }
+
+            return null;
+        }
+
+        private PropertyInfo? GetPropInfoOfSelectedElementToFilter()
+        {
+            if (TypeToFilter != null)
+            {
+                PropertyInfo? prop = TypeToFilter.GetPropertyByDisplayableName(SelectedElementToFilter);
+
+                return prop;
             }
 
             return null;
