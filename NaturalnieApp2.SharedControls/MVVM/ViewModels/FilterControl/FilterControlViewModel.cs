@@ -2,25 +2,33 @@
 {
     using NaturalnieApp2.Common.Extension_Methods;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
-    using NaturalnieApp2.SharedControls.Services.ModelPresenter;
     using System;
-    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Collections.Specialized;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
-    using System.Numerics;
-    using System.Threading.Tasks;
-    using System.Windows.Documents;
 
     public class FilterDataSet<T>
     {
 
         private List<T>? filteredElements;
 
-        public FilterControlElementViewModel FilterInstance { get; set; }
-        public FilteredEntity FilterConditionEntity { get; set; }
+        public FilterControlElementViewModel FilterInstance { get; set; } = null;
+        public FilteredEntity FilterConditionEntity { get; set; } = null;
+
+        public int FilteredElementsCount
+        {
+            get
+            {
+                if (FilteredElements is null)
+                {
+                    return default;
+                }
+
+                return FilteredElements.Count;
+            }
+        }
+
         public List<T>? FilteredElements
         {
             get { return filteredElements; }
@@ -34,18 +42,18 @@
                 filteredElements = value;
             }
         }
-
-
     }
-
 
     public class FilterControlViewModel<T>
     {
-        private Type typeToFilter;
+        #region Fields
+        private readonly Type typeToFilter;
+        private readonly List<FilterDataSet<T>> filtersData; 
+        #endregion
 
-        private List<FilterDataSet<T>> filtersData;
-
-        public EventHandler<List<T>> FilterChangedHandler { get; set; } = delegate { };
+        #region Events
+        public EventHandler<List<T>> FilterChangedHandler { get; set; } = delegate { }; 
+        #endregion
 
         public FilterControlViewModel(Type typeToFilter)
         {
@@ -57,12 +65,50 @@
             filtersData = new();
         }
 
+        #region Properties
         public ObservableCollection<FilterControlElementViewModel> FilterConditions { get; set; }
         public CommandBase AddButtonCommand { get; set; }
         public object Model { get; init; }
         public List<T> ReferenceList { get; set; }
         public List<T> FilteredList { get; private set; }
         public bool IsFilter { get; set; }
+        #endregion
+
+        #region Public methods
+        public bool CanExecute(object? data)
+        {
+            return FilterConditions.All(e => e.IsFilterComplited);
+        }
+
+        public void OnAddButtonClick(object? data)
+        {
+            FilterControlElementViewModel filter = new()
+            {
+                TypeToFilter = typeToFilter,
+            };
+            filter.FilterRemoveRequestHandler += OnFilterRemoveRequest;
+            filter.FilterAplliedHandler += OnFilterApplied;
+
+            FilterConditions.Add(filter);
+
+        }
+        #endregion
+
+        #region Protected/Private methods
+        private void OnFilterRemoveRequest(object? sender, EventArgs e)
+        {
+            FilterControlElementViewModel? localSender = sender as FilterControlElementViewModel;
+            if (localSender != null)
+            {
+                localSender.FilterRemoveRequestHandler -= OnFilterRemoveRequest;
+                localSender.FilterAplliedHandler -= OnFilterApplied;
+                FilterConditions.Remove(localSender);
+            }
+
+            UdpateResultList();
+
+            FilterChangedHandler?.Invoke(this, FilteredList);
+        }
 
         private void FilterConditions_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -131,39 +177,6 @@
             }
         }
 
-        public bool CanExecute(object? data)
-        {
-            return FilterConditions.All(e => e.IsFilterComplited);
-        }
-
-        public void OnAddButtonClick(object? data)
-        {
-            FilterControlElementViewModel filter = new()
-            {
-                TypeToFilter = typeToFilter,
-            };
-            filter.FilterRemoveRequestHandler += OnFilterRemoveRequest;
-            filter.FilterAplliedHandler += OnFilterApplied;
-
-            FilterConditions.Add(filter);
-
-        }
-
-        private void OnFilterRemoveRequest(object? sender, EventArgs e)
-        {
-            FilterControlElementViewModel? localSender = sender as FilterControlElementViewModel;
-            if (localSender != null)
-            {
-                localSender.FilterRemoveRequestHandler -= OnFilterRemoveRequest;
-                localSender.FilterAplliedHandler -= OnFilterApplied;
-                FilterConditions.Remove(localSender);
-            }
-
-            UdpateResultList();
-
-            FilterChangedHandler?.Invoke(this, FilteredList);
-        }
-
         private void OnFilterApplied(object? sender, FilteredEntity e)
         {
             FilterControlElementViewModel? casted = sender as FilterControlElementViewModel;
@@ -189,7 +202,7 @@
         }
 
         private void UdpateResultList()
-        { 
+        {
             // No filter data at all
             if (filtersData == null)
             {
@@ -277,7 +290,8 @@
                 default:
                     return false;
             }
-        }
+        } 
+        #endregion
 
     }
 }

@@ -11,6 +11,17 @@
 
     public static class PropertyInfoExtensionMethods
     {
+        public static string? GetDisplayableName(this PropertyInfo property)
+        {
+            DisplayableNameAttribute? attribute = property.GetCustomAttribute(typeof(DisplayableNameAttribute)) as DisplayableNameAttribute;
+            if (attribute != null)
+            {
+                return attribute.DisplayName;
+            }
+
+            return null;
+        }
+
         public static Dictionary<PropertyInfo, T> GetPropertiesWithCustomAttribute<T>(this List<PropertyInfo> properties)
         {
             IEnumerable<PropertyInfo> searchedProps = properties.Where(p => p.GetCustomAttribute(typeof(T)) != null);

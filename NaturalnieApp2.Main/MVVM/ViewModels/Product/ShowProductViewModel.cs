@@ -16,13 +16,17 @@
     {
         #region Properties
         public override string ScreenInfo => "Informacje o produkcie";
+
         public IModelPresenter ModelPresenter { get; init; }
+
         public IDatabaseGeneralCommands<ProductModel> ProductDatabaseCommands { get; init; }
 
         public bool IsInitialized { get; private set; }
 
         public ProductModel model { get; set; }
+
         public ObservableCollectionCustom<ProductModelDTO> Products { get; set;}
+
         public FilterControlViewModel<ProductModelDTO> FilteredProducts { get; set; }
         #endregion
 

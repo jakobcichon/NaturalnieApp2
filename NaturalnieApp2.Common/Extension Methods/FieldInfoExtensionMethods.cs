@@ -11,6 +11,16 @@
 
     public static class FieldInfoExtensionMethods
     {
+        public static string? GetDisplayableName(this FieldInfo field)
+        {
+            DisplayableNameAttribute? attribute = field.GetCustomAttribute(typeof(DisplayableNameAttribute)) as DisplayableNameAttribute;
+            if (attribute != null)
+            {
+                return attribute.DisplayName;
+            }
+
+            return null;
+        }
         public static Dictionary<FieldInfo, T> GetFieldsWithCustomAttribute<T>(this List<FieldInfo> Fields)
         {
             IEnumerable<FieldInfo> searchedProps = Fields.Where(p => p.GetCustomAttribute(typeof(T)) != null);

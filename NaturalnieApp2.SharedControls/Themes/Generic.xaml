@@ -12,12 +12,28 @@
     </Style>
 
 
-    <Style TargetType="{x:Type dataGrid:DataGridCustom}">
+    <Style TargetType="{x:Type dataGrid:DataGridCustom}" BasedOn="{StaticResource {x:Type DataGrid}}">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="dataGrid:DataGridCustom">
+                <ControlTemplate TargetType="{x:Type dataGrid:DataGridCustom}">
                     <Grid>
-                        <DataGrid ItemsSource="{TemplateBinding ItemsSource}"/>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label Content="Test/"/>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=RowHeaderActualWidth}"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle/>
+                            <DataGridColumnHeadersPresenter Grid.Column="1"/>
+                        </Grid>
+                        <ScrollViewer Grid.Row="2">
+                            <ItemsPresenter />
+                        </ScrollViewer>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

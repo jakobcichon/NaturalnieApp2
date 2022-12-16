@@ -72,7 +72,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Style="{StaticResource CollapsedMenu}"/>
             <ColumnDefinition Width="20"/>
-            <ColumnDefinition Style="{StaticResource CollapsedMenuReversed}"/>
+            <ColumnDefinition x:Name="RightColumnDef" Style="{StaticResource CollapsedMenuReversed}"/>
         </Grid.ColumnDefinitions>
 
         <ContentControl Content="{Binding RelativeSource={RelativeSource AncestorType=local:CollapsableContentControl}, 

@@ -39,6 +39,7 @@
             this.FromModel(model);
         }
 
+        [DoNotDisplay]
         public bool IsValid { get => this.HasErrors; }
 
         [DisplayableName("Nazwa dostawcy")]
