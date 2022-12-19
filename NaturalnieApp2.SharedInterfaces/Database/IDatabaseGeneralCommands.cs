@@ -4,6 +4,6 @@
 
     public interface IDatabaseGeneralCommands<T>
     {
-        Task<ICollection<T>> GetAllElements();
+        Task<ICollection<T>> GetAllElementsAsync();
     }
 }

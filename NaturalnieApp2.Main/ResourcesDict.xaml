@@ -8,6 +8,8 @@
                     xmlns:menu_general_v="clr-namespace:NaturalnieApp2.Main.MVVM.Views.MenuGeneral"
                     xmlns:menu_settings_vm="clr-namespace:NaturalnieApp2.Main.MVVM.ViewModels.SettingsMenu"
                     xmlns:menu_settings_v="clr-namespace:NaturalnieApp2.Main.MVVM.Views.SettingsMenu"
+                    xmlns:menu_inventory_vm="clr-namespace:NaturalnieApp2.Main.MVVM.ViewModels.Inventory"
+                    xmlns:menu_inventory_v="clr-namespace:NaturalnieApp2.Main.MVVM.Views.Inventory"
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -30,6 +32,10 @@
 
     <DataTemplate DataType="{x:Type product_vm:ShowProductViewModel}">
         <product_v:ShowProductView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type menu_inventory_vm:InventoryViewModel}">
+        <menu_inventory_v:InventoryView/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type menu_settings_vm:DatabaseSettingsViewModel}">

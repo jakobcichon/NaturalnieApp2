@@ -15,6 +15,7 @@ namespace NaturalnieApp2.Main
     using NaturalnieApp2.Main.MVVM.Models.MenuGeneral;
     using NaturalnieApp2.Main.MVVM.Models.Product;
     using NaturalnieApp2.Main.MVVM.ViewModels;
+    using NaturalnieApp2.Main.MVVM.ViewModels.Inventory;
     using NaturalnieApp2.Main.MVVM.ViewModels.Product;
     using NaturalnieApp2.Main.MVVM.ViewModels.SettingsMenu;
     using NaturalnieApp2.Main.Sandbox;
@@ -177,6 +178,20 @@ namespace NaturalnieApp2.Main
             });
             #endregion
 
+            #region Inventory group
+            // Inventory screen
+            services.AddSingleton((s) =>
+            {
+                InventoryViewModel inventoryViewModel = new()
+                {
+                    DialogBox = s.GetService<DialogBoxService>(),
+                    InventoryDatabaseCommands = s.GetService<IDatabaseGeneralCommands<InventoryModel>>()
+                };
+
+                return inventoryViewModel;
+            });
+            #endregion
+
             #region Settings
             // Database settings screen
             services.AddSingleton((s) =>
@@ -236,6 +251,11 @@ namespace NaturalnieApp2.Main
             {
                 return new ProductCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
             });
+
+            services.AddTransient<IDatabaseGeneralCommands<InventoryModel>>((s) =>
+            {
+                return new InventoryCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
+            });
         }
 
         private static void ConfigureDatabaseSettings(ServiceCollection services)
@@ -258,6 +278,11 @@ namespace NaturalnieApp2.Main
             string groupName = "Menu produktu";
             menuBarModel.AddGroup(groupName);
             menuBarModel.AddScreen(groupName, "Informacje o produkcie", services.GetService<ShowProductViewModel>()!);
+
+            // Inventory menu
+            groupName = "Menu inwentaryzacji";
+            menuBarModel.AddGroup(groupName);
+            menuBarModel.AddScreen(groupName, "Inwentaryzacja", services.GetService<InventoryViewModel>()!);
 
             // Stock menu
             groupName = "Menu magazyn";

@@ -24,7 +24,6 @@
         {
             InitializeComponent();
             IsCollapsed = false;
-            RightColumnDef
         }
 
 

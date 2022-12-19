@@ -28,7 +28,7 @@
                                 <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=RowHeaderActualWidth}"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Rectangle/>
+                            <Rectangle Fill="{Binding RelativeSource={RelativeSource AncestorType=DataGrid}, Path=Background}"/>
                             <DataGridColumnHeadersPresenter Grid.Column="1"/>
                         </Grid>
                         <ScrollViewer Grid.Row="2">

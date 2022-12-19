@@ -42,7 +42,7 @@
                 return;
             }
 
-            var displayProps = descriptor.ComponentType.GetDisplayableProperties();
+            List<PropertyInfo> displayProps = descriptor.ComponentType.GetDisplayableProperties();
             if (displayProps == null) 
             {
                 return;
@@ -57,6 +57,7 @@
             }
 
             e.Column.Header = prop.GetDisplayableName() ?? prop.Name;
+            e.Column.IsReadOnly = prop.IsReadOnly();
         }
 
        

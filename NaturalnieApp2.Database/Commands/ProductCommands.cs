@@ -13,7 +13,7 @@
 
         }
 
-        public async Task<ICollection<ProductModel>> GetAllElements()
+        public async Task<ICollection<ProductModel>> GetAllElementsAsync()
         {
             var products = await dbContext.Products.ToListAsync();
 

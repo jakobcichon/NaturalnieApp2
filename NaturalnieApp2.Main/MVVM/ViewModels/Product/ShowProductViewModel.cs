@@ -51,7 +51,7 @@
         {
             await CreateModelPresenter();
             List<ProductModelDTO> dtoProductModel = new();
-            var products = await ProductDatabaseCommands.GetAllElements();
+            var products = await ProductDatabaseCommands.GetAllElementsAsync();
             foreach(var element in products)
             {
                 dtoProductModel.Add(new ProductModelDTO(element));

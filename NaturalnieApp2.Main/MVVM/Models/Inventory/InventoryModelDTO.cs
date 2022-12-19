@@ -1,47 +1,68 @@
-﻿namespace NaturalnieApp2.Main.MVVM.Models.Product
+﻿namespace NaturalnieApp2.Main.MVVM.Models.Inventory
 {
     using NaturalnieApp2.Common.Attributes.DisplayableModel;
-    using NaturalnieApp2.Common.Attributes.ValidationRules;
     using NaturalnieApp2.Common.Binding;
     using NaturalnieApp2.Database.Models;
     using NaturalnieApp2.Main.Interfaces.Model;
-    using System.Collections.Generic;
-    using System.Windows.Documents;
+    using System;
 
-    public record ProductModelDTO : ValidatableBindableRecordBase, IModel, IConvertableModel<ProductModel>
+    public record InventoryModelDTO : ValidatableBindableRecordBase, IModel, IConvertableModel<InventoryModel>
     {
         #region Fields
-        private int tax;
-        private int marigin;
-        private int discount;
-        private float priceNet;
-        private string barCode;
-        private float finalPrice;
+        private string inventoryName;
+        private DateTime lastModificationDate;
+        private int productQuantity;
         private string supplierName;
-        private string productInfo;
+        private int elzabProductId;
+        private string manufacturerName;
         private string productName;
+        private string elzabProductName;
+        private float priceNet;
+        private int discount;
+        private float priceNetWithDiscount;
+        private int taxValue;
+        private int marigin;
+        private float finalPrice;
+        private string barCode;
         private string barCodeShort;
         private string supplierCode;
-        private int? elzabProductId;
-        private string manufacturerName;
-        private float priceNetWithDiscount;
-        private string cashRegisterProductName;
-        private bool canBeRemoveFromCashRegister;
         #endregion
 
-        public ProductModelDTO()
+        public InventoryModelDTO()
         {
 
         }
 
-        public ProductModelDTO(ProductModel model)
+        public InventoryModelDTO(InventoryModel model)
         {
             this.FromModel(model);
         }
 
+
         #region Properties
         [DoNotDisplay]
         public bool IsValid { get => this.HasErrors; }
+
+        [DisplayableName("Tytuł inwetarza")]
+        public string InventoryName
+        {
+            get { return inventoryName; }
+            set { SetProperty(ref inventoryName, value); }
+        }
+
+        [DisplayableName("Data ostatniej modyfikacji")]
+        public DateTime LastModificationDate
+        {
+            get { return lastModificationDate; }
+            set { SetProperty(ref lastModificationDate, value); }
+        }
+
+        [DisplayableName("Ilość")]
+        public int ProductQuantity
+        {
+            get { return productQuantity; }
+            set { SetProperty(ref productQuantity, value); }
+        }
 
         [DisplayableName("Nazwa dostawcy")]
         public string SupplierName
@@ -51,7 +72,7 @@
         }
 
         [DisplayableName("Numer w kasie fiskalnej")]
-        public int? CashRegisterProductId
+        public int ElzabProductId
         {
             get { return elzabProductId; }
             set { SetProperty(ref elzabProductId, value); }
@@ -71,12 +92,11 @@
             set { SetProperty(ref productName, value); }
         }
 
-        [DisplayableName("Nazwa w kasie fiskalnej")]
-        [StringLengthCustom(ProductNameLength)]
-        public string CashRegisterProductName
+        [DisplayableName("Nazwa produktu w kasie fiskalnej")]
+        public string ElzabProductName
         {
-            get { return cashRegisterProductName; }
-            set { SetProperty(ref cashRegisterProductName, value); }
+            get { return elzabProductName; }
+            set { SetProperty(ref elzabProductName, value); }
         }
 
         [DisplayableName("Cena netto")]
@@ -101,17 +121,10 @@
         }
 
         [DisplayableName("Podatek")]
-        [HasAdmissibleList("TaxOptions")]
-        public int Tax
+        public int TaxValue
         {
-            get { return tax; }
-            set { SetProperty(ref tax, value); }
-        }
-
-        [DoNotDisplay]
-        public static List<int> TaxOptions
-        {
-            get { return new() { 0, 5, 8, 23 }; }
+            get { return taxValue; }
+            set { SetProperty(ref taxValue, value); }
         }
 
         [DisplayableName("Marża")]
@@ -121,94 +134,82 @@
             set { SetProperty(ref marigin, value); }
         }
 
-        [DisplayableName("Cenna klienta")]
+        [DisplayableName("Cena klineta")]
         public float FinalPrice
         {
             get { return finalPrice; }
             set { SetProperty(ref finalPrice, value); }
         }
 
-        [DisplayableName("Kod kreskowy")]
+        [DisplayableName("Kode kreskowy")]
         public string BarCode
         {
             get { return barCode; }
             set { SetProperty(ref barCode, value); }
         }
 
-        [DisplayableName("Kod kreskowy wewnętrzny")]
+        [DisplayableName("Kode kreskowy wewnętrzny")]
         public string BarCodeShort
         {
             get { return barCodeShort; }
             set { SetProperty(ref barCodeShort, value); }
         }
 
-        [DisplayableName("Kod dostawcy")]
+        [DisplayableName("Kode dostawcy")]
         public string SupplierCode
         {
             get { return supplierCode; }
             set { SetProperty(ref supplierCode, value); }
         }
-
-        [DisplayableName("Informacje o produkcie")]
-        public string ProductInfo
-        {
-            get { return productInfo; }
-            set { SetProperty(ref productInfo, value); }
-        }
-
-        [DisplayableName("Obecny w kasie fiskalnej")]
-        public bool CanBeRemoveFromCashRegister
-        {
-            get { return canBeRemoveFromCashRegister; }
-            set { SetProperty(ref canBeRemoveFromCashRegister, value); }
-        }
-
         #endregion
 
+
         #region Public methods
-        public void FromModel(ProductModel model)
+        public void FromModel(InventoryModel model)
         {
-            this.SupplierName = model.Supplier.Name;
-            this.CashRegisterProductId = model.ElzabProductId;
-            this.ManufacturerName = model.Manufacturer.Name;
+            this.InventoryName = model.InventoryName;
+            this.LastModificationDate = model.LastModificationDate;
+            this.ProductQuantity = model.ProductQuantity;
+            this.SupplierName = model.SupplierName;
+            this.ElzabProductId = model.ElzabProductId;
+            this.ManufacturerName = model.ManufacturerName;
             this.ProductName = model.ProductName;
-            this.CashRegisterProductName = model.ElzabProductName;
+            this.ElzabProductName = model.ElzabProductName;
             this.PriceNet = model.PriceNet;
             this.Discount = model.Discount;
             this.PriceNetWithDiscount = model.PriceNetWithDiscount;
-            this.Tax = model.Tax.TaxValue;
+            this.TaxValue = model.TaxValue;
             this.Marigin = model.Marigin;
             this.FinalPrice = model.FinalPrice;
             this.BarCode = model.BarCode;
             this.BarCodeShort = model.BarCodeShort;
             this.SupplierCode = model.SupplierCode;
-            this.ProductInfo = model.ProductInfo;
-            this.CanBeRemoveFromCashRegister = model.CanBeRemoveFromCashRegister;
         }
 
-        public ProductModel ToModel()
+        public InventoryModel ToModel()
         {
-            ProductModel model = new ProductModel();
+            InventoryModel model = new();
 
-            model.Supplier.Name = this.SupplierName;
-            model.ElzabProductId = this.CashRegisterProductId;
-            model.Manufacturer.Name = this.ManufacturerName;
+            model.InventoryName = this.InventoryName;
+            model.LastModificationDate = this.LastModificationDate;
+            model.ProductQuantity = this.ProductQuantity;
+            model.SupplierName = this.SupplierName;
+            model.ElzabProductId = this.ElzabProductId;
+            model.ManufacturerName = this.ManufacturerName;
             model.ProductName = this.ProductName;
-            model.ElzabProductName = this.CashRegisterProductName;
+            model.ElzabProductName = this.ElzabProductName;
             model.PriceNet = this.PriceNet;
             model.Discount = this.Discount;
             model.PriceNetWithDiscount = this.PriceNetWithDiscount;
-            model.Tax.TaxValue = this.Tax;
+            model.TaxValue = this.TaxValue;
             model.Marigin = this.Marigin;
             model.FinalPrice = this.FinalPrice;
             model.BarCode = this.BarCode;
             model.BarCodeShort = this.BarCodeShort;
             model.SupplierCode = this.SupplierCode;
-            model.ProductInfo = this.ProductInfo;
-            model.CanBeRemoveFromCashRegister = this.CanBeRemoveFromCashRegister;
 
             return model;
-        } 
+        }
         #endregion
     }
 }

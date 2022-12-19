@@ -11,10 +11,19 @@
 
     public static class PropertyInfoExtensionMethods
     {
+
+        public static bool IsReadOnly(this PropertyInfo property)
+        {
+            if (property.GetCustomAttribute(typeof(IsReadOnlyAttribute)) is IsReadOnlyAttribute)
+            {
+                return true;
+            }
+
+            return false;
+        }
         public static string? GetDisplayableName(this PropertyInfo property)
         {
-            DisplayableNameAttribute? attribute = property.GetCustomAttribute(typeof(DisplayableNameAttribute)) as DisplayableNameAttribute;
-            if (attribute != null)
+            if (property.GetCustomAttribute(typeof(DisplayableNameAttribute)) is DisplayableNameAttribute attribute)
             {
                 return attribute.DisplayName;
             }
