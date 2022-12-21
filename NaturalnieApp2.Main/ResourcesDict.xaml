@@ -10,6 +10,8 @@
                     xmlns:menu_settings_v="clr-namespace:NaturalnieApp2.Main.MVVM.Views.SettingsMenu"
                     xmlns:menu_inventory_vm="clr-namespace:NaturalnieApp2.Main.MVVM.ViewModels.Inventory"
                     xmlns:menu_inventory_v="clr-namespace:NaturalnieApp2.Main.MVVM.Views.Inventory"
+                    xmlns:menu_inventory_pages_vm="clr-namespace:NaturalnieApp2.Main.MVVM.ViewModels.Inventory.InventoryWizardPages"
+                    xmlns:menu_inventory_pages_v="clr-namespace:NaturalnieApp2.Main.MVVM.Views.Inventory.InventoryWizardPages"
                     >
 
     <ResourceDictionary.MergedDictionaries>
@@ -36,6 +38,10 @@
 
     <DataTemplate DataType="{x:Type menu_inventory_vm:InventoryViewModel}">
         <menu_inventory_v:InventoryView/>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type menu_inventory_pages_vm:InventorySelectionViewModel}">
+        <menu_inventory_pages_v:InventorySelectionView/>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type menu_settings_vm:DatabaseSettingsViewModel}">

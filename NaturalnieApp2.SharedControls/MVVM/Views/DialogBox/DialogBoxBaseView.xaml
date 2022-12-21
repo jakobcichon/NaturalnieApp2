@@ -30,7 +30,7 @@
         </Style>
     </UserControl.Style>
 
-    <Border Style="{StaticResource DialogBoxBackgroundStyle}">
+    <Border Style="{StaticResource DialogBackgroundStyle}">
         <Grid Background="White" 
               MaxWidth="{Binding RelativeSource={
                     RelativeSource AncestorType=UserControl}, 

@@ -1,4 +1,4 @@
-﻿namespace NaturalnieApp2.Main.MVVM.Views.Inventory
+﻿namespace NaturalnieApp2.SharedControls.MVVM.Views.WizardDialog
 {
     using System;
     using System.Collections.Generic;
@@ -16,11 +16,11 @@
     using System.Windows.Shapes;
 
     /// <summary>
-    /// Interaction logic for InventorySelectionDialog.xaml
+    /// Interaction logic for WizardDialogView.xaml
     /// </summary>
-    public partial class InventorySelectionDialog : UserControl
+    public partial class WizardDialogView : UserControl
     {
-        public InventorySelectionDialog()
+        public WizardDialogView()
         {
             InitializeComponent();
         }

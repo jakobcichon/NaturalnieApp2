@@ -6,6 +6,7 @@ namespace NaturalnieApp2.Main
     using global::Main.MVVM.Models.GlobalSettingsModel.DatabaseSettings.DatabaseSettingsModel;
     using Microsoft.Extensions.DependencyInjection;
     using NaturalnieApp2.Database.Commands;
+    using NaturalnieApp2.Database.Interfaces;
     using NaturalnieApp2.Database.Models;
     using NaturalnieApp2.Logger;
     using NaturalnieApp2.Main.Exceptions;
@@ -20,7 +21,9 @@ namespace NaturalnieApp2.Main
     using NaturalnieApp2.Main.MVVM.ViewModels.SettingsMenu;
     using NaturalnieApp2.Main.Sandbox;
     using NaturalnieApp2.SharedControls.Interfaces.ModelPresenter;
+    using NaturalnieApp2.SharedControls.Interfaces.WizardDialog;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.ModelPresenter;
+    using NaturalnieApp2.SharedControls.MVVM.ViewModels.WizardDialog;
     using NaturalnieApp2.SharedControls.Services.DialogBoxService;
     using NaturalnieApp2.SharedControls.Services.ModelPresenter;
     using NaturalnieApp2.SharedInterfaces.Database;
@@ -97,8 +100,8 @@ namespace NaturalnieApp2.Main
             ConfigureExceptions(services);
             #endregion
 
-            #region Dialog box
-            ConfigureDialogBox(services);
+            #region Dialogs
+            ConfigureDialogs(services);
             #endregion
 
             #region XmlSerializer
@@ -130,12 +133,18 @@ namespace NaturalnieApp2.Main
             services.AddSingleton<NaturalnieExceptionBase>();
         }
 
-        private static void ConfigureDialogBox(ServiceCollection services)
+        private static void ConfigureDialogs(ServiceCollection services)
         {
-            // Screen dialog box
+            // Dialog box
             services.AddTransient((s) =>
             {
                 return new DialogBoxService(s.GetRequiredService<ILogger>());
+            });
+
+            // Wizard dialog
+            services.AddTransient<IWizardDialog>((s) =>
+            {
+                return new WizardDialogViewModel();
             });
         }
 
@@ -185,7 +194,8 @@ namespace NaturalnieApp2.Main
                 InventoryViewModel inventoryViewModel = new()
                 {
                     DialogBox = s.GetService<DialogBoxService>(),
-                    InventoryDatabaseCommands = s.GetService<IDatabaseGeneralCommands<InventoryModel>>()
+                    InventoryDatabaseCommands = s.GetService<IInventoryCommands>(),
+                    WizardDialog = s.GetService<IWizardDialog>()
                 };
 
                 return inventoryViewModel;
@@ -252,7 +262,7 @@ namespace NaturalnieApp2.Main
                 return new ProductCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
             });
 
-            services.AddTransient<IDatabaseGeneralCommands<InventoryModel>>((s) =>
+            services.AddTransient<IInventoryCommands> ((s) =>
             {
                 return new InventoryCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
             });

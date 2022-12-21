@@ -4,6 +4,8 @@
                     xmlns:vm_menu="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.Menu"
                     xmlns:v_dialogbox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox"
                     xmlns:vm_dialogbox="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox"
+                    xmlns:v_wizardDialog="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.WizardDialog"
+                    xmlns:vm_wizardDialog="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.WizardDialog"
                     xmlns:v_dialogboxButtonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.DialogBox.ButtonsPanel"
                     xmlns:vm_dialogboxButtonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox.ButtonsPanel"
                     xmlns:v_buttonsPanel="clr-namespace:NaturalnieApp2.SharedControls.MVVM.Views.ButtonsPanel"
@@ -28,6 +30,11 @@
     <DataTemplate DataType="{x:Type vm_dialogbox:DialogBoxBaseViewModel}">
         <v_dialogbox:DialogBoxBaseView/>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type vm_wizardDialog:WizardDialogViewModel}">
+        <v_wizardDialog:WizardDialogView/>
+    </DataTemplate>
+
 
     <DataTemplate DataType="{x:Type vm_dialogboxButtonsPanel:ButtonsPanelOkViewModel}">
         <v_dialogboxButtonsPanel:ButtonPanelOkView/>
@@ -81,7 +88,7 @@
         <v_FilterControlValue:ComboBoxTypeView/>
     </DataTemplate>
 
-    <Style x:Key="DialogBoxBackgroundStyle" TargetType="Border">
+    <Style x:Key="DialogBackgroundStyle" TargetType="Border">
         <Setter Property="Background" Value="#7F000000"/>
     </Style>
 
