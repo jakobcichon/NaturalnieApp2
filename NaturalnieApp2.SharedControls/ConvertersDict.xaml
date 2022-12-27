@@ -5,5 +5,6 @@
 
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     <converters:NullToStringConverter x:Key="NullToStringConverter"/>
+    <converters:StringMatchToVisibility x:Key="StringMatchToVisibility" />
 
 </ResourceDictionary>

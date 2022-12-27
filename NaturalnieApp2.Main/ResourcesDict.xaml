@@ -44,6 +44,10 @@
         <menu_inventory_pages_v:InventorySelectionView/>
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type menu_inventory_pages_vm:InventoryContinuationOptionsViewModel}">
+        <menu_inventory_pages_v:InventoryContinuationOptionsView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type menu_settings_vm:DatabaseSettingsViewModel}">
         <menu_settings_v:DatabaseSettingsView/>
     </DataTemplate>

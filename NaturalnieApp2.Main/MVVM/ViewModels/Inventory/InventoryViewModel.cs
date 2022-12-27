@@ -22,6 +22,7 @@
     {
         #region Fields
         InventorySelectionViewModel inventorySelectionPage = new();
+        InventoryContinuationOptionsViewModel inventoryContinuationOptionsPage = new();
 
         private readonly List<string> inventoriesNames = new();
         #endregion
@@ -43,23 +44,63 @@
         {
             if (!IsInitialized)
             {
-                await Initialization();
-                IsInitialized = true;
+                await InitializeAsync();
 
                 inventorySelectionPage.InventoriesNames = inventoriesNames;
+                inventorySelectionPage.InventorySelectionDoneHandler += OnInventorySelectionDone;
+                inventoryContinuationOptionsPage.StartRequestHandler += OnStartRequest;
+                inventoryContinuationOptionsPage.PreviousPageRequestHandler += OnPreviousPageRequest;
+
                 WizardDialog.AddPage(inventorySelectionPage);
+                WizardDialog.AddPage(inventoryContinuationOptionsPage);
 
                 WizardDialog.Open();
+
+                IsInitialized = true;
             }
         }
 
-        private async Task Initialization()
+        private void OnInventorySelectionDone(object? sender, InventorySelectionDoneArgs e)
+        {
+            if (e.DoneStatus == InventorySelectionDoneStatus.ContinueExisitngInventory)
+            {
+                WizardDialog.GoToPage(inventoryContinuationOptionsPage);
+            }
+        }
+
+        private async void OnStartRequest(object? sender, ResultOptions optionName)
+        {
+            switch(optionName)
+            {
+                case ResultOptions.FullList:
+                    await GetFullListAsync();
+                    break;
+                case ResultOptions.EmptyList:
+                    GetEmptyList();
+                    break;
+            }
+            WizardDialog.Close();
+        }
+
+        private void OnPreviousPageRequest(object? sender, EventArgs e)
+        {
+            WizardDialog.GoToPreviousPage();
+        }
+
+        private async Task InitializeAsync()
+        {
+            inventoriesNames.AddRange(await InventoryDatabaseCommands.GetInventoriesNamesAsync());
+        }
+
+        private async Task GetFullListAsync()
         {
             var ents = await InventoryDatabaseCommands.GetAllElementsAsync();
             ents.ToList().ForEach(e => InventoryEntries.Add(new InventoryModelDTO(e)));
+        }
 
-            inventoriesNames.AddRange(await InventoryDatabaseCommands.GetInventoriesNamesAsync());
-            await Task.CompletedTask;
+        private void GetEmptyList()
+        {
+            InventoryEntries.Clear();
         }
         #endregion
     }

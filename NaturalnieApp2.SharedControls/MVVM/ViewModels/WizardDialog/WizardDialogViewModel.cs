@@ -25,6 +25,8 @@
         private string headerText = "";
         private object? page;
         private readonly List<object> pages = new();
+        private object? previousPage;
+        private Dictionary<object, object?> pagesRelations = new();
         #endregion
 
         public EventHandler<PageChangedArgs> PageChangedHandler { get; set; } = delegate { };
@@ -47,17 +49,25 @@
             get { return page; }
             set
             {
-                object? old = page;
+                previousPage = page;
                 SetProperty(ref page, value);
-                OnPageChange(old, value);
+                OnPageChange(previousPage, value);
             }
         }
         #endregion
 
         #region Public methods
+        public void GoToNextPage()
+        {
+            if(Page != null && pagesRelations.ContainsKey(Page))
+            {
+                Page = pagesRelations[Page];
+            }
+        }
+
         public void GoToPage(object page)
         {
-            object? demandPage = pages.Where(p => p.Equals(page));
+            object? demandPage = pages.Where(p => p.Equals(page)).FirstOrDefault();
 
             if (demandPage == null)
             {
@@ -67,8 +77,17 @@
             Page = demandPage;
         }
 
-        public void AddPage(object page)
+        public void GoToPreviousPage()
         {
+            if (previousPage != null)
+            {
+                Page = previousPage;
+            }
+        }
+
+        public void AddPage(object page, object? nextPage = null)
+        {
+            pagesRelations[page] = nextPage;
             pages.Add(page);
         }
 

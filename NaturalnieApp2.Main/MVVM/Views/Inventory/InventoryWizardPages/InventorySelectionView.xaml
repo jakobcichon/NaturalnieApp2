@@ -1,69 +1,82 @@
 ﻿<UserControl x:Class="NaturalnieApp2.Main.MVVM.Views.Inventory.InventoryWizardPages.InventorySelectionView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:NaturalnieApp2.Main.MVVM.Views.Inventory.InventoryWizardPages"
              Background="White"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
 
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/ResourcesDict.xaml"/>
+                <ResourceDictionary Source="/ResourcesDict.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
             <Style TargetType="Button">
-                <Setter Property="VerticalAlignment" Value="Center"/>
-                <Setter Property="HorizontalAlignment" Value="Center"/>
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="Padding" Value="10"/>
+                <Setter Property="VerticalAlignment"
+                        Value="Center" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Center" />
+                <Setter Property="FontSize"
+                        Value="20" />
+                <Setter Property="Padding"
+                        Value="10" />
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="2*"/>
-        </Grid.RowDefinitions>
-        
-        <Label Content="Wybierz inwentaryzację"
-               FontSize="20"
-               HorizontalAlignment="Stretch"
-               HorizontalContentAlignment="Center"
-               VerticalAlignment="Stretch"
-               VerticalContentAlignment="Center"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-        <ComboBox ItemsSource="{Binding InventoriesNames}"
-                  SelectedItem="{Binding SelectedInventoryName}"
-                  Grid.Row="1"
-                  Width="auto"
-                  Height="20"
-                  FontSize="20"
-                  Margin="5"/>
+                <Label Content="Wybierz inwentaryzację"
+                       FontSize="20"
+                       HorizontalAlignment="Stretch"
+                       HorizontalContentAlignment="Center"
+                       VerticalAlignment="Stretch"
+                       VerticalContentAlignment="Center" />
 
-        <Label Content="Lub rozpocznij nową"
-               Grid.Row="2"
-               FontSize="20"
-               HorizontalAlignment="Stretch"
-               HorizontalContentAlignment="Center"
-               VerticalAlignment="Stretch"
-               VerticalContentAlignment="Center"/>
+                <ComboBox ItemsSource="{Binding InventoriesNames}"
+                          SelectedItem="{Binding SelectedInventoryName}"
+                          Grid.Row="1"
+                          Height="40"
+                          FontSize="20"
+                          VerticalContentAlignment="Center"
+                          Margin="20" />
 
-        <Button Content="Rozpocznij"
-                Grid.Row="3"/>
+                <Button Grid.Row="2"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Right"
+                        Margin="20"
+                        Content="Dalej"
+                        Command="{Binding MoveNextStepCommand}" />
 
-        <Button Grid.Row="4" 
-                VerticalAlignment="Bottom"
-                HorizontalAlignment="Right"
-                Margin="20"
-                Content="Dalej"/>
+                <Label Content="Lub rozpocznij nową"
+                       Grid.Row="3"
+                       FontSize="20"
+                       HorizontalAlignment="Stretch"
+                       HorizontalContentAlignment="Center"
+                       VerticalAlignment="Stretch"
+                       VerticalContentAlignment="Center" />
+
+                <Button Content="Rozpocznij"
+                        Grid.Row="4"
+                        Command="{Binding CreateNewInvetoryCommand}" />
+
+            </Grid>
+        </ScrollViewer>
 
     </Grid>
 </UserControl>

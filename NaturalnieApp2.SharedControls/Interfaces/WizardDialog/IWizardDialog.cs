@@ -8,11 +8,13 @@ namespace NaturalnieApp2.SharedControls.Interfaces.WizardDialog
     {
         string HeaderText { get; set; }
         object? Page { get; set; }
-        EventHandler<PageChangedArgs> PageChangedHandler { get; set; }
         bool Visibility { get; set; }
 
-        void AddPage(object page);
+        EventHandler<PageChangedArgs> PageChangedHandler { get; set; }
+
+        void AddPage(object page, object? nextPage = null);
         void Close();
+        void GoToPreviousPage();
         void GoToPage(object page);
         void Open();
     }

@@ -89,7 +89,12 @@
     </DataTemplate>
 
     <Style x:Key="DialogBackgroundStyle" TargetType="Border">
-        <Setter Property="Background" Value="#7F000000"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Direction="-75" ShadowDepth="2" Opacity="0.9" BlurRadius="50" Color="Black"/>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary> 

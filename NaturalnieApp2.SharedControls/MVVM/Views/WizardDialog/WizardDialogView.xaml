@@ -22,10 +22,10 @@
         </Style>
     </UserControl.Style>
 
-    <Border Style="{StaticResource DialogBackgroundStyle}">
-        <Grid Margin="100">
+    <Border Style="{StaticResource DialogBackgroundStyle}" >
+        <Grid Margin="50">
             <Grid.RowDefinitions>
-                <RowDefinition Height="10"/>
+                <RowDefinition Height="30"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             
@@ -34,10 +34,11 @@
                    d:Content="Header Content"
                    HorizontalAlignment="Stretch"
                    HorizontalContentAlignment="Center"
-                   Background="Gray"/>
+                   Background="GhostWhite"/>
 
             <ContentControl Grid.Row="1"
-                            Content="{Binding Page}"/>
+                            Content="{Binding Page}">
+            </ContentControl>
         </Grid>
     </Border>
 </UserControl>
