@@ -1,10 +1,11 @@
 ﻿namespace NaturalnieApp2.Common.Binding
 {
+    using NaturalnieApp2.Common.Disposable;
     using System;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
 
-    public record BindableRecordBase : INotifyPropertyChanged
+    public record BindableRecordBase : DisposableRecordBase, INotifyPropertyChanged
     {
         protected virtual void SetProperty<T>(ref T member, T val,
                    [CallerMemberName] string? propertyName = null)

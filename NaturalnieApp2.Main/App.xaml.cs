@@ -5,6 +5,7 @@ namespace NaturalnieApp2.Main
     using global::Main.MVVM.Models.GlobalSettingsModel.DatabaseSettings;
     using global::Main.MVVM.Models.GlobalSettingsModel.DatabaseSettings.DatabaseSettingsModel;
     using Microsoft.Extensions.DependencyInjection;
+    using MySql.Data.MySqlClient;
     using NaturalnieApp2.Database.Commands;
     using NaturalnieApp2.Database.Interfaces;
     using NaturalnieApp2.Database.Models;
@@ -32,6 +33,8 @@ namespace NaturalnieApp2.Main
     using NaturalnieApp2.SharedInterfaces.Xml;
     using NaturalnieApp2.XmlSerializer;
     using System;
+    using System.Data.SqlClient;
+    using System.Diagnostics;
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
@@ -60,6 +63,9 @@ namespace NaturalnieApp2.Main
             base.OnStartup(e);
 
             NaturalnieExceptionBase.Logger = Services.GetService<Logger>();
+
+            // Check for database structure changes
+            CheckForDatabaseConnectionChanges(Services);
 
             // Main window context
             MainViewModel mainWindowContex = Services.GetService<MainViewModel>()!;
@@ -174,7 +180,7 @@ namespace NaturalnieApp2.Main
 
             #region Product group
             // Product screen
-            services.AddSingleton((s) =>
+            services.AddTransient((s) =>
             {
                 ShowProductViewModel showProductViewModel = new()
                 {
@@ -189,7 +195,7 @@ namespace NaturalnieApp2.Main
 
             #region Inventory group
             // Inventory screen
-            services.AddSingleton((s) =>
+            services.AddTransient((s) =>
             {
                 InventoryViewModel inventoryViewModel = new()
                 {
@@ -204,7 +210,7 @@ namespace NaturalnieApp2.Main
 
             #region Settings
             // Database settings screen
-            services.AddSingleton((s) =>
+            services.AddTransient((s) =>
             {
                 DatabaseSettingsViewModel databaseSettingsViewModel = new()
                 {
@@ -223,7 +229,7 @@ namespace NaturalnieApp2.Main
         {
             services.AddSingleton((s) =>
             {
-                return new MainViewModel(s.GetService<MenuBarModel>());
+                return new MainViewModel(s.GetService<MenuBarModel>(), s);
             });
 
             services.AddSingleton((s) =>
@@ -308,6 +314,71 @@ namespace NaturalnieApp2.Main
 
             return menuBarModel;
         }
+
+
+        #region Database changes
+
+        private void CheckForDatabaseConnectionChanges(IServiceProvider services)
+        {
+            string connectionString = services.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString;
+            if(!DoesPersonNameForInventoryTableExist(connectionString))
+            {
+                CreatePersonNameForInventoryTable(connectionString);
+            }
+        }
+
+        private bool DoesPersonNameForInventoryTableExist(string connectionString)
+        {
+            string queryString = $"SHOW COLUMNS FROM shop.inventory LIKE 'PersonName';"; ;
+            MySqlConnection conn = new MySqlConnection(connectionString);
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand(queryString, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                if (rdr.HasRows)
+                {
+                    return true;
+                }
+                rdr.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
+            return false;
+        }
+
+        private bool CreatePersonNameForInventoryTable(string connectionString)
+        {
+            string queryString = $"ALTER TABLE `shop`.`inventory` ADD COLUMN `PersonName` VARCHAR(255) NOT NULL DEFAULT 'DummyValue' AFTER `InventoryName`;";
+            MySqlConnection conn = new MySqlConnection(connectionString);
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = new MySqlCommand(queryString, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+
+                if (rdr.HasRows)
+                {
+                    return true;
+                }
+                rdr.Close();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
+            return false;
+        }
+        #endregion
+
+
     }
 
 

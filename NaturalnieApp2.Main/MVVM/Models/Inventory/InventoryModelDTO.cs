@@ -1,15 +1,18 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.Models.Inventory
 {
     using NaturalnieApp2.Common.Attributes.DisplayableModel;
+    using NaturalnieApp2.Common.Attributes.ValidationRules;
     using NaturalnieApp2.Common.Binding;
     using NaturalnieApp2.Database.Models;
     using NaturalnieApp2.Main.Interfaces.Model;
     using System;
+    using System.ComponentModel.DataAnnotations;
 
     public record InventoryModelDTO : ValidatableBindableRecordBase, IModel, IConvertableModel<InventoryModel>
     {
         #region Fields
         private string inventoryName;
+        private string personName;
         private DateTime lastModificationDate;
         private int productQuantity;
         private string supplierName;
@@ -38,16 +41,28 @@
             this.FromModel(model);
         }
 
-
         #region Properties
         [DoNotDisplay]
         public bool IsValid { get => this.HasErrors; }
 
         [DisplayableName("Tytuł inwetarza")]
+        [StringLengthCustom(255)]
+        [RegexStringValidatorCustom(@"^\S+$")]
+        [RequiredCustom]
         public string InventoryName
         {
             get { return inventoryName; }
             set { SetProperty(ref inventoryName, value); }
+        }
+
+        [DisplayableName("Imię osoby")]
+        [StringLengthCustom(255)]
+        [RegexStringValidatorCustom(@"^\S+$")]
+        [RequiredCustom]
+        public string PersonName
+        {
+            get { return personName; }
+            set { SetProperty(ref personName, value); }
         }
 
         [DisplayableName("Data ostatniej modyfikacji")]
@@ -168,6 +183,7 @@
         public void FromModel(InventoryModel model)
         {
             this.InventoryName = model.InventoryName;
+            this.PersonName = model.PersonName;
             this.LastModificationDate = model.LastModificationDate;
             this.ProductQuantity = model.ProductQuantity;
             this.SupplierName = model.SupplierName;
@@ -191,6 +207,7 @@
             InventoryModel model = new();
 
             model.InventoryName = this.InventoryName;
+            model.PersonName = this.PersonName;
             model.LastModificationDate = this.LastModificationDate;
             model.ProductQuantity = this.ProductQuantity;
             model.SupplierName = this.SupplierName;

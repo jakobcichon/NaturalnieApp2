@@ -7,6 +7,7 @@
     using System;
     using System.Linq;
     using NaturalnieApp2.Common.Attributes.DisplayableModel;
+    using NaturalnieApp2.Common.Extension_Methods;
 
     public record ValidatableBindableRecordBase : BindableRecordBase, INotifyDataErrorInfo
     {
@@ -33,6 +34,21 @@
         public bool HasErrors
         {
             get { return errors.Count > 0; }
+        }
+
+        public void ValidateModel()
+        {
+            Type type = this.GetType().UnderlyingSystemType;
+            var props = type.GetDisplayableProperties();
+            foreach ( var prop in props ) 
+            {
+                ValidateProperty(prop.Name, prop.GetValue(this));
+            }
+        }
+
+        public bool IsPropertyValid(string propertyName)
+        {
+            return !errors.ContainsKey(propertyName);
         }
 
         protected override void SetProperty<T>(ref T member, T val,

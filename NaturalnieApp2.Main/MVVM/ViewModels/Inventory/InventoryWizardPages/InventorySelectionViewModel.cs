@@ -19,7 +19,7 @@
     }
 
 
-    internal class InventorySelectionViewModel : ValidatableBindableBase
+    internal class InventorySelectionViewModel: ValidatableBindableBase
     {
 		private List<string> inventoriesNames = new();
 		private string selectedInventoryName = string.Empty;

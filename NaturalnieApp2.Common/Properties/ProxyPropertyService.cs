@@ -1,6 +1,7 @@
 ﻿namespace NaturalnieApp2.Common.Properties
 {
     using NaturalnieApp2.Common.Disposable;
+    using NaturalnieApp2.Common.Extension_Methods;
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -63,6 +64,11 @@
                 propertyName = value; 
                 UpdatePropertyInfo();
             }
+        }
+
+        public string? PropertyDisplayableName
+        {
+            get { return propertyInfo?.GetDisplayableNameOrName(); }
         }
 
         public Type? PropertyType

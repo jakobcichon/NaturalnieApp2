@@ -11,6 +11,7 @@
         [Key]
         public int Id { get; set; }
         public string InventoryName { get; set; }
+        public string PersonName { get; set; }
         public DateTime LastModificationDate { get; set; }
         public int ProductQuantity { get; set; }
         public string SupplierName { get; set; }

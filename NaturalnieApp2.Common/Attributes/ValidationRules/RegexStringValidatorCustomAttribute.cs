@@ -22,7 +22,7 @@
 
         public override string FormatErrorMessage(string name)
         {
-            return $"Wprowadzona wartość nie odowada podanemu wzorcowi walidacji. Podany wzorzec: '{pattern}'";
+            return $"Wprowadzona wartość nie odpowiada podanemu wzorcowi walidacji. Podany wzorzec: '{pattern}'";
         }
 
         public override bool IsValid(object? value)

@@ -1,5 +1,6 @@
 ﻿namespace NaturalnieApp2.SharedControls.MVVM.ViewModels.FilterControl
 {
+    using NaturalnieApp2.Common.Disposable;
     using NaturalnieApp2.Common.Extension_Methods;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
     using System;
@@ -44,7 +45,7 @@
         }
     }
 
-    public class FilterControlViewModel<T>
+    public class FilterControlViewModel<T>: DisposableBase
     {
         #region Fields
         private readonly Type typeToFilter;
@@ -64,6 +65,38 @@
             this.typeToFilter = typeToFilter;
             filtersData = new();
         }
+
+        #region Disposable
+        private bool _disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose managed state (managed objects).
+                    foreach (var element in FilterConditions)
+                    {
+                        element.FilterRemoveRequestHandler -= OnFilterRemoveRequest;
+                        element.FilterAplliedHandler -= OnFilterApplied;
+                        element.Dispose();
+                    }
+
+                  
+                    FilterConditions.CollectionChanged -= FilterConditions_CollectionChanged;
+                    ReferenceList = default!;
+                    FilteredList = default!;
+                }
+
+                // Free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // Set large fields to null.
+                _disposedValue = true;
+            }
+
+            // Call the base class implementation.
+            base.Dispose(disposing);
+        }
+        #endregion
 
         #region Properties
         public ObservableCollection<FilterControlElementViewModel> FilterConditions { get; set; }

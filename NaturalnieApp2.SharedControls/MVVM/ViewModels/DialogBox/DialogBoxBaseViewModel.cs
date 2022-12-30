@@ -28,7 +28,6 @@
         public DialogBoxBaseViewModel(DialogBoxTypes dialogBoxType)
         {
             ButtonsPanel = GetDialogBoxButtonsPanel(dialogBoxType);
-
         }
         #endregion 
 

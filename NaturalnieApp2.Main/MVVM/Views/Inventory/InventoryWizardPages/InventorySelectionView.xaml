@@ -54,6 +54,7 @@
                           Height="40"
                           FontSize="20"
                           VerticalContentAlignment="Center"
+                          HorizontalAlignment="Center"
                           Margin="20" />
 
                 <Button Grid.Row="2"

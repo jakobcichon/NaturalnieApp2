@@ -68,5 +68,32 @@
             await ModelPresenter.CreateFromModel(model);
         }
         #endregion
+
+        #region Disposable
+        private bool _disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    // Dispose managed state (managed objects).
+                    foreach (var element in Products)
+                    {
+                        element.Dispose();
+                    }
+
+                    FilteredProducts.Dispose();
+                }
+
+                // Free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // Set large fields to null.
+                _disposedValue = true;
+            }
+
+            // Call the base class implementation.
+            base.Dispose(disposing);
+        }
+        #endregion
     }
 }

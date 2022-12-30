@@ -42,4 +42,20 @@
         </Setter>
     </Style>
     <!--#endregion-->
+
+    <Style x:Key="ToolTipBaseStyle" TargetType="FrameworkElement">
+        <Style.Triggers>
+            <Trigger Property="Validation.HasError"
+                     Value="True">
+                <Setter Property="ToolTip">
+                    <Setter.Value>
+                        <ToolTip  DataContext="{Binding RelativeSource={RelativeSource Self}, Path=PlacementTarget}">
+                            <ItemsControl ItemsSource="{Binding Path=(Validation.Errors)}"
+                                          DisplayMemberPath="ErrorContent" />
+                        </ToolTip>
+                    </Setter.Value>
+                </Setter>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
 </ResourceDictionary>

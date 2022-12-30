@@ -2,7 +2,7 @@
 {
     using System.Runtime.CompilerServices;
 
-    public interface IDialogBox
+    public interface IDialogBox: IDisposable
     {
         public IDialogBox Show(string message, string title = null);
         public IDialogBox ShowYesNo(string message, string title = null);

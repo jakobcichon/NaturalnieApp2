@@ -8,5 +8,8 @@
     public interface IInventoryCommands: IDatabaseGeneralCommands<InventoryModel>
     {
         Task<ICollection<string>> GetInventoriesNamesAsync();
+        Task<ICollection<string>> GetPersonNamesForGivenInventoryAsync(string inventoryName);
+        Task<ICollection<InventoryModel>> GetEntriesForGivenInventoryAsync(string inventoryName);
+        Task<ICollection<InventoryModel>> GetEntriesForGivenInventoryAndPersonAsync(string inventoryName, string personName);
     }
 }

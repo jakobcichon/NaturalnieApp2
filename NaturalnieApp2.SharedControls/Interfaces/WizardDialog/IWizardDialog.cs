@@ -4,7 +4,7 @@ namespace NaturalnieApp2.SharedControls.Interfaces.WizardDialog
 {
     using System;
 
-    public interface IWizardDialog
+    public interface IWizardDialog: IDisposable
     {
         string HeaderText { get; set; }
         object? Page { get; set; }

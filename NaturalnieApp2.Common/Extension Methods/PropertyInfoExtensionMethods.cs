@@ -31,6 +31,11 @@
             return null;
         }
 
+        public static string? GetDisplayableNameOrName(this PropertyInfo property)
+        {
+            return property.GetDisplayableName() ?? property.Name;
+        }
+
         public static Dictionary<PropertyInfo, T> GetPropertiesWithCustomAttribute<T>(this List<PropertyInfo> properties)
         {
             IEnumerable<PropertyInfo> searchedProps = properties.Where(p => p.GetCustomAttribute(typeof(T)) != null);

@@ -48,6 +48,10 @@
         <menu_inventory_pages_v:InventoryContinuationOptionsView />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type menu_inventory_pages_vm:CreateInventoryViewModel}">
+        <menu_inventory_pages_v:CreateInventoryView />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type menu_settings_vm:DatabaseSettingsViewModel}">
         <menu_settings_v:DatabaseSettingsView/>
     </DataTemplate>

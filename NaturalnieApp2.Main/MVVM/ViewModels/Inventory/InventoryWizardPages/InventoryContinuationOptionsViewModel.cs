@@ -3,8 +3,8 @@
     using NaturalnieApp2.Common.Binding;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
     using System;
-    using System.Windows.Controls;
-    using System.Windows.Navigation;
+    using System.Collections.ObjectModel;
+    using System.Windows.Documents;
 
     internal enum ResultOptions
     {
@@ -16,39 +16,73 @@
 
     internal class InventoryContinuationOptionsViewModel : ValidatableBindableBase
     {
+        #region Fields
         private string selectedOptionName;
-        public EventHandler<ResultOptions> StartRequestHandler = delegate { };
-        public EventHandler PreviousPageRequestHandler = delegate { };
+        private string selectedName;
+        private ObservableCollection<string> availableNames = new();
+        #endregion
 
+        #region Events
+        public EventHandler<ResultOptions> StartRequestHandler = delegate { }!;
+        public EventHandler PreviousPageRequestHandler = delegate { }!;
+        #endregion
+
+        #region Properties
         public CommandBase MouseClickCommand { get; set; }
         public CommandBase StartClickCommand { get; set; }
         public CommandBase PreviousPageClickCommnad { get; set; }
 
+        public ObservableCollection<string> AvailableNames
+        {
+            get { return availableNames; }
+            set { SetProperty(ref availableNames, value); }
+        }
+
         public string SelectedOptionName
         {
             get { return selectedOptionName; }
-            set 
-            { 
+            set
+            {
                 SetProperty(ref selectedOptionName, value);
                 StartClickCommand.OnCanExecuteChange();
             }
         }
 
+        public string SelectedName
+        {
+            get { return selectedName; }
+            set 
+            { 
+                SetProperty(ref selectedName, value);
+                SelectedOptionName = "Option3";
+            }
+        } 
+        #endregion
+
 
         public InventoryContinuationOptionsViewModel()
         {
             MouseClickCommand = new(OnMouseClickAction);
-            StartClickCommand = new(OnStartClickAction, (object? input) => 
-            { 
-                return !string.IsNullOrEmpty(SelectedOptionName); 
+            StartClickCommand = new(OnStartClickAction, (object? input) =>
+            {
+                if (!string.IsNullOrEmpty(SelectedOptionName) && SelectedOptionName.Equals("Option3"))
+                {
+                    if(!string.IsNullOrEmpty(SelectedName))
+                    {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                return !string.IsNullOrEmpty(SelectedOptionName);
             });
             PreviousPageClickCommnad = new(OnPreviousPageClickAction);
         }
 
-
         private void OnMouseClickAction(object? data)
         {
-            if( data as string is null)
+            if (data as string is null)
             {
                 return;
             }

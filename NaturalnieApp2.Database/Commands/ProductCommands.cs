@@ -6,7 +6,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
 
-    public class ProductCommands : CommandBase, IDatabaseGeneralCommands<ProductModel>
+    public class ProductCommands : DbCommandBase, IDatabaseGeneralCommands<ProductModel>
     {
         public ProductCommands(string connectionString) : base(connectionString)
         {

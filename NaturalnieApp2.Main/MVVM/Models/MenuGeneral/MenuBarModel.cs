@@ -10,39 +10,61 @@
 
     internal class MenuBarModel
     {
-        public Dictionary<string, Dictionary<string, IMenuScreen>> MenuScreenList { get; init; }
+        public Dictionary<string, Dictionary<string, IMenuScreen?>> MenuScreenList { get; init; }
 
         public MenuBarModel()
         {
             MenuScreenList = new();
         }
 
+        #region Public methods
         public void AddGroup(string groupName)
         {
-            MenuScreenList.Add(groupName, new Dictionary<string, IMenuScreen>());
+            MenuScreenList.Add(groupName, new Dictionary<string, IMenuScreen?>());
+        }
+
+        public Dictionary<string, IMenuScreen?> GetSubMenuDictForGivenGroup(string groupName)
+        {
+            CheckIfGroupExists(groupName);
+
+            MenuScreenList.TryGetValue(groupName, out Dictionary<string, IMenuScreen?> menuScreenDict);
+
+            return menuScreenDict!;
+        }
+
+        public IMenuScreen GetSceenForScreenName(string sceenName, Dictionary<string, IMenuScreen?> screens)
+        {
+            CheckIfScreenNameExists(sceenName, screens);
+
+            screens.TryGetValue(sceenName, out IMenuScreen menuScreen);
+
+            return menuScreen!;
         }
 
         public void AddScreen(string groupName, string screenName, IMenuScreen screen)
         {
-            if (!MenuScreenList.ContainsKey(groupName))
+            Dictionary<string, IMenuScreen?> screens = GetSubMenuDictForGivenGroup(groupName);
+
+            screens?.Add(screenName, screen);
+        }
+
+        public bool SetScreenByName(string screenName, IMenuScreen? screenValue)
+        {
+            foreach (KeyValuePair<string, Dictionary<string, IMenuScreen?>> screenDict in MenuScreenList)
             {
-                throw new NaturalnieExceptionBase($"Grupa menu o nazwie \"{groupName}\" nie istnieje!");
+                if(screenDict.Value.Any(d => d.Key.Equals(screenName)))
+                {
+                    screenDict.Value[screenName] = screenValue;
+                    return true;
+                }
             }
 
-            Dictionary<string, IMenuScreen>? menuScreenDict = new();
-            MenuScreenList.TryGetValue(groupName, out menuScreenDict);
-
-            if(menuScreenDict == null)
-            {
-                menuScreenDict = new();
-            }
-
-            menuScreenDict?.Add(screenName, screen);
+            return false;
         }
 
         public IMenuScreen? GetScreenByName(string screenName)
         {
-            foreach(KeyValuePair<string, Dictionary<string, IMenuScreen>> screenDict in MenuScreenList)
+            foreach (KeyValuePair<string, Dictionary<string, IMenuScreen?>> screenDict in MenuScreenList)
             {
                 screenDict.Value.TryGetValue(screenName, out var screen);
                 if (screen != null)
@@ -54,10 +76,49 @@
             return null;
         }
 
+        public string? GetScreenNameByValue(IMenuScreen screen)
+        {
+            foreach (KeyValuePair<string, Dictionary<string, IMenuScreen?>> screenDict in MenuScreenList)
+            {
+                if(screenDict.Value.Any(s => s.Value == screen))
+                {
+                    return screenDict.Value.Where(s => s.Value == screen).FirstOrDefault().Key;
+                }
+
+            }
+
+            return null;
+        }
+
         public void ClearAll()
         {
             MenuScreenList?.Clear();
         }
+        #endregion
+
+        #region Private methods
+        private void CheckIfGroupExists(string groupName)
+        {
+            if (!MenuScreenList.ContainsKey(groupName))
+            {
+                throw new NaturalnieExceptionBase($"Grupa menu o nazwie \"{groupName}\" nie istnieje!");
+            }
+        }
+
+        private static void CheckIfScreenNameExists(string screenName, Dictionary<string, IMenuScreen?> screenDict)
+        {
+            if (!screenDict.ContainsKey(screenName))
+            {
+                ThrowSubMenuDoNotExist(screenName);
+                return;
+            }
+        }
+
+        private static void ThrowSubMenuDoNotExist(string screenName)
+        {
+            throw new NaturalnieExceptionBase($"Podmenu o nazwie \"{screenName}\" nie istnieje!");
+        }
+        #endregion
 
     }
 }

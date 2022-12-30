@@ -2,7 +2,7 @@
 {
     using System.Collections;
 
-    public interface IDatabaseGeneralCommands<T>
+    public interface IDatabaseGeneralCommands<T>: IDisposable
     {
         Task<ICollection<T>> GetAllElementsAsync();
     }

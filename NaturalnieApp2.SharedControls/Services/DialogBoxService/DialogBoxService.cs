@@ -1,19 +1,16 @@
 ﻿namespace NaturalnieApp2.SharedControls.Services.DialogBoxService
 {
+    using NaturalnieApp2.Common.Disposable;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.DialogBox;
     using NaturalnieApp2.SharedInterfaces.DialogBox;
     using NaturalnieApp2.SharedInterfaces.Logger;
     using System;
     using System.Collections.Concurrent;
-    using System.Collections.Generic;
     using System.ComponentModel;
     using System.Linq;
     using System.Runtime.CompilerServices;
-    using System.Text;
-    using System.Threading;
-    using System.Threading.Tasks;
 
-    public class DialogBoxService : IDialogBox, INotifyPropertyChanged
+    public class DialogBoxService : DisposableBase, IDialogBox, INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -173,6 +170,33 @@
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new(propertyName));
+        }
+
+        #endregion
+
+        #region Disposable
+        private bool _disposedValue;
+        protected override void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    DialogBoxViewModel = null;
+                    lastlyAddedDialogBox?.Dispose();
+                    foreach (var element in dialogBoxViewModelWaitingList)
+                    {
+                        element.Dispose();
+                    }
+                }
+
+                // Free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // Set large fields to null.
+                _disposedValue = true;
+            }
+
+            // Call the base class implementation.
+            base.Dispose(disposing);
         }
         #endregion
     }

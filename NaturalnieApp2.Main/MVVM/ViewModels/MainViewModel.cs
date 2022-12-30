@@ -5,6 +5,7 @@
     using NaturalnieApp2.Main.MVVM.ViewModels.MenuGeneral;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.Menu;
+    using System;
     using System.Collections.Generic;
     using System.Threading;
     using System.Threading.Tasks;
@@ -13,7 +14,7 @@
     internal class MainViewModel : BaseViewModel
     {
         #region Constructor
-        public MainViewModel(MenuBarModel? menuBarModel)
+        public MainViewModel(MenuBarModel? menuBarModel, IServiceProvider serviceProvider)
         {
             MenuBarModel = menuBarModel;
             MenuBar = new MenuBarViewModel();
@@ -24,6 +25,8 @@
             CreateMenuBarFromModel(MenuBarModel, MenuBar);
 
             changeScreenCancellationToken = new();
+
+            this.serviceProvider = serviceProvider;
         }
         #endregion
 
@@ -31,6 +34,7 @@
         private IMenuScreen? previouslySelectedScreen;
         private Task previouslySelectedLoadingTask;
         private CancellationTokenSource changeScreenCancellationToken;
+        private readonly IServiceProvider serviceProvider;
         #endregion
 
         #region Properties
@@ -62,8 +66,18 @@
             get { return selectedScreen; }
             set
             {
+                if(selectedScreen != null)
+                {
+                    selectedScreen.CloseRequestHandler -= OnScreenCloseRequest;
+                }
+
                 selectedScreen = value;
                 OnPropertyChanged();
+
+                if (selectedScreen != null)
+                {
+                    selectedScreen.CloseRequestHandler += OnScreenCloseRequest;
+                }
             }
         }
 
@@ -86,6 +100,10 @@
         #endregion
 
         #region Private methods
+        private void OnScreenCloseRequest(object sender, EventArgs e)
+        {
+            CloseActiveScreen();
+        }
 
         private void CreateMenuBarFromModel(MenuBarModel? menuBarModel, MenuBarViewModel menuBarViewModel)
         {
@@ -148,11 +166,33 @@
             IMenuScreen? screen = GetMenuScreenByName(buttonViewModel.DisplayName);
             if(screen is null)
             {
-                return;
+                SetMenuScreen(buttonViewModel.DisplayName, null);
             }
 
             await ChangeActiveScreen(screen);
 
+        }
+
+        private void CloseActiveScreen()
+        {
+            string? name = GetScreenNameByValue(SelectedScreen);
+            if( name is null) 
+            {
+                return;
+            }
+
+            Type screenType = SelectedScreen.GetType().UnderlyingSystemType;
+            IMenuScreen? newInstance = serviceProvider.GetService(screenType) as IMenuScreen;
+
+            if (newInstance is null) 
+            {
+                return;
+            }
+
+            SelectedScreen.Dispose();
+            SetMenuScreen(name, newInstance);
+
+            ChangeActiveScreen(DefaultScreen);
         }
 
         private IMenuScreen? GetMenuScreenByName(string name)
@@ -160,6 +200,15 @@
             IMenuScreen? screen = MenuBarModel?.GetScreenByName(name);
 
             return screen;
+        }
+        private string? GetScreenNameByValue(IMenuScreen screen)
+        {
+            return MenuBarModel?.GetScreenNameByValue(screen);
+        }
+
+        private void SetMenuScreen(string name, IMenuScreen screen)
+        {
+            MenuBarModel?.SetScreenByName(name, screen);
         }
 
         private async Task ChangeActiveScreen(IMenuScreen newScreen)
