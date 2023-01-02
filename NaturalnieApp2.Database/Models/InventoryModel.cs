@@ -15,7 +15,7 @@
         public DateTime LastModificationDate { get; set; }
         public int ProductQuantity { get; set; }
         public string SupplierName { get; set; }
-        public int ElzabProductId { get; set; }
+        public int? ElzabProductId { get; set; }
         public string ManufacturerName { get; set; }
         public string ProductName { get; set; }
         public string ElzabProductName { get; set; }

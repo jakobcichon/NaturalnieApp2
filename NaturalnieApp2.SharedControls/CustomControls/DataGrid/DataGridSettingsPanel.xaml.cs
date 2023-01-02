@@ -113,6 +113,7 @@
             if(this.SettingsPopup.IsOpen)
             {
                 this.SettingsPopup.IsOpen = false;
+                return;
             }
 
             this.SettingsPopup.IsOpen = true;

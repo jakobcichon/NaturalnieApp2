@@ -8,7 +8,7 @@
     using System.Collections.Generic;
     using System.Windows.Documents;
 
-    public record ProductModelDTO : ValidatableBindableRecordBase, IModel, IConvertableModel<ProductModel>
+    public record ProductModelDTO : ValidatableBindableRecordBase, IModelDto<ProductModel>
     {
         #region Fields
         private int tax;
@@ -29,15 +29,8 @@
         private bool canBeRemoveFromCashRegister;
         #endregion
 
-        public ProductModelDTO()
-        {
-
-        }
-
-        public ProductModelDTO(ProductModel model)
-        {
-            this.FromModel(model);
-        }
+        [DoNotDisplay]
+        public ProductModel? Model { get; set; }
 
         #region Properties
         [DoNotDisplay]
@@ -166,8 +159,10 @@
         #endregion
 
         #region Public methods
-        public void FromModel(ProductModel model)
+      /*  public void FromModel(ProductModel model)
         {
+            ModelRef = model;
+
             this.SupplierName = model.Supplier.Name;
             this.CashRegisterProductId = model.ElzabProductId;
             this.ManufacturerName = model.Manufacturer.Name;
@@ -190,15 +185,15 @@
         {
             ProductModel model = new ProductModel();
 
-            model.Supplier.Name = this.SupplierName;
+            //model.Supplier.Name = this.SupplierName;
             model.ElzabProductId = this.CashRegisterProductId;
-            model.Manufacturer.Name = this.ManufacturerName;
+            //model.Manufacturer.Name = this.ManufacturerName;
             model.ProductName = this.ProductName;
             model.ElzabProductName = this.CashRegisterProductName;
             model.PriceNet = this.PriceNet;
             model.Discount = this.Discount;
             model.PriceNetWithDiscount = this.PriceNetWithDiscount;
-            model.Tax.TaxValue = this.Tax;
+            //model.Tax.TaxValue = this.Tax;
             model.Marigin = this.Marigin;
             model.FinalPrice = this.FinalPrice;
             model.BarCode = this.BarCode;
@@ -208,7 +203,7 @@
             model.CanBeRemoveFromCashRegister = this.CanBeRemoveFromCashRegister;
 
             return model;
-        } 
+        } */
         #endregion
     }
 }

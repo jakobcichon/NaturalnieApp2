@@ -162,6 +162,12 @@
 
         </Grid>
 
+        <Grid Grid.Row="2">
+            <StackPanel>
+                <Label Content="{Binding AssemblyVersion}" 
+                       Foreground="Gray"/>
+            </StackPanel>
+        </Grid>
 
 
     </Grid>

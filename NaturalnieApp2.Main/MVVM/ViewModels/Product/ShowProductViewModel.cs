@@ -11,6 +11,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using NaturalnieApp2.Main.MVVM.Models.Product;
+    using NaturalnieApp2.Main.Extensions.Database.Models;
 
     internal class ShowProductViewModel : BaseViewModel, IMenuScreen
     {
@@ -52,9 +53,10 @@
             await CreateModelPresenter();
             List<ProductModelDTO> dtoProductModel = new();
             var products = await ProductDatabaseCommands.GetAllElementsAsync();
+
             foreach(var element in products)
             {
-                dtoProductModel.Add(new ProductModelDTO(element));
+                dtoProductModel.Add(element.ToDto());
             }
 
             FilteredProducts.ReferenceList = dtoProductModel;

@@ -10,6 +10,7 @@
         [Key]
         public int Id { get; set; }
         public int ProductId { get; set; }
+        public virtual ProductModel Product { get; set; } = null!;
         public int ActualQuantity { get; set; }
         public int LastQuantity { get; set; }
         public DateTime ModificationDate { get; set; }

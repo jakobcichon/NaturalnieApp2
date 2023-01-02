@@ -15,18 +15,18 @@
     public class CreateInventoryViewModel : ValidatableBindableBase
     {
         #region Fields
-        private InventoryModelDTO model;
+        private InventoryModelDto model;
         private static List<string> consideredModelsElements = new List<string>() { "InventoryName", "PersonName" };
         #endregion
 
         #region Events
-        public EventHandler<InventoryModelDTO> InvetoryCreatedHandler { get; set; } = delegate { }!;
+        public EventHandler<InventoryModelDto> InvetoryCreatedHandler { get; set; } = delegate { }!;
         public EventHandler PreviousPageRequestHandler = delegate { }!;
         #endregion
 
         #region Properties
         public List<string> ExisitngInvetoriesNames { get; private set; } = new List<string>();
-        public InventoryModelDTO Model
+        public InventoryModelDto Model
         {
             get { return model; }
             set { SetProperty(ref model, value); }
@@ -47,7 +47,7 @@
         {
             CreateCommand = new(OnCreateRequest, CanCreate);
             PreviousPageCommand = new(OnPreviousPageRequest);
-            Model = new InventoryModelDTO();
+            Model = new InventoryModelDto();
 
             Model.GetType().GetProperties().Where(p => consideredModelsElements.Contains(p.Name)).ToList().ForEach(p => Items.Add(new ProxyPropertyService(Model, p.Name)));
 

@@ -9,6 +9,8 @@ namespace NaturalnieApp2.SharedControls.Interfaces.WizardDialog
         string HeaderText { get; set; }
         object? Page { get; set; }
         bool Visibility { get; set; }
+        bool IsClosed { get; }
+        bool IsOpened { get; }
 
         EventHandler<PageChangedArgs> PageChangedHandler { get; set; }
 

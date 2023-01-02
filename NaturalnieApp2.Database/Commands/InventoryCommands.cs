@@ -14,6 +14,18 @@
 
         }
 
+        public async Task AddAsync(InventoryModel model)
+        {
+            dbContext.Entry(model).State = EntityState.Added;
+            await dbContext.SaveChangesAsync();
+        }
+
+        public async Task EditAsync(InventoryModel model)
+        {
+            dbContext.Entry(model).State = EntityState.Modified;
+            await dbContext.SaveChangesAsync();
+        }
+
         public async Task<ICollection<InventoryModel>> GetAllElementsAsync()
         {
             var result = await dbContext.Inventory.ToListAsync();

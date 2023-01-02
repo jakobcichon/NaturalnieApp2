@@ -12,6 +12,10 @@
 
     <!--Generic images-->
     <BitmapImage x:Key="SettingsImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/settings_icon.png"/>
+    <BitmapImage x:Key="SettingsImage2Large"
+                 UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/settings_large.png" />
+    <BitmapImage x:Key="SettingsImage2Small"
+                 UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/settings_small.png" />
     <BitmapImage x:Key="AddNewImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/add-new.png"/>
     <BitmapImage x:Key="CheckOkImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/check-ok.png"/>
     <BitmapImage x:Key="CheckPendingImage" UriSource="pack://application:,,,/NaturalnieApp2.SharedResources;Component/Images/check-pending.png"/>

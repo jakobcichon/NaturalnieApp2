@@ -7,7 +7,7 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    public interface IInventoryCommands : IInventoryCommands<InventoryModel>
+    public interface IStockCommands : IStockCommands<StockModel, ProductModel>
     {
     }
 }

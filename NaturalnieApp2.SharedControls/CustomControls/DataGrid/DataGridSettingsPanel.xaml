@@ -7,16 +7,29 @@
              mc:Ignorable="d"
              d:DesignHeight="20"
              d:DesignWidth="100">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/NaturalnieApp2.SharedControls;component/ResourcesDict.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <StackPanel Orientation="Horizontal">
-            <Label Content="T"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center" />
             <Button x:Name="SettingsButton"
-                    Content="Ustawienia"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
-                    PreviewMouseUp="Button_MouseUp" />
+                    PreviewMouseUp="Button_MouseUp"
+                    BorderThickness="0"
+                    Background="Transparent"
+                    Padding="0">
+                <Image Source="{StaticResource SettingsImage2Large}" 
+                       Width="30"
+                       Stretch="Fill"
+                       />
+            </Button>
             <Popup x:Name="SettingsPopup"
                    PlacementTarget="{Binding ElementName=SettingsButton}"
                    MouseLeave="SettingsPopup_MouseLeave"
@@ -33,10 +46,13 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <CheckBox  IsChecked="{Binding Visibility}"
-                                           IsEnabled="False" />
+                                           IsEnabled="False" 
+                                           VerticalAlignment="Center"/>
                                 <Button Grid.Column="1"
                                         Content="{Binding DataColumn.Header}"
-                                        PreviewMouseUp="ColumnButton_PreviewMouseUp"/>
+                                        PreviewMouseUp="ColumnButton_PreviewMouseUp"
+                                        Background="Transparent"
+                                        BorderThickness="0"/>
 
                             </Grid>
                         </DataTemplate>

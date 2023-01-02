@@ -1,6 +1,7 @@
 ﻿namespace NaturalnieApp2.Database.Commands
 {
     using NaturalnieApp2.Common.Disposable;
+    using NaturalnieApp2.Database.Interfaces;
     using System.Data.Entity;
 
     public class DbCommandBase: DisposableBase
@@ -12,6 +13,11 @@
         {
             ConnectionString = connectionString;
             dbContext = new ShopContext(connectionString);
+        }
+
+        public async Task SaveAsync()
+        {
+           await dbContext.SaveChangesAsync();
         }
 
         #region Disposable

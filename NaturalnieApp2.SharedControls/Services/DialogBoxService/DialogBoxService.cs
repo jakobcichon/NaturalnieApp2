@@ -8,6 +8,7 @@
     using System.Collections.Concurrent;
     using System.ComponentModel;
     using System.Linq;
+    using System.Media;
     using System.Runtime.CompilerServices;
 
     public class DialogBoxService : DisposableBase, IDialogBox, INotifyPropertyChanged
@@ -55,6 +56,20 @@
         {
             ShowCommonAction(message, DialogBoxTypes.Ok, title);
             logger.Info("Okno dialogowe z przyciskiem Ok zostało utworzone");
+            return this;
+        }
+
+        public IDialogBox ShowError(string message, string? title = null)
+        {
+            if(title is null)
+            {
+                title = "Błąd";
+            }
+
+            ShowCommonAction(message, DialogBoxTypes.Ok, title);
+            logger.Info("Okno dialogowe z przyciskiem Ok mówiące o błędzie zostało utworzone");
+
+            SystemSounds.Asterisk.Play();
             return this;
         }
 

@@ -28,6 +28,7 @@
         public string ProductInfo { get; set; } = null!;
         public bool CanBeRemoveFromCashRegister { get; set; }
 
+
         public ProductModel DeepCopy()
         {
             ProductModel product = (ProductModel)this.MemberwiseClone();

@@ -32,6 +32,14 @@
         public EventHandler<PageChangedArgs> PageChangedHandler { get; set; } = delegate { };
 
         #region Properties
+        public bool IsOpened { get; private set; }
+        public bool IsClosed
+        {
+            get
+            {
+                return !IsOpened;
+            }
+        }
         public bool Visibility
         {
             get { return visibility; }
@@ -95,12 +103,14 @@
         {
             Visibility = false;
             Page = null;
+            IsOpened = false;
         }
 
         public void Open()
         {
             Visibility = true;
             Page = pages.First();
+            IsOpened = true;
         }
         #endregion
 

@@ -1,15 +1,20 @@
 ﻿namespace NaturalnieApp2.Main.MVVM.ViewModels
 {
+    using Microsoft.Extensions.DependencyInjection;
+    using NaturalnieApp2.Common.Barcode;
     using NaturalnieApp2.Main.Interfaces.Screens;
     using NaturalnieApp2.Main.MVVM.Models.MenuGeneral;
     using NaturalnieApp2.Main.MVVM.ViewModels.MenuGeneral;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
     using NaturalnieApp2.SharedControls.MVVM.ViewModels.Menu;
+    using NaturalnieApp2.SharedInterfaces.Logger;
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Reflection;
     using System.Threading;
     using System.Threading.Tasks;
-
+    using System.Windows.Input;
 
     internal class MainViewModel : BaseViewModel
     {
@@ -27,6 +32,9 @@
             changeScreenCancellationToken = new();
 
             this.serviceProvider = serviceProvider;
+
+            barcodeListner = new BarcodeListner(200, serviceProvider.GetRequiredService<ILogger>());
+            barcodeListner.BarcodeValid += BarcodeListner_BarcodeValid;
         }
         #endregion
 
@@ -35,9 +43,11 @@
         private Task previouslySelectedLoadingTask;
         private CancellationTokenSource changeScreenCancellationToken;
         private readonly IServiceProvider serviceProvider;
+        private BarcodeListner barcodeListner;
         #endregion
 
         #region Properties
+        public string AssemblyVersion { get; init; } = Assembly.GetExecutingAssembly().GetName().Version.ToString(); 
         public MenuBarViewModel MenuBar { get; init; }
         public MenuBarModel? MenuBarModel { get; init; }
 
@@ -96,7 +106,22 @@
         #endregion
 
         #region Public methods
+        private void BarcodeListner_BarcodeValid(object sender, BarcodeListner.BarcodeValidEventArgs e)
+        {
+            IBarcodeListner? barcodeListner = SelectedScreen as IBarcodeListner;
 
+            if( barcodeListner is null)
+            {
+                return;
+            }
+
+            barcodeListner.OnBarcodeScanned(e.RecognizedBarcodeValue);
+        }
+
+        public void OnKeyPressed(object sender, KeyEventArgs args)
+        {
+            barcodeListner.CheckIfBarcodeFromReader(args.Key);
+        }
         #endregion
 
         #region Private methods

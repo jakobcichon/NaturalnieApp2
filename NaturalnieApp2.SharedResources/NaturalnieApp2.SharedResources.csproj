@@ -22,7 +22,14 @@
     <None Remove="Images\right-arrow.png" />
     <None Remove="Images\select.png" />
     <None Remove="Images\settings_icon.png" />
+    <None Remove="Images\settings_large.png" />
+    <None Remove="Images\settings_small.png" />
     <None Remove="Images\up-arrow.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\settings_large.png" />
+    <Resource Include="Images\settings_small.png" />
   </ItemGroup>
 
   <ItemGroup>

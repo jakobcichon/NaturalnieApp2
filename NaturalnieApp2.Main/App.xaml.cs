@@ -38,7 +38,7 @@ namespace NaturalnieApp2.Main
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows;
-
+    using System.Windows.Input;
     using static NaturalnieApp2.Main.Services.ModelServices.NaturalnieAppPropertyPresenterService;
 
     public partial class App : Application
@@ -70,6 +70,10 @@ namespace NaturalnieApp2.Main
             // Main window context
             MainViewModel mainWindowContex = Services.GetService<MainViewModel>()!;
             mainWindowContex.DefaultScreen = Services.GetService<DefaulMenuScreenViewModel>();
+
+            #region Event manager hooks
+            ConfigureEventManagerHooks(Services);
+            #endregion
 
             MainWindow mainWindow = new(mainWindowContex);
             mainWindow.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -123,6 +127,11 @@ namespace NaturalnieApp2.Main
             #endregion
 
             return services.BuildServiceProvider();
+        }
+
+        private static void ConfigureEventManagerHooks(IServiceProvider serviceProvider)
+        {
+            EventManager.RegisterClassHandler(typeof(Window), Keyboard.KeyDownEvent, new KeyEventHandler(serviceProvider.GetRequiredService<MainViewModel>().OnKeyPressed), true);
         }
 
         private static void ConfigureXmlSerializer(ServiceCollection services)
@@ -184,9 +193,9 @@ namespace NaturalnieApp2.Main
             {
                 ShowProductViewModel showProductViewModel = new()
                 {
-                    DialogBox = s.GetService<DialogBoxService>(),
-                    ModelPresenter = s.GetService<IModelPresenter>(),
-                    ProductDatabaseCommands = s.GetService<IDatabaseGeneralCommands<ProductModel>>()
+                    DialogBox = s.GetRequiredService<DialogBoxService>(),
+                    ModelPresenter = s.GetRequiredService<IModelPresenter>(),
+                    ProductDatabaseCommands = s.GetRequiredService<IProductCommands>()
                 };
 
                 return showProductViewModel;
@@ -200,8 +209,10 @@ namespace NaturalnieApp2.Main
                 InventoryViewModel inventoryViewModel = new()
                 {
                     DialogBox = s.GetService<DialogBoxService>(),
-                    InventoryDatabaseCommands = s.GetService<IInventoryCommands>(),
-                    WizardDialog = s.GetService<IWizardDialog>()
+                    InventoryDatabaseCommands = s.GetRequiredService<IInventoryCommands>(),
+                    ProductDatabaseCommands = s.GetRequiredService<IProductCommands>(),
+                    StockDatabaseCommands = s.GetRequiredService<IStockCommands>(),
+                    WizardDialog = s.GetRequiredService<IWizardDialog>()
                 };
 
                 return inventoryViewModel;
@@ -263,7 +274,7 @@ namespace NaturalnieApp2.Main
 
         private static void ConfigureDatabase(ServiceCollection services)
         {
-            services.AddTransient<IDatabaseGeneralCommands<ProductModel>>((s) =>
+            services.AddTransient<IProductCommands>((s) =>
             {
                 return new ProductCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
             });
@@ -271,6 +282,11 @@ namespace NaturalnieApp2.Main
             services.AddTransient<IInventoryCommands> ((s) =>
             {
                 return new InventoryCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
+            });
+
+            services.AddTransient<IStockCommands>((s) =>
+            {
+                return new StockCommands(s.GetRequiredService<IDatabaseConnectionSettingsProvider>().ConnectionString);
             });
         }
 

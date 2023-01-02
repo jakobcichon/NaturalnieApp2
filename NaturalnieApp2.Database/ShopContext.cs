@@ -4,6 +4,7 @@
     using NaturalnieApp2.Database.Models;
     using System.Data.Common;
     using System.Data.Entity;
+    using System.Diagnostics;
 
     // Code-Based Configuration and Dependency resolution
     [DbConfigurationType(typeof(MySqlEFConfiguration))]
@@ -38,6 +39,7 @@
                 .HasRequired(p => p.Manufacturer)
                 .WithMany(x => x.Products)
                 .HasForeignKey(p => p.ManufacturerId);*/
+            
         }
 
         public ShopContext()
@@ -60,8 +62,12 @@
 
         private void CommonSettings()
         {
- /*           this.Configuration.LazyLoadingEnabled = false;
-            this.Configuration.ProxyCreationEnabled = false;*/
+            /*           this.Configuration.LazyLoadingEnabled = false;
+                       this.Configuration.ProxyCreationEnabled = false;*/
+            this.Database.Log = (string data) =>
+            {
+                Debug.WriteLine(data);
+            };
         }
     }
 }

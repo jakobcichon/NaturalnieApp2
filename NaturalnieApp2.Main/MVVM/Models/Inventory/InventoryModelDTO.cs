@@ -8,7 +8,7 @@
     using System;
     using System.ComponentModel.DataAnnotations;
 
-    public record InventoryModelDTO : ValidatableBindableRecordBase, IModel, IConvertableModel<InventoryModel>
+    public record InventoryModelDto : ValidatableBindableRecordBase, IModelDto<InventoryModel>
     {
         #region Fields
         private string inventoryName;
@@ -16,7 +16,7 @@
         private DateTime lastModificationDate;
         private int productQuantity;
         private string supplierName;
-        private int elzabProductId;
+        private int? cashRegisterProductId;
         private string manufacturerName;
         private string productName;
         private string elzabProductName;
@@ -31,17 +31,15 @@
         private string supplierCode;
         #endregion
 
-        public InventoryModelDTO()
+        public InventoryModelDto()
         {
 
-        }
-
-        public InventoryModelDTO(InventoryModel model)
-        {
-            this.FromModel(model);
         }
 
         #region Properties
+        [DoNotDisplay]
+        public InventoryModel? Model { get; set; }
+
         [DoNotDisplay]
         public bool IsValid { get => this.HasErrors; }
 
@@ -87,10 +85,10 @@
         }
 
         [DisplayableName("Numer w kasie fiskalnej")]
-        public int ElzabProductId
+        public int? CashRegisterProductId
         {
-            get { return elzabProductId; }
-            set { SetProperty(ref elzabProductId, value); }
+            get { return cashRegisterProductId; }
+            set { SetProperty(ref cashRegisterProductId, value); }
         }
 
         [DisplayableName("Nazwa producenta")]
@@ -108,7 +106,7 @@
         }
 
         [DisplayableName("Nazwa produktu w kasie fiskalnej")]
-        public string ElzabProductName
+        public string CashRegisterProductName
         {
             get { return elzabProductName; }
             set { SetProperty(ref elzabProductName, value); }
@@ -178,55 +176,5 @@
         }
         #endregion
 
-
-        #region Public methods
-        public void FromModel(InventoryModel model)
-        {
-            this.InventoryName = model.InventoryName;
-            this.PersonName = model.PersonName;
-            this.LastModificationDate = model.LastModificationDate;
-            this.ProductQuantity = model.ProductQuantity;
-            this.SupplierName = model.SupplierName;
-            this.ElzabProductId = model.ElzabProductId;
-            this.ManufacturerName = model.ManufacturerName;
-            this.ProductName = model.ProductName;
-            this.ElzabProductName = model.ElzabProductName;
-            this.PriceNet = model.PriceNet;
-            this.Discount = model.Discount;
-            this.PriceNetWithDiscount = model.PriceNetWithDiscount;
-            this.TaxValue = model.TaxValue;
-            this.Marigin = model.Marigin;
-            this.FinalPrice = model.FinalPrice;
-            this.BarCode = model.BarCode;
-            this.BarCodeShort = model.BarCodeShort;
-            this.SupplierCode = model.SupplierCode;
-        }
-
-        public InventoryModel ToModel()
-        {
-            InventoryModel model = new();
-
-            model.InventoryName = this.InventoryName;
-            model.PersonName = this.PersonName;
-            model.LastModificationDate = this.LastModificationDate;
-            model.ProductQuantity = this.ProductQuantity;
-            model.SupplierName = this.SupplierName;
-            model.ElzabProductId = this.ElzabProductId;
-            model.ManufacturerName = this.ManufacturerName;
-            model.ProductName = this.ProductName;
-            model.ElzabProductName = this.ElzabProductName;
-            model.PriceNet = this.PriceNet;
-            model.Discount = this.Discount;
-            model.PriceNetWithDiscount = this.PriceNetWithDiscount;
-            model.TaxValue = this.TaxValue;
-            model.Marigin = this.Marigin;
-            model.FinalPrice = this.FinalPrice;
-            model.BarCode = this.BarCode;
-            model.BarCodeShort = this.BarCodeShort;
-            model.SupplierCode = this.SupplierCode;
-
-            return model;
-        }
-        #endregion
     }
 }

@@ -2,8 +2,12 @@
 {
     using NaturalnieApp2.Common.Collections;
     using NaturalnieApp2.Database.Interfaces;
+    using NaturalnieApp2.Database.Models;
+    using NaturalnieApp2.Main.Extensions.Database.Models;
     using NaturalnieApp2.Main.Interfaces.Screens;
     using NaturalnieApp2.Main.MVVM.Models.Inventory;
+    using NaturalnieApp2.Main.MVVM.Models.Product;
+    using NaturalnieApp2.Main.MVVM.Models.Stock;
     using NaturalnieApp2.Main.MVVM.ViewModels.Inventory.InventoryWizardPages;
     using NaturalnieApp2.SharedControls.Interfaces.WizardDialog;
     using NaturalnieApp2.SharedControls.MVVM.Commands;
@@ -12,7 +16,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    internal class InventoryViewModel : BaseViewModel, IMenuScreen
+    internal class InventoryViewModel : BaseViewModel, IMenuScreen, IBarcodeListner
     {
         #region Fields
         InventorySelectionViewModel inventorySelectionPage = new();
@@ -30,14 +34,31 @@
         public override string ScreenInfo => "Inwentaryzacja";
 
         public IInventoryCommands InventoryDatabaseCommands { get; init; }
+        public IProductCommands ProductDatabaseCommands { get; init; }
+        public IStockCommands StockDatabaseCommands { get; init; }
 
         public bool IsInitialized { get; private set; }
 
         public IWizardDialog WizardDialog { get; init; }
 
-        public ObservableCollectionCustom<InventoryModelDTO> InventoryEntries { get; set; } = new();
+        public ObservableCollectionCustom<InventoryModelDto> InventoryEntries { get; set; } = new();
+        public List<InventoryModel> ModifiedEntries { get; set; } = new();
 
         public CommandBase CloseRequestCommnad { get; set; }
+        public CommandBase SaveRequestCommnad { get; set; }
+
+        private InventoryModelDto selectedEntry;
+
+        public InventoryModelDto SelectedEntry
+        {
+            get { return selectedEntry; }
+            set
+            {
+                selectedEntry = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public string SelectedInventoryName
         {
@@ -59,6 +80,47 @@
             }
         }
 
+        public async void OnBarcodeScanned(string barcodeValue)
+        {
+            if(WizardDialog.IsOpened)
+            {
+                return;
+            }
+
+            try
+            {
+                ProductModel product = await ProductDatabaseCommands.GetProductForBarcode("5903760203146");
+
+                if(product is null) 
+                {
+                    DialogBox?.ShowError($"Nie znaleziono kodu kreskowego '{barcodeValue} w bazie danych");
+                    return;
+                }
+
+                InventoryModelDto invenotryDto = CreateInventoryFromProduct(product);
+
+                InventoryModelDto? inventoryFromList = IsInvetoryAlreadyOnTheList(invenotryDto);
+
+                if(inventoryFromList is null) 
+                {
+                    StockModel stockModel = await StockDatabaseCommands.GetStockForProductAsync(product);
+                    invenotryDto.ProductQuantity = stockModel.ActualQuantity;
+                    AddInvetoryToList(invenotryDto);
+                    return;
+                }
+
+                inventoryFromList.ProductQuantity++;
+            }
+            catch (InvalidOperationException)
+            {
+                DialogBox?.ShowError($"Dla podanego kodu kreskowego istnieje więcej niż jeden produkt!");
+            }
+            catch (Exception ex)
+            {
+                DialogBox?.ShowError($"Błąd bazy danych przy wyszukiwaniu kody kreskowego. Sczegóły wyjątku: \n{ex.Message}");
+            }
+
+        }
         #endregion
 
         #region Private/Protected methods
@@ -75,9 +137,31 @@
                 WizardDialog.Open();
 
                 CloseRequestCommnad = new CommandBase(OnCloseRequest);
+                SaveRequestCommnad = new CommandBase(OnSaveRequest, CanBeSaved);
 
                 IsInitialized = true;
             }
+        }
+
+        private InventoryModelDto CreateInventoryFromProduct(ProductModel product)
+        {
+
+            ProductModelDTO productDto = product.ToDto();
+            InventoryModelDto inventoryDto = productDto.ToInventory();
+
+            inventoryDto.PersonName = SelectedPersonName;
+            inventoryDto.InventoryName= SelectedInventoryName;
+
+            return inventoryDto;
+        }
+
+        private void AddInvetoryToList(InventoryModelDto invetory)
+        {
+            InventoryEntries.Add(invetory);
+        }
+        private InventoryModelDto? IsInvetoryAlreadyOnTheList(InventoryModelDto inventoryDto)
+        {
+            return InventoryEntries.Where(e => e.ProductName.Equals(inventoryDto.ProductName)).FirstOrDefault();
         }
 
         private void AddInventoryContiuationOptionPage()
@@ -102,7 +186,7 @@
             WizardDialog.AddPage(createInventoryPage);
         }
 
-        private void OnInventoryCreated(object? sender, InventoryModelDTO e)
+        private void OnInventoryCreated(object? sender, InventoryModelDto e)
         {
             SelectedInventoryName = e.InventoryName;
             SelectedPersonName = e.PersonName;
@@ -114,6 +198,26 @@
             base.OnCloseRequest();
         }
 
+        private bool CanBeSaved(object? obj)
+        {
+/*            if(ModifiedEntries.Count > 0 && ModifiedEntries.All(e => e.IsValid))
+            {
+                return true;
+            }*/
+
+            return true;
+        }
+
+        private void OnSaveRequest(object? obj)
+        {
+            OnBarcodeScanned(string.Empty);
+            DialogBox?.ShowYesNo("Czy na pewno chcesz zapisać elementy do bazy danych?", "Zapis do bazy danych").AddAction(SharedInterfaces.DialogBox.DialogBoxResults.Yes, OnSaveToDbConfirmed);
+        }
+
+        private void OnSaveToDbConfirmed()
+        {
+
+        }
 
         private async void OnInventorySelectionDone(object? sender, InventorySelectionDoneArgs e)
         {
@@ -181,7 +285,7 @@
             }
 
             var ents = await InventoryDatabaseCommands.GetEntriesForGivenInventoryAsync(selectedInventoryName);
-            ents.ToList().ForEach(e => InventoryEntries.Add(new InventoryModelDTO(e)));
+            ents.ToList().ForEach(e => InventoryEntries.Add(e.ToDto()));
         }
 
         private async Task GetFilteredListAsync()
@@ -192,7 +296,7 @@
             }
 
             var ents = await InventoryDatabaseCommands.GetEntriesForGivenInventoryAndPersonAsync(selectedInventoryName, selectedPersonName);
-            ents.ToList().ForEach(e => InventoryEntries.Add(new InventoryModelDTO(e)));
+            ents.ToList().ForEach(e => InventoryEntries.Add(e.ToDto()));
         }
 
         private void GetEmptyList()
